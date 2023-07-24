@@ -1,0 +1,319 @@
+<?php
+$this->headerSession()->setActiveItemId($activeItemId);
+$this->headScriptAction(null, [], [
+    'action' => 'index',
+    'controller' => 'index',
+    'module' => 'portfolio'
+]);
+?>
+<div class="inteco-page-title-wrap  inteco-style-medium inteco-center-align">
+    <div class="inteco-header-transparent-substitute"></div>
+    <div class="inteco-page-title-overlay"></div>
+    <div class="inteco-page-title-container inteco-container">
+        <div class="inteco-page-title-content inteco-item-pdlr">
+            <h1 class="inteco-page-title"><?= $this->translate('Portfolio')?></h1>
+        </div>
+    </div>
+</div>
+<div class="inteco-page-wrapper" id="inteco-page-wrapper">
+    <div class="gdlr-core-page-builder-body">
+        <div class="gdlr-core-pbf-wrapper ">
+            <div class="gdlr-core-pbf-background-wrap gdlr-core-pbf-background-wrap-project"></div>
+            <div class="gdlr-core-pbf-wrapper-content gdlr-core-js ">
+                <div class="gdlr-core-pbf-wrapper-container clearfix gdlr-core-container">
+                    <div class="gdlr-core-pbf-element">
+                        <div class="gdlr-core-portfolio-item gdlr-core-item-pdb clearfix gdlr-core-portfolio-item-style-grid py-3">
+                            <div class="filter light-filter clearfix gdlr-core-filterer-wrap gdlr-core-js  gdlr-core-item-pdlr gdlr-core-style-text gdlr-core-center-align">
+                                <ul>
+                                    <li>
+                                        <a href="<?= $this->zfUrl('portfolio')?>" class="active">
+                                            <?= $this->translate('Tất cả')?>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="<?= $this->zfUrl('portfolio')?>">
+                                            <?= $this->translate('Kiến trúc')?>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="<?= $this->zfUrl('portfolio')?>">
+                                            <?= $this->translate('Nội thất')?>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="<?= $this->zfUrl('portfolio')?>">
+                                            <?= $this->translate('Nhà phố')?>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="<?= $this->zfUrl('portfolio')?>">
+                                            <?= $this->translate('Chung cư')?>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="gdlr-core-portfolio-item-holder gdlr-core-js-2  filter-container clearfix"
+                                data-layout="fitrows">
+                                <div class="gdlr-core-item-list class1 gdlr-core-item-pdlr gdlr-core-column-20 gdlr-core-column-first">
+                                    <div class="gdlr-core-portfolio-grid  gdlr-core-left-align gdlr-core-style-with-frame gdlr-core-js"
+                                        data-sync-height="portfolio-item-1">
+                                        <div class="gdlr-core-portfolio-grid-frame gdlr-core-skin-e-background opacity-100"></div>
+                                        <div class="gdlr-core-portfolio-thumbnail gdlr-core-media-image gdlr-core-style-title-icon">
+                                            <div class="gdlr-core-portfolio-thumbnail-image-wrap gdlr-core-zoom-on-hover">
+                                                <img src="/assets/customer/images/source/port-1-700x450.jpg" alt="" width="700" height="450" title="port-1" />
+                                                <a href="<?= $this->zfUrl('portfolio', ['id' => 1])?>"
+                                                    data-lightbox-group="gdlr-core-img-group-1">
+                                                    <span class="gdlr-core-image-overlay gdlr-core-portfolio-overlay gdlr-core-image-overlay-center-icon gdlr-core-js">
+                                                        <span class="gdlr-core-image-overlay-content">
+                                                            <span class="gdlr-core-portfolio-icon-wrap">
+                                                                <i class="gdlr-core-portfolio-icon fa fa-eye"></i>
+                                                            </span>
+                                                        </span>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="gdlr-core-portfolio-content-wrap gdlr-core-skin-divider">
+                                            <h3 class="gdlr-core-portfolio-title gdlr-core-skin-title gdlr-core-skin-title-project">
+                                                <a href="<?= $this->zfUrl('portfolio', ['id' => 1])?>">Interior Work AvroKo Project</a>
+                                            </h3>
+                                            <span class="gdlr-core-portfolio-info gdlr-core-portfolio-info-tag gdlr-core-info-font gdlr-core-skin-caption">
+                                                <a href="<?= $this->zfUrl('portfolio', ['id' => 1])?>" rel="tag">interior</a> 
+                                                <span class="gdlr-core-sep">/</span>
+                                                <a href="<?= $this->zfUrl('portfolio', ['id' => 1])?>" rel="tag">minimal</a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="gdlr-core-item-list class1 gdlr-core-item-pdlr gdlr-core-column-20">
+                                    <div class="gdlr-core-portfolio-grid  gdlr-core-left-align gdlr-core-style-with-frame gdlr-core-js"
+                                        data-sync-height="portfolio-item-1">
+                                        <div class="gdlr-core-portfolio-grid-frame gdlr-core-skin-e-background opacity-100"></div>
+                                        <div class="gdlr-core-portfolio-thumbnail gdlr-core-media-image gdlr-core-style-title-icon">
+                                            <div class="gdlr-core-portfolio-thumbnail-image-wrap gdlr-core-zoom-on-hover">
+                                                <img src="/assets/customer/images/source/gdtography-310706-unsplash-700x450.jpg" alt="" width="700" height="450" title="port-1" />
+                                                <a href="<?= $this->zfUrl('portfolio', ['id' => 1])?>"
+                                                    data-lightbox-group="gdlr-core-img-group-1">
+                                                    <span class="gdlr-core-image-overlay gdlr-core-portfolio-overlay gdlr-core-image-overlay-center-icon gdlr-core-js">
+                                                        <span class="gdlr-core-image-overlay-content">
+                                                            <span class="gdlr-core-portfolio-icon-wrap">
+                                                                <i class="gdlr-core-portfolio-icon fa fa-eye"></i>
+                                                            </span>
+                                                        </span>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="gdlr-core-portfolio-content-wrap gdlr-core-skin-divider">
+                                            <h3 class="gdlr-core-portfolio-title gdlr-core-skin-title gdlr-core-skin-title-project">
+                                                <a href="<?= $this->zfUrl('portfolio', ['id' => 1])?>">Interior Work AvroKo Project</a>
+                                            </h3>
+                                            <span class="gdlr-core-portfolio-info gdlr-core-portfolio-info-tag gdlr-core-info-font gdlr-core-skin-caption">
+                                                <a href="<?= $this->zfUrl('portfolio')?>" rel="tag">interior</a> 
+                                                <span class="gdlr-core-sep">/</span>
+                                                <a href="<?= $this->zfUrl('portfolio', ['id' => 1])?>" rel="tag">minimal</a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="gdlr-core-item-list class1 gdlr-core-item-pdlr gdlr-core-column-20">
+                                    <div class="gdlr-core-portfolio-grid  gdlr-core-left-align gdlr-core-style-with-frame gdlr-core-js"
+                                        data-sync-height="portfolio-item-1">
+                                        <div class="gdlr-core-portfolio-grid-frame gdlr-core-skin-e-background opacity-100"></div>
+                                        <div class="gdlr-core-portfolio-thumbnail gdlr-core-media-image gdlr-core-style-title-icon">
+                                            <div class="gdlr-core-portfolio-thumbnail-image-wrap gdlr-core-zoom-on-hover">
+                                                <img src="/assets/customer/images/source/shutterstock_627788162-700x450.jpg" alt="" width="700" height="450" title="port-1" />
+                                                <a href="<?= $this->zfUrl('portfolio', ['id' => 1])?>"
+                                                    data-lightbox-group="gdlr-core-img-group-1">
+                                                    <span class="gdlr-core-image-overlay gdlr-core-portfolio-overlay gdlr-core-image-overlay-center-icon gdlr-core-js">
+                                                        <span class="gdlr-core-image-overlay-content">
+                                                            <span class="gdlr-core-portfolio-icon-wrap">
+                                                                <i class="gdlr-core-portfolio-icon fa fa-eye"></i>
+                                                            </span>
+                                                        </span>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="gdlr-core-portfolio-content-wrap gdlr-core-skin-divider">
+                                            <h3 class="gdlr-core-portfolio-title gdlr-core-skin-title gdlr-core-skin-title-project">
+                                                <a href="<?= $this->zfUrl('portfolio', ['id' => 1])?>">Interior Work AvroKo Project</a>
+                                            </h3>
+                                            <span class="gdlr-core-portfolio-info gdlr-core-portfolio-info-tag gdlr-core-info-font gdlr-core-skin-caption">
+                                                <a href="<?= $this->zfUrl('portfolio')?>" rel="tag">interior</a> 
+                                                <span class="gdlr-core-sep">/</span>
+                                                <a href="<?= $this->zfUrl('portfolio', ['id' => 1])?>" rel="tag">minimal</a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="gdlr-core-item-list class1 gdlr-core-item-pdlr gdlr-core-column-20">
+                                    <div class="gdlr-core-portfolio-grid  gdlr-core-left-align gdlr-core-style-with-frame gdlr-core-js"
+                                        data-sync-height="portfolio-item-1">
+                                        <div class="gdlr-core-portfolio-grid-frame gdlr-core-skin-e-background opacity-100"></div>
+                                        <div class="gdlr-core-portfolio-thumbnail gdlr-core-media-image gdlr-core-style-title-icon">
+                                            <div class="gdlr-core-portfolio-thumbnail-image-wrap gdlr-core-zoom-on-hover">
+                                                <img src="/assets/customer/images/source/hutomo-abrianto-576207-unsplash-700x450.jpg" alt="" width="700" height="450" title="port-1" />
+                                                <a href="<?= $this->zfUrl('portfolio', ['id' => 1])?>"
+                                                    data-lightbox-group="gdlr-core-img-group-1">
+                                                    <span class="gdlr-core-image-overlay gdlr-core-portfolio-overlay gdlr-core-image-overlay-center-icon gdlr-core-js">
+                                                        <span class="gdlr-core-image-overlay-content">
+                                                            <span class="gdlr-core-portfolio-icon-wrap">
+                                                                <i class="gdlr-core-portfolio-icon fa fa-eye"></i>
+                                                            </span>
+                                                        </span>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="gdlr-core-portfolio-content-wrap gdlr-core-skin-divider">
+                                            <h3 class="gdlr-core-portfolio-title gdlr-core-skin-title gdlr-core-skin-title-project">
+                                                <a href="<?= $this->zfUrl('portfolio', ['id' => 1])?>">Interior Work AvroKo Project</a>
+                                            </h3>
+                                            <span class="gdlr-core-portfolio-info gdlr-core-portfolio-info-tag gdlr-core-info-font gdlr-core-skin-caption">
+                                                <a href="<?= $this->zfUrl('portfolio')?>" rel="tag">interior</a> 
+                                                <span class="gdlr-core-sep">/</span>
+                                                <a href="<?= $this->zfUrl('portfolio', ['id' => 1])?>" rel="tag">minimal</a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="gdlr-core-item-list class1 gdlr-core-item-pdlr gdlr-core-column-20">
+                                    <div class="gdlr-core-portfolio-grid  gdlr-core-left-align gdlr-core-style-with-frame gdlr-core-js"
+                                        data-sync-height="portfolio-item-1">
+                                        <div class="gdlr-core-portfolio-grid-frame gdlr-core-skin-e-background opacity-100"></div>
+                                        <div class="gdlr-core-portfolio-thumbnail gdlr-core-media-image gdlr-core-style-title-icon">
+                                            <div class="gdlr-core-portfolio-thumbnail-image-wrap gdlr-core-zoom-on-hover">
+                                                <img src="/assets/customer/images/source/shutterstock_578977615-700x450.jpg" alt="" width="700" height="450" title="port-1" />
+                                                <a href="<?= $this->zfUrl('portfolio', ['id' => 1])?>"
+                                                    data-lightbox-group="gdlr-core-img-group-1">
+                                                    <span class="gdlr-core-image-overlay gdlr-core-portfolio-overlay gdlr-core-image-overlay-center-icon gdlr-core-js">
+                                                        <span class="gdlr-core-image-overlay-content">
+                                                            <span class="gdlr-core-portfolio-icon-wrap">
+                                                                <i class="gdlr-core-portfolio-icon fa fa-eye"></i>
+                                                            </span>
+                                                        </span>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="gdlr-core-portfolio-content-wrap gdlr-core-skin-divider">
+                                            <h3 class="gdlr-core-portfolio-title gdlr-core-skin-title gdlr-core-skin-title-project">
+                                                <a href="<?= $this->zfUrl('portfolio', ['id' => 1])?>">Interior Work AvroKo Project</a>
+                                            </h3>
+                                            <span class="gdlr-core-portfolio-info gdlr-core-portfolio-info-tag gdlr-core-info-font gdlr-core-skin-caption">
+                                                <a href="<?= $this->zfUrl('portfolio')?>" rel="tag">interior</a> 
+                                                <span class="gdlr-core-sep">/</span>
+                                                <a href="<?= $this->zfUrl('portfolio', ['id' => 1])?>" rel="tag">minimal</a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="gdlr-core-item-list class1 gdlr-core-item-pdlr gdlr-core-column-20">
+                                    <div class="gdlr-core-portfolio-grid  gdlr-core-left-align gdlr-core-style-with-frame gdlr-core-js"
+                                        data-sync-height="portfolio-item-1">
+                                        <div class="gdlr-core-portfolio-grid-frame gdlr-core-skin-e-background opacity-100"></div>
+                                        <div class="gdlr-core-portfolio-thumbnail gdlr-core-media-image gdlr-core-style-title-icon">
+                                            <div class="gdlr-core-portfolio-thumbnail-image-wrap gdlr-core-zoom-on-hover">
+                                                <img src="/assets/customer/images/source/shutterstock_631879034-700x450.jpg" alt="" width="700" height="450" title="port-1" />
+                                                <a href="<?= $this->zfUrl('portfolio', ['id' => 1])?>"
+                                                    data-lightbox-group="gdlr-core-img-group-1">
+                                                    <span class="gdlr-core-image-overlay gdlr-core-portfolio-overlay gdlr-core-image-overlay-center-icon gdlr-core-js">
+                                                        <span class="gdlr-core-image-overlay-content">
+                                                            <span class="gdlr-core-portfolio-icon-wrap">
+                                                                <i class="gdlr-core-portfolio-icon fa fa-eye"></i>
+                                                            </span>
+                                                        </span>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="gdlr-core-portfolio-content-wrap gdlr-core-skin-divider">
+                                            <h3 class="gdlr-core-portfolio-title gdlr-core-skin-title gdlr-core-skin-title-project">
+                                                <a href="<?= $this->zfUrl('portfolio', ['id' => 1])?>">Interior Work AvroKo Project</a>
+                                            </h3>
+                                            <span class="gdlr-core-portfolio-info gdlr-core-portfolio-info-tag gdlr-core-info-font gdlr-core-skin-caption">
+                                                <a href="<?= $this->zfUrl('portfolio')?>" rel="tag">interior</a> 
+                                                <span class="gdlr-core-sep">/</span>
+                                                <a href="<?= $this->zfUrl('portfolio', ['id' => 1])?>" rel="tag">minimal</a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="gdlr-core-item-list class1 gdlr-core-item-pdlr gdlr-core-column-20">
+                                    <div class="gdlr-core-portfolio-grid  gdlr-core-left-align gdlr-core-style-with-frame gdlr-core-js"
+                                        data-sync-height="portfolio-item-1">
+                                        <div class="gdlr-core-portfolio-grid-frame gdlr-core-skin-e-background opacity-100"></div>
+                                        <div class="gdlr-core-portfolio-thumbnail gdlr-core-media-image gdlr-core-style-title-icon">
+                                            <div class="gdlr-core-portfolio-thumbnail-image-wrap gdlr-core-zoom-on-hover">
+                                                <img src="/assets/customer/images/source/tobias-van-schneider-230813-unsplash-700x450.jpg" alt="" width="700" height="450" title="port-1" />
+                                                <a href="<?= $this->zfUrl('portfolio', ['id' => 1])?>"
+                                                    data-lightbox-group="gdlr-core-img-group-1">
+                                                    <span class="gdlr-core-image-overlay gdlr-core-portfolio-overlay gdlr-core-image-overlay-center-icon gdlr-core-js">
+                                                        <span class="gdlr-core-image-overlay-content">
+                                                            <span class="gdlr-core-portfolio-icon-wrap">
+                                                                <i class="gdlr-core-portfolio-icon fa fa-eye"></i>
+                                                            </span>
+                                                        </span>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="gdlr-core-portfolio-content-wrap gdlr-core-skin-divider">
+                                            <h3 class="gdlr-core-portfolio-title gdlr-core-skin-title gdlr-core-skin-title-project">
+                                                <a href="<?= $this->zfUrl('portfolio', ['id' => 1])?>">Interior Work AvroKo Project</a>
+                                            </h3>
+                                            <span class="gdlr-core-portfolio-info gdlr-core-portfolio-info-tag gdlr-core-info-font gdlr-core-skin-caption">
+                                                <a href="<?= $this->zfUrl('portfolio')?>" rel="tag">interior</a> 
+                                                <span class="gdlr-core-sep">/</span>
+                                                <a href="<?= $this->zfUrl('portfolio', ['id' => 1])?>" rel="tag">minimal</a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="gdlr-core-item-list class1 gdlr-core-item-pdlr gdlr-core-column-20">
+                                    <div class="gdlr-core-portfolio-grid  gdlr-core-left-align gdlr-core-style-with-frame gdlr-core-js"
+                                        data-sync-height="portfolio-item-1">
+                                        <div class="gdlr-core-portfolio-grid-frame gdlr-core-skin-e-background opacity-100"></div>
+                                        <div class="gdlr-core-portfolio-thumbnail gdlr-core-media-image gdlr-core-style-title-icon">
+                                            <div class="gdlr-core-portfolio-thumbnail-image-wrap gdlr-core-zoom-on-hover">
+                                                <img src="/assets/customer/images/source/davide-cantelli-240809-unsplash-700x450.jpg" alt="" width="700" height="450" title="port-1" />
+                                                <a href="<?= $this->zfUrl('portfolio', ['id' => 1])?>"
+                                                    data-lightbox-group="gdlr-core-img-group-1">
+                                                    <span class="gdlr-core-image-overlay gdlr-core-portfolio-overlay gdlr-core-image-overlay-center-icon gdlr-core-js">
+                                                        <span class="gdlr-core-image-overlay-content">
+                                                            <span class="gdlr-core-portfolio-icon-wrap">
+                                                                <i class="gdlr-core-portfolio-icon fa fa-eye"></i>
+                                                            </span>
+                                                        </span>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="gdlr-core-portfolio-content-wrap gdlr-core-skin-divider">
+                                            <h3 class="gdlr-core-portfolio-title gdlr-core-skin-title gdlr-core-skin-title-project">
+                                                <a href="<?= $this->zfUrl('portfolio', ['id' => 1])?>">Interior Work AvroKo Project</a>
+                                            </h3>
+                                            <span class="gdlr-core-portfolio-info gdlr-core-portfolio-info-tag gdlr-core-info-font gdlr-core-skin-caption">
+                                                <a href="<?= $this->zfUrl('portfolio')?>" rel="tag">interior</a> 
+                                                <span class="gdlr-core-sep">/</span>
+                                                <a href="<?= $this->zfUrl('portfolio', ['id' => 1])?>" rel="tag">minimal</a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="gdlr-core-load-more-wrap gdlr-core-js gdlr-core-center-align gdlr-core-item-pdlr"
+                                data-ajax="gdlr_core_portfolio_ajax" data-target="gdlr-core-portfolio-item-holder"
+                                data-target-action="append">
+                                <a href="#" class="gdlr-core-load-more gdlr-core-button-color" data-ajax-name="paged"
+                                    data-ajax-value="2">Load More Works
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

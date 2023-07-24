@@ -1,0 +1,208 @@
+
+<?php
+use Laminas\Form\Element;
+use Models\Entities\Admin;
+?>
+<div class="card mt-4" id="basic-info">
+    <div class="card-header">
+        <h5>
+            <?= $this->translate('Thông tin cơ bản') ?>
+        </h5>
+    </div>
+    <div class="card-body pt-0">
+        <div class="row">
+            <div class="col-6">
+                <div class="input-group input-group-static">
+                    <label>
+                        <?= $this->translate('Tên') ?>
+                    </label>
+                    <input type="text" class="form-control" name="first_name" id="first_name"
+                        placeholder="<?= $this->translate('Ví dụ: Thuỳ Trúc') ?>" 
+                        value="<?=$user->adm_json_name['first'] ?? ''?>">
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="input-group input-group-static">
+                    <label>
+                        <?= $this->translate('Họ') ?>
+                    </label>
+                    <input type="text" class="form-control" name="last_name" id="last_name"
+                        placeholder="<?= $this->translate('Ví dụ: Nguyễn Trần') ?>" 
+                        value="<?=$user->adm_json_name['last'] ?? ''?>">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4 col-6">
+                <label class="form-label mt-4 ms-0">
+                    <?= $this->translate('Giới tính') ?>
+                </label>
+                <?php
+                $select = new Element\Select('gender');
+                $select->setAttributes([
+                    'class' => 'form-control choices',
+                    'id' => 'gender'
+                ]);
+                $select->setValueOptions([
+                    Admin::GENDER_MALE => $this->translate('Nam'),
+                    Admin::GENDER_FEMALE => $this->translate('Nữ'),
+                    Admin::GENDER_OTHER => $this->translate('Khác'),
+                ]);
+                $select->setValue(htmlspecialchars($user->adm_gender ?? Admin::GENDER_MALE));
+                echo $this->formSelect($select);
+                ?>
+            </div>
+            <div class="col-sm-8">
+                <div class="row">
+                    <div class="col-sm-3 col-4">
+                        <label class="form-label mt-4">
+                            <?= $this->translate('Sinh nhật') ?>
+                        </label>
+                        <?php
+                        $years = array_combine(
+                            $ranges = range(date('Y'), 1900),
+                            array_map(function ($item) {
+                                return $item;
+                            }, $ranges)
+                        );
+                        $select = new Element\Select('birthday[year]');
+                        $select->setAttributes([
+                            'class' => 'form-control choices',
+                            'id' => 'birthday_year'
+                        ]);
+                        $select->setValueOptions($years);
+                        $birthdays = $user->adm_birthday ?? 0;
+                        $select->setValue(htmlspecialchars(
+                            !empty($birthdays) ? date('Y', $birthdays) : date('Y')
+                        ));
+                        echo $this->formSelect($select);
+                        ?>
+                    </div>
+                    <div class="col-sm-5 col-5">
+                        <label class="form-label mt-4 ms-0">&nbsp;</label>
+                        <?php
+                        $months = [
+                            1 => $this->translate('Tháng 1'),
+                            2 => $this->translate('Tháng 2'),
+                            3 => $this->translate('Tháng 3'),
+                            4 => $this->translate('Tháng 4'),
+                            5 => $this->translate('Tháng 5'),
+                            6 => $this->translate('Tháng 6'),
+                            7 => $this->translate('Tháng 7'),
+                            8 => $this->translate('Tháng 8'),
+                            9 => $this->translate('Tháng 9'),
+                            10 => $this->translate('Tháng 10'),
+                            11 => $this->translate('Tháng 11'),
+                            12 => $this->translate('Tháng 12'),
+                        ];
+                        $select = new Element\Select('birthday[month]');
+                        $select->setAttributes([
+                            'class' => 'form-control choices',
+                            'id' => 'birthday_month'
+                        ]);
+                        $select->setValueOptions($months);
+                        $select->setValue(htmlspecialchars(
+                            !empty($birthdays) ? date('n', $birthdays) : date('n')
+                        ));
+                        echo $this->formSelect($select);
+                        ?>
+                    </div>
+                    <div class="col-sm-4 col-3">
+                        <label class="form-label mt-4 ms-0">&nbsp;</label>
+                        <select class="form-control" name="birthday[day]" id="birthday_day" 
+                            data-value="<?=!empty($birthdays) ? date('j', $birthdays) : date('j')?>">
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-6">
+                <div class="input-group input-group-static">
+                    <label>Email</label>
+                    <input type="email" class="form-control" name="email" id="email"
+                        placeholder="<?=$this->translate('Ví dụ: example@email.com')?>"
+                        value="<?=$user->adm_email ?? ''?>">
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="input-group input-group-static">
+                    <label>
+                        <?= $this->translate('Xác nhận email') ?>
+                    </label>
+                    <input type="email" class="form-control" id="confirm_email" name="confirm_email"
+                        placeholder="<?=$this->translate('Ví dụ: example@email.com')?>"
+                        value="<?=$user->adm_email ?? ''?>">
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="input-group input-group-static">
+                    <label>
+                        <?= $this->translate('Địa chỉ') ?>
+                    </label>
+                    <input type="text" class="form-control" id="address" name="address"
+                        placeholder="<?=
+                            $this->translate('Ví dụ: 27 đường số 9, phường 16, quận Gò vấp, TPHCM')
+                        ?>"
+                        value="<?=$user->adm_address ?? ''?>">
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="row">
+                    <label class="form-label mb-2">
+                        <?= $this->translate('Số điện thoại') ?>
+                    </label>
+                    <div class="col-7">
+                        <select class="form-control" name="phone_code" id="phone_code" 
+                            data-value="<?=$user->adm_phone_code ?? '';?>">
+                        </select>
+                    </div>
+                    <div class="col-5">
+                        <div class="input-group input-group-static">
+                            <label class="form-label mb-2">&nbsp;</label>
+                            <input type="text" class="form-control" id="phone" name="phone" 
+                                placeholder="<?=$this->translate('Ví dụ: 0963123456')?>" 
+                                value="<?=$user->adm_phone ?? ''?>">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">
+                    <?= $this->translate('Nhóm tài khoản') ?>
+                </label>
+                <?php
+                $select = new Element\Select('group_code');
+                $select->setAttributes([
+                    'class' => 'form-control choices ps-2',
+                    'id' => 'group_code',
+                    'disabled' => 'disabled',
+                ]);
+                $select->setValueOptions([
+                    Admin::GROUP_SUPPORT => $this->translate('Hỗ trợ'),
+                    Admin::GROUP_MANAGER => $this->translate('Quản lý'),
+                    Admin::GROUP_SUPPER_ADMIN => $this->translate('Super admin'),
+                    Admin::GROUP_STAFF => $this->translate('Nhân viên'),
+                    Admin::GROUP_TESTER => $this->translate('Tester'),
+                ]);
+                $select->setValue(htmlspecialchars($user->adm_groupcode ?? Admin::GROUP_STAFF));
+                echo $this->formSelect($select);
+                ?>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="text-end">
+                <a href="javascript:void(0);" id="btnUpdateInfo" 
+                    title="<?=$this->translate('Cập nhật thông tin')?>"
+                    class="btn bg-gradient-dark btn-sm float-end mb-0">
+                    <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                    <span class="txt-btn"><?= $this->translate('Cập nhật thông tin') ?></span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,143 @@
+<?php 
+echo $this->doctype('HTML5');
+?><html lang="<?= APPLICATION_LANGUAGE?>" class="body-full-height">
+    <head>
+        <?php
+        //
+        echo $this->headMeta ()
+        ->setHttpEquiv ( 'Content-Type', 'text/html; charset=utf-8' )
+        ->appendName('viewport', "height=device-height,width=device-width,initial-scale=1.0,maximum-scale=1.0, user-scalable=no")
+        ->setHttpEquiv('X-UA-Compatible', 'IE=EDGE')
+        ->appendName('copyright', WEB_NAME.', Inc')
+        ->appendName('author', WEB_NAME.', Inc')->setAutoEscape(false);
+        
+        // Get ZF_Public_Resource.
+        $pubRes = $this->zfResource();
+        
+        // Set title.
+        echo $this->headTitle (" - ".WEB_NAME."");
+        $isDebug = 1; //$_GET['not-minify'] ?? 0;
+        $cssMinifyMethod = 'minifyHeadLink';
+        if ( $isDebug ) $cssMinifyMethod = 'headLink';
+
+        // Add files CSS.
+        $this->{$cssMinifyMethod}()
+
+            ->appendStylesheet($pubRes->files ( 'theme-default.css', 'css' ))
+        ;?>
+        <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="<?=
+            $pubRes->files('admin.png?v=2', 'images', false)?>"/>
+        <link rel="manifest" href="/manifest.json?v=2"/>
+        <?php 
+        echo $this->{$cssMinifyMethod}()->setAutoEscape(false);
+        
+        // Add inline script.
+        echo $this->headStyle (); ?>
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.highcharts.com/modules/exporting.js"></script>
+        <script src="https://code.highcharts.com/modules/export-data.js"></script>
+
+    </head>
+    <body >
+
+        <div>
+
+            <!-- <div class="alert alert-success" role="alert">
+                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <strong>Well done!</strong> You successfully read this important alert message.
+            </div> -->
+
+            <?=$this->content;?>
+
+            <div class="message-box message-box-success animated fadeIn" id="message_box_notify">
+                <div class="mb-container">
+                    <div class="mb-middle">
+                        <div class="mb-title"><span class="fa fa-check"></span></div>
+                        <div class="mb-content">
+                            <p><?=$this->translate('Thành công');?></p>
+                        </div>
+                        <div class="mb-footer">
+                            <button class="btn btn-default btn-lg mb-control-close" id="btn_close_box"><?=$this->translate('Đóng');?></button>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+        </div>    
+
+        <?php 
+        // Add files JS.
+        $jsMinifyMethod = 'minifyHeadScript';
+        if ( $isDebug ) $jsMinifyMethod = 'headScript';
+        
+    	// Add files JS.
+    	echo $this
+    	->{$jsMinifyMethod}()
+        ->prependFile($pubRes->files('phpjs.js', 'js', false))
+        ->prependFile($pubRes->files( 'settings.js', 'js', false))
+        ->prependFile($pubRes->files( 'plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js', 'js', false))
+        ->prependFile($pubRes->files('plugins/bootstrap-growl/bootstrap-growl.min.js', 'js', false))
+        ->prependFile($pubRes->files('plugins/jquery/jquery.min.js', 'js', false))
+        ->setAutoEscape(false);
+        echo $this->inlinescript();
+
+        $flashMessenger = $this->flashMessenger();
+        // Get messages from Zend_Action_Helper_FlashMessenger.
+		$flashMessengers = array_filter([
+		    'info' => array_merge(
+		        $flashMessenger->getCurrentInfoMessages(),
+		        $flashMessenger->getInfoMessages()
+	        ),
+		    'success' => array_merge(
+		        $flashMessenger->getCurrentSuccessMessages(),
+		        $flashMessenger->getSuccessMessages()
+	        ),
+		    'warning' => array_merge(
+		        $flashMessenger->getCurrentWarningMessages(),
+		        $flashMessenger->getWarningMessages()
+	        ),
+		    'danger' => array_merge(
+		        $flashMessenger->getCurrentErrorMessages(),
+		        $flashMessenger->getErrorMessages()
+	        )
+		]);
+		// Clear message
+		$flashMessenger->clearCurrentMessagesFromContainer();
+	   ?>
+       <?php if (count($flashMessengers) > 0): ?>
+        <script type="text/javascript">
+            (function($){
+                var showFlashMessage = function(message, action = "success", redirectUrl = ""){
+                    $('#message_box_notify .mb-content p').text(message);
+                    if (action == "danger"){
+                        $('#message_box_notify .mb-title span.fa').removeClass('fa-check').addClass('fa-times');
+                        $('#message_box_notify').removeClass('message-box-success').addClass('message-box-danger');
+                    }
+                    else if (action == "warning"){
+                        $('#message_box_notify .mb-title span.fa').removeClass('fa-check').addClass('fa-warning');
+                        $('#message_box_notify').removeClass('message-box-success').addClass('message-box-warning');
+                    }
+                    else if (action == "info"){
+                        $('#message_box_notify .mb-title span.fa').removeClass('fa-check').addClass('fa-info');
+                        $('#message_box_notify').removeClass('message-box-success').addClass('message-box-info');
+                    }
+                    $('#message_box_notify').show();
+                    $('#btn_close_box').on('click', function(){
+                        $('#message_box_notify').hide();
+                        if (redirectUrl != ""){
+                            window.location.href = MANAGER_DOMAIN +'/'+ redirectUrl;
+                        }
+                    });
+                },
+                msgs = <?= json_encode($flashMessengers);?>
+
+                Object.keys(msgs).forEach(function(key){
+                    msgs[key].forEach(function(msg){
+                        showFlashMessage(msg, key);
+                    });
+                });
+            })(jQuery)
+        </script>
+        <?php endif;?>
+    <?php unset($pubRes); ?>
+    </body>
+</html>

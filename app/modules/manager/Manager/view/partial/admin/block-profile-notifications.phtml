@@ -1,0 +1,159 @@
+     
+<?php
+?>
+<div class="card mt-4" id="notifications">
+    <div class="card-header">
+        <h5>
+            <?= $this->translate('Thông báo') ?> (Coming soon)
+        </h5>
+        <p class="text-sm">
+            <?= $this->translate('Chọn cách bạn nhận thông báo. Các cài đặt thông báo này áp dụng cho nội dung bạn đang xem.') ?>
+        </p>
+    </div>
+    <div class="card-body pt-0">
+        <div class="table-responsive">
+            <table class="table mb-0">
+                <thead>
+                    <tr>
+                        <th class="ps-1" colspan="4">
+                            <p class="mb-0">
+                                <?= $this->translate('Hành động') ?>
+                            </p>
+                        </th>
+                        <th class="text-center">
+                            <p class="mb-0">
+                                <?= $this->translate('Email') ?>
+                            </p>
+                        </th>
+                        <th class="text-center">
+                            <p class="mb-0">
+                                <?= $this->translate('Push') ?>
+                            </p>
+                        </th>
+                        <th class="text-center">
+                            <p class="mb-0">
+                                <?= $this->translate('SMS') ?>
+                            </p>
+                        </th>
+                        <th class="text-center">
+                            <p class="mb-0">
+                                <?= $this->translate('Telegram') ?>
+                            </p>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="ps-1" colspan="4">
+                            <div class="my-auto">
+                                <span class="text-dark d-block text-sm">
+                                    <?= $this->translate('Lỗi hệ thống') ?>
+                                </span>
+                                <span class="text-xs font-weight-normal">
+                                    <?= $this->translate('Thông báo khi có lỗi hệ thống') ?>
+                                </span>
+                            </div>
+                        </td>
+                        <td>
+                            <div
+                                class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
+                                <input class="form-check-input" checked type="checkbox" id="chkEmailError">
+                            </div>
+                        </td>
+                        <td>
+                            <div
+                                class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
+                                <input class="form-check-input" type="checkbox" id="chkPushError">
+                            </div>
+                        </td>
+                        <td>
+                            <div
+                                class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
+                                <input class="form-check-input" type="checkbox" id="chkSmsError">
+                            </div>
+                        </td>
+                        <td>
+                            <div
+                                class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
+                                <input class="form-check-input" type="checkbox" id="chkTelegramError">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="ps-1" colspan="4">
+                            <div class="my-auto">
+                                <span class="text-dark d-block text-sm">
+                                    <?= $this->translate('Bình luận') ?>
+                                </span>
+                                <span class="text-xs font-weight-normal">
+                                    <?= $this->translate('Thông báo khi có người bình luận') ?>
+                                </span>
+                            </div>
+                        </td>
+                        <td>
+                            <div
+                                class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
+                                <input class="form-check-input" checked type="checkbox" id="chkEmailComment">
+                            </div>
+                        </td>
+                        <td>
+                            <div
+                                class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
+                                <input class="form-check-input" type="checkbox" id="chkPushComment">
+                            </div>
+                        </td>
+                        <td>
+                            <div
+                                class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
+                                <input class="form-check-input" type="checkbox" id="chkSmsComment">
+                            </div>
+                        </td>
+                        <td>
+                            <div
+                                class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
+                                <input class="form-check-input" type="checkbox" id="chkTelegramComment">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="ps-1" colspan="4">
+                            <div class="my-auto">
+                                <span class="text-dark d-block text-sm">
+                                    <?= $this->translate('Đăng nhập từ thiết bị mới') ?>
+                                </span>
+                                <p class="text-sm mb-0"></p>
+                            </div>
+                        </td>
+                        <td>
+                            <div
+                                class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
+                                <input class="form-check-input" checked type="checkbox"
+                                    id="chkEmailLoginByNewDevice">
+                            </div>
+                        </td>
+                        <td>
+                            <div
+                                class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
+                                <input class="form-check-input" type="checkbox" id="chkPushLoginByNewDevice">
+                            </div>
+                        </td>
+                        <td>
+                            <div
+                                class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
+                                <input class="form-check-input" type="checkbox" id="chkSmsLoginByNewDevice">
+                            </div>
+                        </td>
+                        <td>
+                            <div
+                                class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
+                                <input class="form-check-input" type="checkbox"
+                                    id="chkTelegramLoginByNewDevice">
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,33 @@
+.swiper-button-next, .swiper-button-prev {
+    position: absolute;
+    background: rgb(195, 186, 177);
+    width: 60px;
+    height: 60px;
+    opacity: .85;
+    border-radius: 50%;
+    transition: all .2s;
+    backface-visibility: hidden;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.3);
+}
+.swiper-button-next {
+    right: 0;
+    transform: translate(50%);
+}
+
+.swiper-button-prev {
+    left: 0;
+    transform: translate(-50%);
+}
+
+.swiper-button-next::after, .swiper-button-prev::after {
+    font-size: 15px !important;
+    font-weight: 600;
+    color: #fff;
+    position: absolute;
+}
+.swiper-button-next::after {
+    left: 15px;
+}
+.swiper-button-prev::after {
+    right: 15px;
+}

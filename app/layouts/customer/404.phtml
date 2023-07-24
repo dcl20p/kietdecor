@@ -1,0 +1,47 @@
+<?php
+use Laminas\Mvc\Application;
+
+$this->layout('layout/layout');
+$reasonMessage = 'The requested URL could not be matched by routing.';
+?>
+<?php if (!empty($this->reason)) {
+
+    switch ($this->reason) {
+        case Application::ERROR_CONTROLLER_CANNOT_DISPATCH:
+            $reasonMessage = 'The requested controller was unable to dispatch the request.';
+            break;
+        case Application::ERROR_MIDDLEWARE_CANNOT_DISPATCH:
+            $reasonMessage = 'The requested middleware was unable to dispatch the request.';
+            break;
+        case Application::ERROR_CONTROLLER_NOT_FOUND:
+            $reasonMessage = 'The requested controller could not be mapped to an existing controller class.';
+            break;
+        case Application::ERROR_CONTROLLER_INVALID:
+            $reasonMessage = 'The requested controller was not dispatchable.';
+            break;
+        case Application::ERROR_ROUTER_NO_MATCH:
+            $reasonMessage = 'The requested URL could not be matched by routing.';
+            break;
+        default:
+            $reasonMessage = 'We cannot determine at this time why a 404 was generated.';
+            break;
+    }
+}
+?>
+<div class="inteco-not-found-wrap" id="inteco-full-no-header-wrap">
+    <div class="inteco-not-found-background"></div>
+    <div class="inteco-not-found-container inteco-container">
+        <div class="inteco-header-transparent-substitute"></div>
+        <div class="inteco-not-found-content inteco-item-pdlr">
+            <h2 class="inteco-not-found-title inteco-content-font">
+                <?=$this->translate($this->message);?>
+            </h2>
+            <p class="inteco-not-found-caption">
+                <?=$this->translate($reasonMessage);?>
+            </p>
+            <a class="inteco-not-found-back-to-home" href="<?= $this->zfUrl('home', ['action' => 'index']) ?>">
+                <?=$this->translate('Về trang chủ');?>
+            </a>
+        </div>
+    </div>
+</div>

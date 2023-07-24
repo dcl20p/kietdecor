@@ -1,0 +1,92 @@
+<?php
+use Models\Entities\Admin;
+use Models\Utilities\User;
+
+$this->headTitle($pageTitle);
+$this->bootstrapToolbar([
+    $this->toolbarClose($this->zfUrl('home'))
+]);
+
+$this->pageBreadcrumbs()->setItems([
+    $this->translate('Trang chủ') => $this->zfUrl('home'),
+    $pageTitle => $this->zfUrl($routeName),
+]);
+
+$this->headScriptAction(null, [
+    '__invalid_image_type__' => $this->translate('Chỉ cho phép upload hình ảnh.'),
+    '__url_upload_avatar__' => $this->zfUrl('admin-user', ['action' => 'upload-avatar']),
+    '__url_upload_bg_timeline__' => $this->zfUrl('admin-user', ['action' => 'upload-bg-timeline']),
+    '__url_change_status_user__' => $this->zfUrl('admin-user', ['action' => 'change-status-profile']),
+    '__url_update_info_user__' => $this->zfUrl('admin-user', ['action' => 'update-info-user']),
+    '__url_change_password__' => $this->zfUrl('admin-user', ['action' => 'change-password']),
+    '__url_loadmore_session__' => $this->zfUrl('admin-user', ['action' => 'load-more-session']),
+    '__url_view_detail_session__' => $this->zfUrl('admin-user', ['action' => 'get-detail-session']),
+    '__url_logout_session__' => $this->zfUrl('admin-user', ['action' => 'log-out-session']),
+    '__url_delete_user__' => $this->zfUrl('admin-user', ['action' => 'delete-profile']),
+    '__url_logout__' => $this->zfUrl('logout'),
+    '__error_info__' => $this->translate(ZF_MSG_WENT_WRONG),
+    '__token__' => $this->zfCsrfToken()->generateCsrfToken(
+        [Admin::PROFILE_FOLDER_TOKEN, microtime(true), rand(100, 999999)],
+        Admin::PROFILE_FOLDER_TOKEN
+    ),
+], [
+    'action' => 'profile',
+    'controller' => 'admin',
+    'module' => 'manager'
+]);
+
+if (!empty($user)):
+
+    $imgNameDefaultBg = '/assets/manager/images/bg-timeline.jpeg';
+    if ($user->adm_bg_timeline) {
+        $imgPath = Admin::getImgPath();
+        $srcImgBg = str_replace('__id__', $user->adm_code, $imgPath)
+            . $user->adm_bg_timeline;
+        if (!file_exists(PUBLIC_PATH.$srcImgBg)) {
+            $srcImgBg = $imgNameDefaultBg;
+        }
+    } else {
+        $srcImgBg = $imgNameDefaultBg;
+    }
+?>
+<input type="hidden" id="user-id" value="<?=$user->adm_id ?? 0;?>">
+<div class="row mb-5">
+    <div class="col-lg-3">
+        <?php echo $this->partial('partial/admin/block-profile-nav.phtml')?>
+    </div>
+    <div class="col-lg-9 mt-lg-0 mt-4">
+    <?php 
+        echo $this->partial('partial/admin/block-profile-head.phtml', [
+            'srcImgBg' => $srcImgBg,
+            'srcImg' => User::getAvatarUser($user),
+            'user' => $user,
+        ]);
+        echo $this->partial('partial/admin/block-profile-basic-info.phtml', [
+            'user' => $user,
+        ]);
+        echo $this->partial('partial/admin/block-profile-change-password.phtml', [
+            'user' => $user,
+        ]);
+        echo $this->partial('partial/admin/block-profile-notifications.phtml', [
+            'user' => $user,
+        ]);
+        echo $this->partial('partial/admin/block-profile-sessions.phtml', [
+            'user'           => $user,
+            'sessions'       => $sessions,
+            'showBtnLoadmore'=> $showBtnLoadmore,
+        ]);
+        echo $this->partial('partial/admin/block-profile-delete-account.phtml', [
+            'user' => $user,
+        ]);
+    ?>   
+    </div>
+</div>
+<?php else: ?>
+    <div class="card">
+        <div class="card-header text-center">
+            <h5 class="mb-1 font-weight-bolder">
+                <?= $this->translate('Không tìm thấy dữ liệu');?>
+            </h5>
+        </div>
+    </div>
+<?php endif; ?>

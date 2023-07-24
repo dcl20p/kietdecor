@@ -1,0 +1,166 @@
+<?php 
+$pubRes = $this->zfResource();
+echo $this->doctype('HTML5');
+?>
+<html lang="<?= APPLICATION_LANGUAGE?>">
+    <head>
+       <meta charset="utf-8">
+        <?= $this->headTitle(WEB_NAME)->setSeparator(' - ')->setAutoEscape(false) ?>
+        <?= $this->headMeta()
+            ->setHttpEquiv('Content-Type', 'text/html; charset=utf-8')
+            ->appendName('viewport', 'height=device-height,width=device-width,initial-scale=1.0,maximum-scale=1.0, user-scalable=no, shrink-to-fit=no')
+            ->setHttpEquiv('X-UA-Compatible', 'IE=EDGE')
+            ->appendName('copyright', WEB_NAME.', Inc')
+            ->appendName('author', WEB_NAME.', Inc')
+            ->appendName('keywords', WEB_NAME.', Inc')
+            ->appendName('description', 'Sỹ Tùng đẹp trai vãi nồi')
+
+            ->appendName('twitter:card', WEB_NAME.', Inc')
+            ->appendName('twitter:site', WEB_NAME.', Inc')
+            ->appendName('twitter:title', WEB_NAME.', Inc')
+            ->appendName('twitter:description', 'Sỹ Tùng đẹp trai vãi nồi')
+            ->appendName('twitter:creator', WEB_NAME.', Inc')
+            ->appendName('twitter:image', WEB_NAME.', Inc')
+
+            ->appendProperty('fb:app_id', '655968634437471')
+            ->appendProperty('og:title', WEB_NAME.', Inc')
+            ->appendProperty('og:type', WEB_NAME.', Inc')
+            ->appendProperty('og:url', WEB_NAME.', Inc')
+            ->appendProperty('og:image', WEB_NAME.', Inc')
+            ->appendProperty('og:description', 'Sỹ Tùng đẹp trai vãi nồi')
+            ->appendProperty('og:site_name', WEB_NAME.', Inc')
+            ->setAutoEscape(false)
+        ?>
+        <link rel="canonical" href="" />
+        <link rel="apple-touch-icon" sizes="76x76" href="<?=
+            $pubRes->files('apple-icon.png', 'images', false)?>"/>
+        <link rel="shortcut icon" type="image/png" href="<?=
+            $pubRes->files('favicon.png', 'images', false)?>"/>
+        <link rel="stylesheet" type="text/css"
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+	    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+
+        <?php 
+
+        $isDebug = $_GET['not-minify'] ?? 0;
+        $cssMinifyMethod = 'minifyHeadLink';
+        if ( $isDebug ) $cssMinifyMethod = 'headLink';
+
+        // -- custom css and jquery
+        $cssNo = 0; $jsNo = 0;
+
+        $assetsItems = [
+            'css' => [
+               ($cssNo+=10) => $pubRes->files( 'nucleo-icons.css', 'css', false),
+               ($cssNo+=10) => $pubRes->files( 'nucleo-svg.css', 'css', false),
+               ($cssNo+=10) => $pubRes->files( 'material-dashboard.min.css', 'css', false),
+            ],
+           'js' => [
+                // ($jsNo+=10) => $pubRes->files( 'plugins/jquery/jquery.min.js', 'js', false),
+                ($jsNo+=10) => $pubRes->files( 'plugins/axios/axios.min.js', 'js', false),
+                ($jsNo+=10) => $pubRes->files( '42d5adcbca.js', 'js', false),
+                ($jsNo+=10) => $pubRes->files( 'core/popper.min.js', 'js', false),
+                ($jsNo+=10) => $pubRes->files( 'core/bootstrap.min.js', 'js', false),
+                ($jsNo+=10) => $pubRes->files( 'plugins/perfect-scrollbar.min.js', 'js', false),
+                ($jsNo+=10) => $pubRes->files( 'plugins/smooth-scrollbar.min.js', 'js', false),
+                ($jsNo+=10) => $pubRes->files( 'plugins/sweetalert.min.js', 'js', false),
+                ($jsNo+=10) => $pubRes->files( 'plugins/dragula/dragula.min.js', 'js', false),
+                ($jsNo+=10) => $pubRes->files( 'plugins/jkanban/jkanban.js', 'js', false),
+                ($jsNo+=10) => '/assets/common/js/utilities.js',
+                ($jsNo+=10) => $pubRes->files( 'buttons.js', 'js', false),
+                // ($jsNo+=10) => $pubRes->files( 'admin.js', 'js', false),
+                // ($jsNo+=10) => $pubRes->files( 'material-dashboard.min.js', 'js', false),
+                ($jsNo+=10) => $pubRes->files( 'material-dashboard.js', 'js', false)
+            ]
+        ];
+        ksort($assetsItems['css']);
+        foreach ($assetsItems['css'] as $css)
+            $this->{$cssMinifyMethod}() ->appendStylesheet($css, 'all');
+        echo $this->{$cssMinifyMethod}()->setAutoEscape(false) . "\n";
+
+        // -- Render custom css
+        echo $this->headStyle();
+        ?>
+    </head>
+    <body class="g-sidenav-show  bg-gray-200">
+        <?= $this->content; ?>
+        <div class="position-fixed top-1 end-1" style="z-index:1021">
+            <div class="toast fade hide p-2 mt-2 bg-gradient-success" role="alert" aria-live="assertive" id="myToast"
+                aria-atomic="true">
+                <div class="toast-header bg-transparent border-0">
+                    <i class="material-icons text-white me-2">
+                        notifications
+                    </i>
+                    <span class="me-auto text-white font-weight-bold">
+                        <?= $this->translate('Thông báo'); ?>
+                    </span>
+                    <small class="text-white"><?= $this->translate('Vừa xong'); ?></small>
+                    <i class="fas fa-times text-md text-white ms-3 cursor-pointer" data-bs-dismiss="toast"
+                        aria-label="Close"></i>
+                </div>
+                <hr class="horizontal light m-0">
+                <div class="toast-body text-white">
+                    <?= $this->translate('Thành công'); ?>
+                </div>
+            </div>
+        </div>
+        
+        <?php
+    	// Add files JS.
+	    $jsMinifyMethod = 'minifyHeadScript';
+	    if ( $isDebug ) $jsMinifyMethod = 'headScript';
+	    ksort($assetsItems['js']);
+	    $assetsItems['js'] = array_reverse($assetsItems['js']);
+    	foreach ($assetsItems['js'] as $js)
+    	   $this ->{$jsMinifyMethod}()->prependFile($js);
+	    echo $this ->{$jsMinifyMethod}()->setAutoEscape(false) . "\n";
+
+        if ($isDebug) echo $this->inlinescript();
+
+        $flashMessenger = $this->flashMessenger();
+        // Get messages from Zend_Action_Helper_FlashMessenger.
+		$flashMessengers = array_filter([
+		    'info' => array_merge(
+		        $flashMessenger->getCurrentInfoMessages(),
+		        $flashMessenger->getInfoMessages()
+	        ),
+		    'success' => array_merge(
+		        $flashMessenger->getCurrentSuccessMessages(),
+		        $flashMessenger->getSuccessMessages()
+	        ),
+		    'warning' => array_merge(
+		        $flashMessenger->getCurrentWarningMessages(),
+		        $flashMessenger->getWarningMessages()
+	        ),
+		    'danger' => array_merge(
+		        $flashMessenger->getCurrentErrorMessages(),
+		        $flashMessenger->getErrorMessages()
+	        )
+		]);
+
+		// Clear message
+		$flashMessenger->clearCurrentMessagesFromContainer();
+        ?>
+        <?php if (count($flashMessengers) > 0):?>
+        <script type="text/javascript">
+            (function(){
+                msgs = <?= json_encode($flashMessengers);?>;
+                Object.keys(msgs).forEach(key => {
+                    msgs[key].forEach(msg => common.showMessage(msg, key));
+                });
+            })()
+        </script>
+        <?php endif;?>
+        <script>
+            var win = navigator.platform.indexOf('Win') > -1;
+            if (win && document.querySelector('#sidenav-scrollbar')) {
+                var options = {
+                    damping: '0.5'
+                }
+                Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+            }
+        </script>
+
+        <?php unset($pubRes, $menuHeader); ?>
+    </body>
+</html>

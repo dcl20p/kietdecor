@@ -1,0 +1,56 @@
+<?php
+?>
+ <div class="card mt-4" id="sessions">
+    <div class="card-header pb-3">
+        <h5>
+            <?= $this->translate('Phiên đăng nhập') ?>
+        </h5>
+        <p class="text-sm">
+            <?= $this->translate('Đây là danh sách các thiết bị đã đăng nhập vào tài khoản của bạn. Loại bỏ những cái mà bạn không nhận ra.') ?>
+        </p>
+    </div>
+    <div class="card-body pt-0">
+        <?php
+        if (!empty($sessions)):?>
+            <div id="box-loadmore-session"><?php
+                echo $this->partial('partial/admin/item-session.phtml', [
+                    'sessions' => $sessions,
+                ]);
+            ?></div>
+            <?php if (!empty($showBtnLoadmore)):?>
+            <div class="d-flex justify-content-center">
+                <a href="javascript:void(0);" id="btnSeeMoreSession"
+                    title="<?=$this->translate('Xem thêm')?>"
+                    class="btn bg-gradient-dark btn-sm mb-0"
+                    data-page="<?= $page ?? 1?>">
+                    <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                    <span class="txt-btn"><?= $this->translate('Xem thêm') ?></span>
+                </a>
+            </div><?php
+            endif;
+        endif;
+        ?>
+    </div>
+</div>
+<div class="modal fade" id="sessionModal" tabindex="-1" role="dialog" aria-labelledby="sessionModal" aria-hidden="true">
+    <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title font-weight-normal">
+                    <?= $this->translate('Mac 10.15') ?>
+                </h6>
+                <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark ml-auto" data-bs-dismiss="modal">
+                    <?= $this->translate('Đóng') ?>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,62 @@
+<?php 
+echo $this->doctype('HTML5');
+?><html lang="<?= APPLICATION_LANGUAGE?>" class="body-full-height">
+    <head>
+        <?php
+        //
+        echo $this->headMeta ()
+        ->setHttpEquiv ( 'Content-Type', 'text/html; charset=utf-8' )
+        ->appendName('viewport', "height=device-height,width=device-width,initial-scale=1.0,maximum-scale=1.0, user-scalable=no")
+        ->setHttpEquiv('X-UA-Compatible', 'IE=EDGE')
+        ->appendName('copyright', WEB_NAME.', Inc')
+        ->appendName('author', WEB_NAME.', Inc')->setAutoEscape(false);
+        
+        // Get ZF_Public_Resource.
+        $pubRes = $this->zfResource();
+        
+        // Set title.
+        echo $this->headTitle (" - ".WEB_NAME."");
+        $isDebug = 1; //$_GET['not-minify'] ?? 0;
+        $cssMinifyMethod = 'minifyHeadLink';
+        if ( $isDebug ) $cssMinifyMethod = 'headLink';
+
+        // Add files CSS.
+        $this->{$cssMinifyMethod}()
+
+            ->appendStylesheet($pubRes->files ( 'theme-default.css', 'css' ))
+        ;?>
+        <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="<?=
+            $pubRes->files('admin.png?v=2', 'images', false)?>"/>
+        <link rel="manifest" href="/manifest.json?v=2"/>
+        <?php 
+        echo $this->{$cssMinifyMethod}()->setAutoEscape(false);
+        
+        // Add inline script.
+        echo $this->headStyle (); ?>
+
+    </head>
+    <body >
+
+        <div>
+            <?=$this->content;?>   
+        </div>    
+
+        <?php 
+        // Add files JS.
+        $jsMinifyMethod = 'minifyHeadScript';
+        if ( $isDebug ) $jsMinifyMethod = 'headScript';
+        
+    	// Add files JS.
+    	echo $this
+    	->{$jsMinifyMethod}()
+        ->prependFile($pubRes->files('phpjs.js', 'js', false))
+        ->prependFile($pubRes->files( 'settings.js', 'js', false))
+        ->prependFile($pubRes->files( 'plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js', 'js', false))
+        ->prependFile($pubRes->files('plugins/bootstrap-growl/bootstrap-growl.min.js', 'js', false))
+        ->prependFile($pubRes->files('plugins/jquery/jquery.min.js', 'js', false))
+        ->setAutoEscape(false);
+        echo $this->inlinescript();
+	   ?>
+    <?php unset($pubRes); ?>
+    </body>
+</html>

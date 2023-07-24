@@ -1,0 +1,66 @@
+<div class="gdlr-core-pbf-wrapper gdlr-core-pbf-wrapper-blog" data-skin="Brown Divider">
+    <div class="gdlr-core-pbf-background-wrap">
+        <div class="gdlr-core-pbf-background gdlr-core-parallax gdlr-core-js gdlr-core-img-background"
+            style="background-image: url(/assets/customer/images/source/hp2-bg-1.jpg);"
+            data-parallax-speed="0.2"></div>
+    </div>
+    <div class="gdlr-core-pbf-wrapper-content gdlr-core-js ">
+        <div class="gdlr-core-pbf-wrapper-container clearfix gdlr-core-container">
+            <div class="gdlr-core-pbf-element">
+                <div class="gdlr-core-blog-item gdlr-core-item-pdb clearfix  gdlr-core-style-blog-column">
+                    <div class="gdlr-core-block-item-title-wrap  gdlr-core-left-align gdlr-core-item-mglr mb-76">
+                        <div class="gdlr-core-block-item-title-inner">
+                            <h3 class="gdlr-core-block-item-title gdlr-core-block-item-title-blog">
+                                Blog
+                            </h3>
+                            <span class="gdlr-core-separator gdlr-core-separator-bg">
+                            </span>
+                            <a class="gdlr-core-block-item-read-more gdlr-core-block-item-read-more-portfolio"
+                                href="#" target="_self"><?= $this->translate('Xem tất cả')?></a>
+                        </div>
+                    </div>
+                    <div class="gdlr-core-blog-item-holder gdlr-core-js-2 clearfix" data-layout="fitrows">
+                        <?php foreach (range(1, 3) as $k => $item): ?>
+                        <div class="gdlr-core-item-list gdlr-core-item-pdlr gdlr-core-column-<?= DEVICE_ENV == 2 ? '30' : '20';?> <?= $k == 0 ? 'gdlr-core-column-first' : ''?>">
+                            <div class="gdlr-core-blog-grid gdlr-core-js gdlr-core-with-divider py-4"
+                                data-sync-height="blog-item-1">
+                                <div class="gdlr-core-blog-thumbnail gdlr-core-media-image gdlr-core-opacity-on-hover gdlr-core-zoom-on-hover gdlr-core-grayscale-effect">
+                                    <a href="#">
+                                        <img src="/assets/customer/images/source/etienne-beauregard-riverin-48305-unsplash-700x430.jpg"
+                                            alt="unsplash" width="700" height="430" title="Image Title" />
+                                    </a>
+                                </div>
+                                <div class="gdlr-core-blog-grid-content-wrap">
+                                    <div class="gdlr-core-blog-date-wrapper gdlr-core-skin-divider">
+                                        <div class="gdlr-core-blog-date-day gdlr-core-skin-caption">06</div>
+                                        <div class="gdlr-core-blog-date-month gdlr-core-skin-caption">Jun</div>
+                                    </div>
+                                    <div class="gdlr-core-blog-grid-title-wrap">
+                                        <h3 class="gdlr-core-blog-title gdlr-core-skin-title fs-19">
+                                            <a href="#">Elon Musk mất hơn 20 tỷ USD trong một ngày</a>
+                                        </h3>
+                                        <div class="gdlr-core-blog-info-wrapper gdlr-core-skin-divider"><span
+                                                class="gdlr-core-blog-info gdlr-core-blog-info-font gdlr-core-skin-caption gdlr-core-blog-info-author"><span
+                                                    class="gdlr-core-head">By</span><a href="#"
+                                                    title="Posts by John Smith" rel="author">John
+                                                    Smith</a></span><span
+                                                class="gdlr-core-blog-info gdlr-core-blog-info-font gdlr-core-skin-caption gdlr-core-blog-info-category"><span
+                                                    class="gdlr-core-head">In</span><a href="#"
+                                                    rel="tag">Blog</a></span>
+                                        </div>
+                                    </div>
+                                    <div class="gdlr-core-blog-content">
+                                        Một sự thanh thản tuyệt vời chiếm hữu toàn bộ tâm hồn tôi, giống như những buổi sáng ngọt ngào 
+                                        của mùa xuân mà tôi tận hưởng bằng cả trái tim mình. Tôi là...
+                                        <div class="clear"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

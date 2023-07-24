@@ -1,0 +1,128 @@
+<?php
+use Models\Entities\Admin;
+
+$this->headTitle($this->translate('Đăng nhập'));
+$this->headStyleAction(null, [], [
+    'action' => 'login',
+    'controller' => 'index',
+    'module' => 'manager'
+]);
+$this->headScriptAction(null, [
+    '__token__' => $this->zfCsrfToken()->generateCsrfToken(
+        [Admin::USER_FOLDER_TOKEN, microtime(true), rand(100, 999999)],
+        Admin::USER_FOLDER_TOKEN
+    ),
+    '__forgot_pass__' => $this->translate('Nhập email đã đăng ký'),
+    '__send__' => $this->translate('Gửi'),
+    '__place_holder__' => $this->translate('Nhập email của bạn'),
+    '__cancel__' => $this->translate('Huỷ'),
+    '__success__' => $this->translate('Thành công'),
+    '__success_info__' => $this->translate('Đã gửi thông tin password mới tới email mà bạn đã đăng ký'),
+    '__error_info__' => $this->translate(ZF_MSG_WENT_WRONG),
+    '__input_invalid__' => $this->translate('Email hoặc mật khẩu không chính xác.'),
+    '__api_reset_pass__' => $this->zfUrl('reset-password'),
+], [
+        'action' => 'login',
+        'controller' => 'index',
+        'module' => 'manager'
+    ]);
+?>
+<main class="main-content  mt-0">
+    <div class="page-header align-items-start min-vh-100"
+        style="background-image: url('/assets/manager/images/photo-1497294815431-9365093b7331.jpeg');">
+        <span class="mask bg-gradient-dark opacity-6"></span>
+        <div class="container my-auto">
+            <div class="row">
+                <div class="col-lg-4 col-md-8 col-12 mx-auto">
+                    <div class="card z-index-0 fadeIn3 fadeInBottom">
+                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                            <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
+                                <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">
+                                    <?= $this->translate('Đăng nhập'); ?>
+                                </h4>
+                                <div class="row mt-3">
+                                    <div class="col-2 text-center ms-auto">
+                                        <a class="btn btn-link px-3" href="javascript:;">
+                                            <i class="fa fa-facebook text-white text-lg"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-2 text-center px-1">
+                                        <a class="btn btn-link px-3" href="javascript:;">
+                                            <i class="fa fa-github text-white text-lg"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-2 text-center me-auto">
+                                        <a class="btn btn-link px-3" href="javascript:;">
+                                            <i class="fa fa-google text-white text-lg"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <?= $this->form()->openTag($form); ?>
+
+                            <?= $this->formElement($form->get('redirect_url')) ?>
+                            <?= $this->formElement($form->get('csrf')) ?>
+                            <input type="hidden" name="screen" autocomplete="off" value="" id="screen">
+
+                            <div class="input-group input-group-outline my-3 <?= $isPost ? 'is-filled"' : ''; ?>">
+                                <?= $this->formRow($form->get('email')); ?>
+                            </div>
+                            <div class="input-group input-group-outline mb-3 <?= $isPost ? 'is-filled"' : ''; ?>">
+                                <?= $this->formRow($form->get('password')); ?>
+                                <a href="javascript:;" class="position-absolute top-10px end-1 visible-icon"
+                                    id="show-pass">
+                                    <i class="material-icons">
+                                        visibility
+                                    </i>
+                                </a>
+                            </div>
+                            <div class="form-check form-switch d-flex align-items-center mb-3">
+                                <?= $this->formElement($form->get('remember_me')); ?>
+                                <?= $this->formLabel($form->get('remember_me')); ?>
+                                <div class="align-items-end text-end ms-auto fs-7">
+                                    <a href="javascript:;" class="text-primary text-gradient font-weight-bold"
+                                        id="forgot-pass">
+                                        <?= $this->translate('Quên mật khẩu'); ?>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" id="btn-login"
+                                    class="btn bg-gradient-primary w-100 my-4 mb-2">
+                                    <?= $this->translate('Đăng nhập'); ?>
+                                </button>
+                            </div>
+                            <p class="mt-4 text-sm text-center">
+                                <?= $this->translate('Bạn chưa có tài khoản?'); ?>
+                                <a href="<?= $this->zfUrl($routeName, ['action' => 'sign-up']) ?>"
+                                    class="text-primary text-gradient font-weight-bold">
+                                    <?= $this->translate('Đăng ký'); ?>
+                                </a>
+                            </p>
+                            <?= $this->form()->closeTag(); ?>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer position-absolute bottom-2 py-2 w-100">
+            <div class="container">
+                <div class="row align-items-center justify-content-between">
+                    <div class="col-12 my-auto">
+                        <div class="copyright text-center text-sm text-white text-center">
+                            ©
+                            <script>
+                                document.write(new Date().getFullYear())
+                            </script>,
+                            made with <i class="fa fa-heart" aria-hidden="true"></i> by
+                            <a href="javascript:;" class="font-weight-bold">Thiều Sỹ Tùng</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</main>

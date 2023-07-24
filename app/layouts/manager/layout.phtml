@@ -1,0 +1,324 @@
+<?php 
+$pubRes = $this->zfResource();
+$cstAsset = $this->lazyAsset()->getItems();
+$menuLeft = $this->menuLeft()->render();
+$menuHeader = $this->menuHeader();
+echo $this->doctype('HTML5');
+?>
+<html lang="<?= APPLICATION_LANGUAGE?>">
+    <head>
+       <meta charset="utf-8">
+        <?= $this->headTitle(WEB_NAME)->setSeparator(' - ')->setAutoEscape(false) ?>
+        <?= $this->headMeta()
+            ->setHttpEquiv('Content-Type', 'text/html; charset=utf-8')
+            ->appendName('viewport', 'height=device-height,width=device-width,initial-scale=1.0,maximum-scale=1.0, user-scalable=no, shrink-to-fit=no')
+            ->setHttpEquiv('X-UA-Compatible', 'IE=EDGE')
+            ->appendName('copyright', WEB_NAME.', Inc')
+            ->appendName('author', WEB_NAME.', Inc')
+            ->appendName('keywords', WEB_NAME.', Inc')
+            ->appendName('description', 'Sỹ Tùng đẹp trai vãi nồi')
+
+            ->appendName('twitter:card', WEB_NAME.', Inc')
+            ->appendName('twitter:site', WEB_NAME.', Inc')
+            ->appendName('twitter:title', WEB_NAME.', Inc')
+            ->appendName('twitter:description', WEB_NAME.', Inc')
+            ->appendName('twitter:creator', WEB_NAME.', Inc')
+            ->appendName('twitter:image', WEB_NAME.', Inc')
+
+            ->appendProperty('fb:app_id', '655968634437471')
+            ->appendProperty('og:title', WEB_NAME.', Inc')
+            ->appendProperty('og:type', WEB_NAME.', Inc')
+            ->appendProperty('og:url', WEB_NAME.', Inc')
+            ->appendProperty('og:image', WEB_NAME.', Inc')
+            ->appendProperty('og:description', WEB_NAME.', Inc')
+            ->appendProperty('og:site_name', WEB_NAME.', Inc')
+            ->setAutoEscape(false)
+        ?>
+        <link rel="shortcut icon" type="image/png" href="<?=
+            $pubRes->files('favicon.png', 'images', false)?>"/>
+        <link rel="stylesheet" type="text/css"
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+	    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+
+        <?php 
+        if (isset($activeMenuItemId)) {
+            $this->menuLeft()->setActiveItemId($activeMenuItemId);
+        }
+
+        $isDebug = $_GET['not-minify'] ?? 0;
+        $cssMinifyMethod = 'minifyHeadLink';
+        if ( $isDebug ) $cssMinifyMethod = 'headLink';
+
+        // -- custom css and jquery
+        $cssNo = 0; $jsNo = 0;
+
+        $assetsItems = [
+            'css' => array_replace([
+               ($cssNo+=10) => $pubRes->files( 'nucleo-icons.css', 'css', false),
+               ($cssNo+=10) => $pubRes->files( 'nucleo-svg.css', 'css', false),
+               ($cssNo+=10) => $pubRes->files( 'material-dashboard.min.css', 'css', false),
+               ($cssNo+=10) => $pubRes->files( 'all.min.css', 'css', false),
+               ($cssNo+=10) => $pubRes->files( 'fontawesome.min.css', 'css', false),
+            ], $cstAsset['css']),
+           'js' => array_replace([
+                // ($jsNo+=10) => $pubRes->files( 'plugins/jquery/jquery.min.js', 'js', false),
+                ($jsNo+=10) => $pubRes->files( 'plugins/axios/axios.min.js', 'js', false),
+                // ($jsNo+=10) => $pubRes->files( '42d5adcbca.js', 'js', false),
+                ($jsNo+=10) => $pubRes->files( 'core/popper.min.js', 'js', false),
+                ($jsNo+=10) => $pubRes->files( 'core/bootstrap.min.js', 'js', false),
+                ($jsNo+=10) => $pubRes->files( 'plugins/perfect-scrollbar.min.js', 'js', false),
+                ($jsNo+=10) => $pubRes->files( 'plugins/smooth-scrollbar.min.js', 'js', false),
+                ($jsNo+=10) => $pubRes->files( 'plugins/choices.min.js', 'js', false),
+                ($jsNo+=10) => $pubRes->files( 'plugins/sweetalert.min.js', 'js', false),
+                ($jsNo+=10) => $pubRes->files( 'plugins/dragula/dragula.min.js', 'js', false),
+                ($jsNo+=10) => $pubRes->files( 'plugins/jkanban/jkanban.js', 'js', false),
+                ($jsNo+=10) => $pubRes->files( 'plugins/chartjs.min.js', 'js', false),
+                ($jsNo+=10) => $pubRes->files( 'plugins/world.js', 'js', false),
+                ($jsNo+=10) => $pubRes->files( 'buttons.js', 'js', false),
+                ($jsNo+=10) => '/assets/common/js/utilities.js',
+                ($jsNo+=10) => $pubRes->files( 'admin.js', 'js', false),
+                // ($jsNo+=10) => $pubRes->files( 'material-dashboard.min.js', 'js', false),
+                ($jsNo+=10) => $pubRes->files( 'material-dashboard.js', 'js', false)
+            ], $cstAsset['js'])
+        ];
+        ksort($assetsItems['css']);
+        foreach ($assetsItems['css'] as $css)
+            $this->{$cssMinifyMethod}() ->appendStylesheet($css, 'all');
+        echo $this->{$cssMinifyMethod}()->setAutoEscape(false) . "\n";
+
+        // -- Render custom css
+        echo $this->headStyle();
+        ?>
+    </head>
+    <body class="g-sidenav-show bg-gray-200">
+        <?= $menuLeft; ?>
+        <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+            <?= $menuHeader; ?>
+            <div class="container-fluid py-2">
+                <?= $toolbar = $this->toolbars(); ?>
+                <?= $this->content; ?>
+                <?= $toolbar; unset($toolbar, $menuHeader);?>
+                <div class="position-fixed top-1 end-1" style="z-index:1021">
+                    <div class="toast fade hide p-2 mt-2 bg-gradient-success" role="alert" aria-live="assertive" id="myToast"
+                        aria-atomic="true">
+                        <div class="toast-header bg-transparent border-0">
+                            <i class="material-icons text-white me-2">
+                                notifications
+                            </i>
+                            <span class="me-auto text-white font-weight-bold">
+                                <?= $this->translate('Thông báo'); ?>
+                            </span>
+                            <small class="text-white"><?= $this->translate('Vừa xong'); ?></small>
+                            <i class="fas fa-times text-md text-white ms-3 cursor-pointer" data-bs-dismiss="toast"
+                                aria-label="Close"></i>
+                        </div>
+                        <hr class="horizontal light m-0">
+                        <div class="toast-body text-white">
+                            <?= $this->translate('Thành công'); ?>
+                        </div>
+                    </div>
+                </div>
+                
+                <footer class="footer py-4  ">
+                    <div class="container-fluid">
+                        <div class="row align-items-center justify-content-lg-between">
+                            <div class="col-lg-12 mb-lg-0 mb-4">
+                                <div class="copyright text-center text-sm text-muted text-lg-center">
+                                    ©
+                                    <script>
+                                        document.write(new Date().getFullYear())
+                                    </script>,
+                                    made with <i class="fa fa-heart" aria-hidden="true"></i> by
+                                    <a href="javascript:;" class="font-weight-bold">Thiều Sỹ Tùng</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </main>
+        
+        <!-- Configurator -->
+        <div class="fixed-plugin-btt">
+            <a class="fixed-plugin-button-btt text-dark position-fixed px-08 py-03 btn-back-to-top" id="back-to-top">
+                <i class="material-icons py-2">keyboard_arrow_up</i>
+            </a>
+        </div>
+        <div class="fixed-plugin-btt">
+            <a class="fixed-plugin-button-btt text-dark position-fixed px-08 py-03 btn-back-to-bottom" id="back-to-bottom">
+                <i class="material-icons py-2">keyboard_arrow_down</i>
+            </a>
+        </div>
+        <div class="fixed-plugin">
+            <div class="card shadow-lg">
+                <div class="card-header pb-0 pt-3">
+                    <div class="float-start">
+                        <h5 class="mt-3 mb-0"><?= $this->translate('Cấu hình UI')?></h5>
+                    </div>
+                    <div class="float-end mt-4">
+                        <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
+                            <i class="material-icons">clear</i>
+                        </button>
+                    </div>
+
+                </div>
+                <hr class="horizontal dark my-1">
+                <div class="card-body pt-sm-3 pt-0">
+
+                    <div>
+                        <h6 class="mb-0"><?= $this->translate('Màu sắc sidebar')?></h6>
+                    </div>
+                    <a href="javascript:void(0)" class="switch-trigger background-color">
+                        <div class="badge-colors my-2 text-start">
+                            <span class="badge filter badge-color bg-gradient-primary active" data-color="primary"></span>
+                            <span class="badge filter badge-color bg-gradient-dark" data-color="dark"></span>
+                            <span class="badge filter badge-color bg-gradient-info" data-color="info"></span>
+                            <span class="badge filter badge-color bg-gradient-success" data-color="success"></span>
+                            <span class="badge filter badge-color bg-gradient-warning" data-color="warning"></span>
+                            <span class="badge filter badge-color bg-gradient-danger" data-color="danger"></span>
+                        </div>
+                    </a>
+
+                    <div class="mt-3">
+                        <h6 class="mb-0"><?= $this->translate('Loại sidebar')?></h6>
+                        <p class="text-sm"><?= $this->translate('Chọn giữa 2 loại sidenav khác nhau.')?></p>
+                    </div>
+                    <div class="d-flex btn-type-side-nav">
+                        <button class="btn bg-gradient-dark btn-bg-gradient-dark px-3 mb-2 active" data-class="bg-gradient-dark">
+                            <?= $this->translate('Tối')?>
+                        </button>
+                        <button class="btn bg-gradient-dark btn-bg-white px-3 mb-2 ms-2" data-class="bg-white">
+                            <?= $this->translate('Sáng')?>
+                        </button>
+                        <button class="btn bg-gradient-dark btn-bg-transparent px-3 mb-2 ms-2" data-class="bg-transparent">
+                            <?= $this->translate('Trong suốt')?>
+                        </button>
+                    </div>
+                    <p class="text-sm d-xl-none d-block mt-2">
+                        <?= $this->translate('Bạn có thể thay đổi loại sidenav ngay trên chế độ xem trên màn hình.')?>
+                    </p>
+
+                    <div class="mt-3 d-flex">
+                        <h6 class="mb-0"><?= $this->translate('Navbar cố định')?></h6>
+                        <div class="form-check form-switch ps-0 ms-auto my-auto">
+                            <input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed">
+                        </div>
+                    </div>
+                    <hr class="horizontal dark my-3">
+                    <div class="mt-2 d-flex">
+                        <h6 class="mb-0"><?= $this->translate('Thu nhỏ')?></h6>
+                        <div class="form-check form-switch ps-0 ms-auto my-auto">
+                            <input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarMinimize">
+                        </div>
+                    </div>
+                    <hr class="horizontal dark my-3">
+                    <div class="mt-2 d-flex">
+                        <h6 class="mb-0"><?= $this->translate('Sáng / Tối')?></h6>
+                        <div class="form-check form-switch ps-0 ms-auto my-auto">
+                            <input class="form-check-input mt-1 ms-auto" type="checkbox" id="dark-version">
+                        </div>
+                    </div>
+                    <hr class="horizontal dark my-sm-4">
+                    <a class="btn btn-outline-dark w-100 justify-content-center d-flex" href="<?= $this->zfUrl('logout');?>">
+                        <i class="material-icons-round opacity-10 me-2">logout</i>
+                        <span> <?= $this->translate('Đăng xuất')?> </span>
+                    </a>
+                </div>
+            </div>
+        
+        </div>
+        <script type="text/javascript">
+            window.iLang="<?= APPLICATION_LANGUAGE?>";
+            window.deviceEnv = "<?= DEVICE_ENV?>";
+            window.msg = <?=
+            json_encode([
+                'update_success' => $this->translate(ZF_MSG_UPDATE_SUCCESS),
+                'update_fail' => $this->translate(ZF_MSG_UPDATE_FAIL),
+                'add_success' => $this->translate(ZF_MSG_ADD_SUCCESS),
+                'add_fail' => $this->translate(ZF_MSG_ADD_FAIL),
+                'confirm' => $this->translate(ZF_MSG_CONFIRM),
+                'went_wrong' => $this->translate(ZF_MSG_WENT_WRONG),
+                'not_empty' => $this->translate(ZF_MSG_NOT_EMPTY),
+                'min_length' => $this->translate(ZF_MSG_MIN_LENGTH),
+                'max_length' => $this->translate(ZF_MSG_MAX_LENGTH),
+                'email_invalid' => $this->translate(ZF_MSG_EMAIL_INVALID),
+                'not_match' => $this->translate(ZF_MSG_NOT_MATCH),
+                'phone_invalid' => $this->translate(ZF_MSG_PHONE_INVALID),
+                'pw_invalid' => $this->translate(ZF_MSG_PASSWORD_INVALID),
+            ]); 
+            ?>;
+            window.jsonSystemLanguage = <?=
+            json_encode([
+                'cancel'=> $this->translate('Huỷ'),
+                'yes'=> $this->translate('Có'),
+                'ok'=> $this->translate('Ok'),
+                'warning'=> $this->translate('Cảnh báo'),
+                'system_info'=> $this->translate('Thông báo xác nhận'),
+                'no' => $this->translate('Không'),
+            ]);
+            ?>;
+        </script>
+        <?php
+    	// Add files JS.
+	    $jsMinifyMethod = 'minifyHeadScript';
+	    if ( $isDebug ) $jsMinifyMethod = 'headScript';
+	    ksort($assetsItems['js']);
+	    $assetsItems['js'] = array_reverse($assetsItems['js']);
+    	foreach ($assetsItems['js'] as $js)
+    	   $this ->{$jsMinifyMethod}()->prependFile($js);
+	    echo $this ->{$jsMinifyMethod}()->setAutoEscape(false) . "\n";
+
+        if ($isDebug) echo $this->inlinescript();
+
+        $flashMessenger = $this->flashMessenger();
+        // Get messages from Zend_Action_Helper_FlashMessenger.
+		$flashMessengers = array_filter([
+		    'info' => array_merge(
+		        $flashMessenger->getCurrentInfoMessages(),
+		        $flashMessenger->getInfoMessages()
+	        ),
+		    'success' => array_merge(
+		        $flashMessenger->getCurrentSuccessMessages(),
+		        $flashMessenger->getSuccessMessages()
+	        ),
+		    'warning' => array_merge(
+		        $flashMessenger->getCurrentWarningMessages(),
+		        $flashMessenger->getWarningMessages()
+	        ),
+		    'danger' => array_merge(
+		        $flashMessenger->getCurrentErrorMessages(),
+		        $flashMessenger->getErrorMessages()
+	        )
+		]);
+
+		// Clear message
+		$flashMessenger->clearCurrentMessagesFromContainer();
+        ?>
+        <?php if (count($flashMessengers) > 0):?>
+        <script type="text/javascript">
+            (function(){
+                msgs = <?= json_encode($flashMessengers);?>;
+                Object.keys(msgs).forEach(key => {
+                    msgs[key].forEach(msg => common.showMessage(msg, key));
+                });
+            })()
+        </script>
+        <?php endif;?>
+        
+        <script>
+            var win = navigator.platform.indexOf('Win') > -1;
+            if (win && document.querySelector('#sidenav-scrollbar')) {
+                var options = {
+                    damping: '0.5'
+                }
+                Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+            }
+
+            // passing user_id to js
+            const adm_id = <?= $this->zfAuthen()->adm_id ?? null;?>;
+            localStorage.setItem('adm_id', adm_id);
+        </script>
+
+        <?php unset($pubRes, $menuHeader); ?>
+    </body>
+</html>

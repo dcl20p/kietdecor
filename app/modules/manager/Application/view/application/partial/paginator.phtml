@@ -1,0 +1,95 @@
+<?php
+// Get query.
+$queryPageString = $queryLimitString = $_GET;
+
+// Create query limit page.
+$queryLimitString["limit"] = "__LIMIT__";
+$queryLimitString = "?" . http_build_query($queryLimitString);
+
+// Create query curent page.
+$queryPageString["page"] = "__PAGE__";
+$queryPageString = "?" . http_build_query($queryPageString);
+// Create array content maximum number of items available of each page.
+$arrCountPerPage = [];
+$itemPerPage = $this->itemCountPerPage;
+$strLines = ($itemPerPage == PHP_INT_MAX ? $this->translate("Tất cả") : $itemPerPage);
+?>
+
+<nav aria-label="Page navigation example">
+	<div class="d-flex justify-content-center">
+		<div class="dropdown page-item">
+			<button class="btn dropdown-toggle page-link" type="button" id="numberEntry" data-bs-toggle="dropdown"
+				aria-expanded="false">
+				<?= $strLines; ?>
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="numberEntry">
+				<?php
+				$limitList = [30, 60, 90, 120];
+				foreach ($limitList as $i):
+					$arrCountPerPage[$i] = str_replace(
+						"__LIMIT__",
+						$i,
+						$queryLimitString
+					);
+					$activeClass = $i == $itemPerPage ? 'active' : '';
+					?>
+					<li class="<?= $activeClass ?>">
+						<a class="dropdown-item" href="<?= $arrCountPerPage[$i] ?>"><?= $i ?></a>
+					</li>
+				<?php endforeach; ?>
+			</ul>
+		</div>
+		<ul class="pagination">
+			<?php
+			if ($this->pageCount):
+				$hasPrevious = isset($this->previous) ? true : false;
+				$previousClass = $hasPrevious ? '' : 'disabled"';
+				$linkFirst = $hasPrevious ? str_replace("__PAGE__", $this->first, $queryPageString) : 'javascript:void(0);';
+				$linkPrevious = $hasPrevious ? str_replace("__PAGE__", $this->previous, $queryPageString) : 'javascript:void(0);';
+				?>
+				<li class="page-item <?= $previousClass ?>">
+					<a class="page-link" href="<?= $linkFirst; ?>" tabindex="-1">
+						<span class="material-icons">keyboard_double_arrow_left</span>
+						<span class="sr-only">First</span>
+					</a>
+				</li>
+				<li class="page-item <?= $previousClass ?>">
+					<a class="page-link" href="<?= $linkPrevious; ?>" tabindex="-1">
+						<span class="material-icons">keyboard_arrow_left</span>
+						<span class="sr-only">Previous</span>
+					</a>
+				</li>
+				<?php
+				foreach ($this->pagesInRange as $page):
+					$isCurrent = ($page == $this->current) ? true : false;
+					$link = $isCurrent ? 'javascript:void(0);' : str_replace("__PAGE__", $page, $queryPageString);
+					$class = $isCurrent ? 'active' : '';
+					?>
+					<li class="page-item <?= $class ?>">
+						<a class="page-link" href="<?= $link ?>"><?= $page ?></a>
+					</li>
+					<?php
+				endforeach;
+				$hasNext = isset($this->next) ? true : false;
+				$nextClass = $hasNext ? '' : 'disabled"';
+				$linkNext = $hasNext ? str_replace("__PAGE__", $this->next, $queryPageString) : 'javascript:void(0);';
+				$linkLast = $hasNext ? str_replace("__PAGE__", $this->last, $queryPageString) : 'javascript:void(0);';
+				?>
+				<li class="page-item <?= $nextClass ?>">
+					<a class="page-link" href="<?= $linkNext; ?>" tabindex="-1">
+						<span class="material-icons">keyboard_arrow_right</span>
+						<span class="sr-only">Next</span>
+					</a>
+				</li>
+				<li class="page-item <?= $nextClass; ?>">
+					<a class="page-link" href="<?= $linkLast; ?>" tabindex="-1">
+						<span class="material-icons">keyboard_double_arrow_right</span>
+						<span class="sr-only">Last</span>
+					</a>
+				</li>
+				<?php
+			endif;
+			?>
+		</ul>
+	</div>
+</nav>

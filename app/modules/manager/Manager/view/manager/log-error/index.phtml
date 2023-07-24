@@ -1,0 +1,163 @@
+<?php
+use Models\Entities\LogError;
+
+$this->headTitle($pageTitle);
+$this->menuLeft()->setActiveItemId('system_log');
+$this->bootstrapToolbar([
+    $this->toolbarDelete()
+]);
+
+$this->pageBreadcrumbs()->setItems([
+    $this->translate('Trang chủ') => $this->zfUrl('home'),
+    $pageTitle => $this->zfUrl($routeName),
+]);
+
+$this->headScriptAction(null, [
+    '__token__' => $token = $this->zfCsrfToken()->generateCsrfToken(
+        [LogError::LOG_ERROR_FOLDER_TOKEN, microtime(true), rand(100, 999999)],
+        LogError::LOG_ERROR_FOLDER_TOKEN
+    ),
+    '__error_info__' => $this->translate(ZF_MSG_WENT_WRONG),
+], [
+    'action' => 'index',
+    'controller' => 'log-error',
+    'module' => 'manager'
+]);
+
+?>
+<div class="row">
+    <div class="col-12">
+        <form id="adminForm" method="get" enctype="application/x-www-form-urlencoded">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <div class="d-lg-flex">
+                        <div>
+                            <h5 class="mb-0"><?= $pageTitle?></h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="input-group input-group-outline mt-3">
+                                <label class="form-label"><?= $this->translate('Từ khoá')?></label>
+                                <input type="text" 
+                                    name="keyword" 
+                                    class="form-control" 
+                                    autocomplete="off" 
+                                    maxlength="100"
+                                    value="<?= htmlspecialchars($_GET['keyword'] ?? '') ?>">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-icon bg-gradient-primary btn-md mt-3 mb-0 px-3" type="submit">
+                                <i class="material-icons text-md position-relative">search</i>
+                                <?= $this->translate('Tìm kiếm');?>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                    <div class="card-body px-0 pb-0">
+                        <div class="d-lg-flex ps-4">
+                            <p class="text-sm mb-0">
+                                <?= 
+                                    str_replace(
+                                        ['{current}', '{total}'],
+                                        [
+                                            $paginator ? $paginator->getCurrentItemCount() : 0, 
+                                            $totalItem = $paginator ? $paginator->getTotalItemCount() : 0
+                                        ],
+                                        $this->translate('Hiển thị {current} trên {total} entries')
+                                    );
+                                ?>
+                            </p>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                    <tr>                    
+                                        <th class="mw-10 text-center fs-6">
+                                            <?= $this->manageCheckboxAll();?>
+                                        </th>
+                                        <th class="mw-15 text-dark text-xs text-secondary text-uppercase opacity-7">
+                                            <?= $this->translate('Thông tin lỗi')?>
+                                        </th>
+                                        <th class="mw-25 text-dark text-xs text-center text-secondary text-uppercase opacity-7">
+                                            <?= $this->translate('Tin nhắn lỗi')?>
+                                        </th>
+                                        <th class="mw-30 text-dark text-xs text-center text-secondary text-uppercase opacity-7">
+                                            <?= $this->translate('Truy vết lỗi')?>
+                                        </th>
+                                        <th class="mw-10 text-dark text-xs text-center text-secondary text-uppercase opacity-7">
+                                            <?= $this->translate('Trạng thái')?>
+                                        </th>
+                                        <th class="mw-10 text-dark text-xs text-center text-secondary text-uppercase opacity-7">
+                                            <?= $this->translate('Tác vụ')?>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    if ($totalItem > 0):
+                                        foreach ($paginator as $item): ?>
+                                        <tr>
+                                            <td class="text-center fs-6">
+                                                <?= $this->manageCheckbox($item->error_id ?? 0);?>
+                                            </td>
+                                            <td><pre class="error_detail p-2"><?php 
+                                                echo implode('<br/>', [
+                                                    'Date: <span class="required">' . date(APPLICATION_DATE_TIME, $item->error_time) . '</span>',
+                                                    'Uri: ' . $this->escapeHtml($item->error_uri),
+                                                    'Method: ' . $this->escapeHtml($item->error_method),
+                                                    'Params: ' . $this->escapeHtml($item->error_params),
+                                                    'User: ' . $item->error_user_id
+                                                ]);
+                                                ?></pre></td>
+                                            <td>
+                                                <pre class="error_detail p-3 m-auto mw-25"><?= 
+                                                    $this->escapeHtml(trim($item->error_msg));
+                                                ?></pre>
+                                            </td>
+                                            <td>
+                                                <pre class="error_trace p-3 m-auto"><?= 
+                                                    $this->escapeHtml($item->error_trace);
+                                                ?></pre>
+                                            </td>
+                                            <td class="font-weight-normal">
+                                                <div class="d-flex align-items-center"><?php
+                                                    echo $this->manageChangeStatus($this->zfUrl($routeName, 
+                                                        ['action'=>'change-status', 'id'=> $item->error_id]),
+                                                        $item->error_status ?? 0, ['data-token' => $token]
+                                                    );
+                                                    ?>
+                                                    <span><?= $item->error_status 
+                                                        ? $this->translate('Kích hoạt')
+                                                        : $this->translate('Chưa kích hoạt')
+                                                    ?></span>
+                                                </div>
+                                            </td>
+                                            <td class="text-sm text-center"><?php
+                                                echo $this->manageDelete($this->zfUrl($routeName, 
+                                                    ['action'=>'delete', 'id'=> $item->error_id])
+                                                );
+                                            ?></td>
+                                        </tr>
+                                    <?php endforeach;?>
+                                </tbody>
+                                <?php else: ?>
+                                    <td class="text-center fs-7 text-danger" colspan="100"><?= $this->translate(ZF_MSG_DATA_NOT_EXISTS); ?></td>
+                                <?php endif; ?>
+                            </table>
+                        </div>
+                    </div>
+                <?php if ($totalItem > 0) : ?>
+                    <div class="card-footer">
+                        <?= $this->paginationControl(
+                            $paginator, 'Sliding',
+                            'application/partial/paginator', 
+                            ['route' => $routeName]
+                        );?>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </form>
+    </div>
+</div>

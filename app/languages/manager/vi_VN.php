@@ -1,0 +1,25 @@
+<?php 
+    return [
+        'vi' => 'vi',
+        'Login ID' => 'Đăng Nhập ID',
+        'Product' => 'Sản phẩm',
+        'Add product' => 'Thêm sản phẩm',
+        'All product' => 'Tất cả sản phẩm',
+        'Product portfolio' => 'Danh mục sản phẩm',
+        'Analytics' => 'Trang chủ',
+        'Dashboards' => 'Tổng quan',
+        'Add' => 'Thêm',
+        'Edit' => 'Sửa',
+        'Delete' => 'Xoá',
+        'Add' => 'Thêm',
+        'System information' => 'Thông báo xác nhận',
+        'Yes' => 'Có',
+        'No' => 'Không',
+        'Cancel' => 'Huỷ',
+        'Ok' => 'Đồng ý',
+        'Caution' => 'Cảnh báo',
+        'Are you sure you want to delete this row?' => 'Bạn có chắc muốn xóa dòng này?',
+        'Just now' => 'Vừa xong',
+        'Please select at least 1 line' => 'Vui lòng chọn ít nhất 1 dòng',
+    ];
+?>

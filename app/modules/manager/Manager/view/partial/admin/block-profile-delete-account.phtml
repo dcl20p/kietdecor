@@ -1,0 +1,31 @@
+     
+<?php
+?>
+<div class="card mt-4" id="delete">
+    <div class="card-body">
+        <div class="d-flex align-items-center mb-sm-0 mb-4">
+            <div class="w-50">
+                <h5>
+                    <?= $this->translate('Xoá tài khoản') ?>
+                </h5>
+                <p class="text-sm mb-0">
+                    <?= $this->translate('Sau khi bạn xóa tài khoản của mình, bạn sẽ không thể quay lại. Hãy chắc chắn.') ?>
+                </p>
+            </div>
+            <div class="w-50 text-end">
+                <?php if ($user->adm_status): ?>
+                <a class="btn btn-outline-secondary mb-3 mb-md-0 ms-auto" 
+                    data-confirm="<?=$this->translate('Bạn có chắc muốn khoá tài khoản không?')?>"
+                    id="btnDeactive">
+                    <?= $this->translate('Khoá tài khoản') ?>
+                </a>
+                <?php endif; ?>
+                <a class="btn bg-gradient-danger mb-0 ms-2" id="btnDeleteAccount"
+                    data-confirm="<?=$this->translate('Bạn có chắc muốn xoá vĩnh viễn tài khoản này không?')?>"
+                >
+                    <?= $this->translate('Xoá tài khoản') ?>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

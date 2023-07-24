@@ -1,0 +1,105 @@
+<div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h6 class="modal-title font-weight-normal">
+                <?= $session->ss_os . ' ' . $session->ss_os_ver;?>
+            </h6>
+            <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="card-body border-radius-lg p-3">
+                <div class="d-flex">
+                    <div class="icon icon-shape bg-gradient-dark shadow text-center">
+                        <i class="material-icons opacity-10 pt-1">location_on</i>
+                    </div>
+                    <div class="ms-3">
+                        <div class="numbers">
+                            <h6 class="mb-1 text-dark text-sm">
+                                <?= $this->translate('Địa chỉ IP')?>
+                            </h6>
+                            <span class="text-sm"><?= $session->ss_ip ?? '';?></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex mt-4">
+                    <div class="icon icon-shape bg-gradient-dark shadow text-center">
+                        <i class="material-icons opacity-10 pt-1">language</i>
+                    </div>
+                    <div class="ms-3">
+                        <div class="numbers">
+                            <h6 class="mb-1 text-dark text-sm">
+                                <?=$this->translate('Trình duyệt')?>
+                            </h6>
+                            <span class="text-sm"><?= $session->ss_browser ?? '';?></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex mt-4">
+                    <div class="icon icon-shape bg-gradient-dark shadow text-center">
+                        <i class="material-icons opacity-10 pt-1">devices_other</i>
+                    </div>
+                    <div class="ms-3">
+                        <div class="numbers">
+                            <h6 class="mb-1 text-dark text-sm">
+                                <?=$this->translate('Thiết bị')?>
+                            </h6>
+                            <span class="text-sm"><?= ucfirst($session->ss_device ?? '');?></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex mt-4">
+                    <div class="icon icon-shape bg-gradient-dark shadow text-center">
+                        <i class="material-icons opacity-10 pt-1">screenshot_monitor</i>
+                    </div>
+                    <div class="ms-3">
+                        <div class="numbers">
+                            <h6 class="mb-1 text-dark text-sm">
+                                <?=$this->translate('Hệ điều hành')?>
+                            </h6>
+                            <span class="text-sm"><?= ($session->ss_os . ' ' . $session->ss_os_ver);?></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex mt-4">
+                    <div class="icon icon-shape bg-gradient-dark shadow text-center">
+                        <i class="material-icons opacity-10 pt-1">pending</i>
+                    </div>
+                    <div class="ms-3">
+                        <div class="numbers">
+                            <h6 class="mb-1 text-dark text-sm">
+                                <?=$this->translate('Tình trạng')?>
+                            </h6>
+                            <span class="badge badge-sm text-xs my-auto ms-auto me-3
+                                <?= !$session->ss_is_login ? 'badge-secondary' : 'badge-success';?>
+                            ">
+                                <?= $session->ss_id == session_id()
+                                    ? $this->translate('Phiên hiện tại') 
+                                    : (!$session->ss_is_login 
+                                        ? $this->translate('Đã đăng xuất') 
+                                        : $this->translate('Đang đăng nhập'))
+                                ?>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer group-button-session">
+            <?php if ($session->ss_id !== session_id()):?>
+            <a href="javascript:void(0);" data-id="<?=$session->ss_id?>" 
+                data-confirm="<?=$this->translate('Bạn có chắc muốn xóa phiên này')?>"
+                class="btn bg-gradient-primary btn-delete-session">
+                <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                <span class="txt-btn"></span>
+                    <?= $this->translate('Xoá phiên') ?>
+                </span>
+            </a>
+            <?php endif; ?>
+            <button type="button" class="btn btn-dark ml-auto" data-bs-dismiss="modal" id="btnCloseModalSS">
+                <?= $this->translate('Đóng') ?>
+            </button>
+        </div>
+    </div>
+</div>

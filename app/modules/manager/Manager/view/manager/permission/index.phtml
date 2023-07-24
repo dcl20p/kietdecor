@@ -1,0 +1,117 @@
+<?php
+use Models\Entities\Admin;
+
+$this->headTitle($pageTitle);
+$this->menuLeft()->setActiveItemId($activeItemId);
+$this->bootstrapToolbar([
+    $this->toolbarSave(),
+    $this->toolbarIcon('cached', [
+        'title' => $this->translate('Xoá dữ liệu cache'),
+        'label' => $this->translate('Xoá cache'),
+        'href' => $this->zfUrl($routeName, ['action' => 'refresh-cache']),
+    ])
+]);
+
+$this->pageBreadcrumbs()->setItems([
+    $this->translate('Trang chủ') => $this->zfUrl('home'),
+    $pageTitle => $this->zfUrl($routeName),
+]);
+
+$this->headScriptAction(null, [], [
+    'action' => 'index',
+    'controller' => 'permission',
+    'module' => 'manager'
+]);
+
+$groups = Admin::returnGroupCodes();
+unset($groups[Admin::GROUP_SUPPORT]);
+$checkeds = $oldData[$checkVal] ?? [];
+?>
+<div class="row">
+    <div class="col-12">
+        <form id="adminForm" method="POST">
+            <div class="card mb-2">
+                <div class="card-header">
+                    <div class="d-lg-flex">
+                        <div>
+                            <h5 class="mb-0"><?= $pageTitle?></h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="select mt-3">
+                                <select class="form-control px-3" name="group"
+                                    id="group_code">
+                                    <option value="" selected=""><?=$this->translate('Vui lòng chọn')?></option><?php 
+                                    foreach ($groups as $group => $value):?>
+                                        <option value="<?=$group?>" <?=$checkVal == $group ? 'selected' : '';?>>
+                                            <?=$value?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><?php 
+            $i = 0;
+            foreach ($items['modules'] ?? [] as $moduleName => $module): ?>
+            <div class="card module-item mb-2 module-item-<?=++$i?>">
+                <div class="card-header p-3">
+                    <div class="d-flex align-items-center justify-content-between py-2">
+                        <a data-bs-toggle="collapse" data-bs-target="#<?=$moduleName?>" aria-controls="<?=$moduleName?>" 
+                            role="button" aria-expanded="true"
+                            class="nav-link text-dark">
+                            <span class="nav-link-text ms-3 ps-1 position-relative">
+                                <?= $module['title'] ?? $moduleName;?>
+                                <i class="collapse-close fa-solid fa-plus" aria-hidden="true"></i>
+                                <i class="collapse-open fa-solid fa-minus" aria-hidden="true"></i>
+                            </span>
+                        </a>
+                        <div class="form-check form-switch ms-3">
+                            <input class="form-check-input check-all-module" type="checkbox" id="check-all-<?=$moduleName;?>">
+                        </div>
+                    </div>
+                    <div id="<?=$moduleName?>" class="collapse ps-3 show"><?php
+                        $j = 0;
+                        foreach ($module['items'] ?? [] as $ctrlName => $controller): ?>
+                            <div class="controller-item controller-item-<?=++$j?>">
+                                <div class="d-flex align-items-center justify-content-between py-2 border-top">
+                                    <a data-bs-toggle="collapse" data-bs-target="#<?=$ctrlName?>" aria-controls="<?=$ctrlName?>" 
+                                        role="button" aria-expanded="false"
+                                        class="nav-link text-dark">
+                                        <span class="nav-link-text ms-3 ps-2 position-relative text-sm"><?=$controller['title'] ?? $ctrlName?>
+                                            <i class="collapse-close fa-solid fa-plus" aria-hidden="true"></i>
+                                            <i class="collapse-open fa-solid fa-minus" aria-hidden="true"></i>
+                                        </span>
+                                    </a>
+                                    <div class="form-check form-switch ms-3">
+                                        <input class="form-check-input check-all-controller" type="checkbox" id="check-all-<?=$ctrlName?>">
+                                    </div>
+                                </div>
+                                <div id="<?=$ctrlName?>" class="collapse ps-3"><?php
+                                    $k = 0;
+                                    foreach ($controller['items'] ?? [] as $actionName => $action):?>
+                                        <div class="action-item action-item-<?=++$k?>">
+                                            <div class="d-flex align-items-center justify-content-between py-2 border-top ps-2">
+                                                <span class="text-sm"><?=$action['title'] ?? $actionName?></span>
+                                                <div class="form-check form-switch ms-3">
+                                                    <input class="form-check-input check-action" type="checkbox"
+                                                        name="actions[<?=$module['name'] ?? ''?>][]"
+                                                        value="<?= $val = implode('\\', [$ctrlName, $actionName])?>" <?php
+                                                        $items = $checkeds[$moduleName] ?? [];
+                                                        if (in_array($val, $items)) echo 'checked'; unset($items);?>>
+                                                </div>
+                                            </div>
+                                        </div><?php
+                                    endforeach; ?>
+                                </div>
+                            </div><?php 
+                        endforeach; ?>
+                    </div>
+                </div>
+            </div>
+            <?php endforeach; ?>
+        </form>
+    </div>
+</div>

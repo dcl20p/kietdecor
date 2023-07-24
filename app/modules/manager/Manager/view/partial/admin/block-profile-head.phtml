@@ -1,0 +1,64 @@
+<?php
+use Models\Entities\Admin;
+    
+?>
+<div class="page-header min-height-300 border-radius-xl mx-n1" id="block-bg-timeline"
+    style="background-image: url('<?=$srcImgBg?>');">
+    <span class="bg-gradient-primary opacity-6"></span>
+    <a href="javascript:;" id="update-bg-timeline" 
+        title="<?=$this->translate('Chỉnh sửa ảnh bìa')?>"
+        class="btn btn-sm btn-icon-only p-02 bg-gradient-primary position-absolute top-2 end-2 mb-n2 me-n2">
+        <span class="material-icons text-xs top-0 mt-n2 icon-edit-bg-timeline" data-bs-toggle="tooltip" 
+            data-bs-placement="top" title="" aria-hidden="true" 
+            data-bs-original-title="<?=$this->translate('Chỉnh sửa ảnh bìa')?>" 
+            aria-label="<?=$this->translate('Chỉnh sửa ảnh bìa')?>">
+            edit
+        </span>
+        <span class="spinner-border spinner-border-sm text-light text-xs" role="status" aria-hidden="true"></span>
+        <span class="visually-hidden">Loading...</span>
+    </a>
+    <input type="file" name="bg-timeline" accept="image/*" class="d-none" id="bg-timeline-input">
+</div>
+<div class="card card-body mt-n5 mx-1" id="profile">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-sm-auto col-4">
+            <div class="avatar avatar-xl position-relative">
+                <img src="<?=$srcImg?>" alt="<?= $user->adm_fullname ?? 'Avatar'?>"
+                    class="w-100 h-100 object-fit-cover rounded-circle shadow-sm">
+                <a href="javascript:;" id="update-avatar-btn" 
+                    title="<?=$this->translate('Chỉnh sửa avatar')?>"
+                    class="btn btn-sm btn-icon-only p-02 bg-gradient-primary position-absolute bottom-0 end-0 mb-n2 me-n2">
+                    <span class="material-icons text-xs top-0 mt-n2 icon-edit-avatar" data-bs-toggle="tooltip" 
+                        data-bs-placement="top" title="" aria-hidden="true" 
+                        data-bs-original-title="<?=$this->translate('Chỉnh sửa avatar')?>" 
+                        aria-label="<?=$this->translate('Chỉnh sửa avatar')?>">
+                        edit
+                    </span>
+                    <span class="spinner-border spinner-border-sm text-light text-xs" role="status" aria-hidden="true"></span>
+                    <span class="visually-hidden">Loading...</span>
+                </a>
+                <input type="file" name="avatar" accept="image/*" class="d-none" id="avatar-input">
+            </div>
+        </div>
+        <div class="col-sm-auto col-8 my-auto">
+            <div class="h-100">
+                <h5 class="mb-1 font-weight-bolder">
+                    <?=$user->adm_fullname ?? 'Admin user'?>
+                    <span class="badge badge-md badge-dot me-4">
+                        <?php if ($user->adm_status): ?>
+                            <i class="bg-success"></i>
+                        <?php else: ?>
+                            <i class="bg-secondary"></i>
+                        <?php endif; ?>
+                    </span>
+                </h5>
+                <p class="mb-0 font-weight-normal text-sm">
+                    <?=$user->adm_groupcode ?? Admin::GROUP_STAFF?>
+                </p>
+            </div>
+        </div>
+        <div class="col-sm-auto ms-sm-auto mt-sm-0 mt-3 d-flex">
+            &nbsp;
+        </div>
+    </div>
+</div>

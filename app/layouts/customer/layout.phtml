@@ -1,0 +1,169 @@
+<?php 
+use Laminas\View\Helper\Doctype;
+$pubRes = $this->zfResource();
+$cstAsset = $this->lazyAsset()->getItems();
+$urlDefault = $this->serverurl();
+$arrayStructs = [
+    'headMeta'=> [
+        'description' => $this->translate('Sỹ Tùng đẹp trai vãi nồi'),
+        'keyword'     => 'Techknock, AI matching',
+        'url'         => $urlDefault,
+        'img'         => [
+            'url'   => $urlDefault. $pubRes->files('favicon.png?v=1', 'images', false),
+            'width' => 1024,
+            'height'=> 800,
+            'type'  => 'image/png'
+        ],
+        'js' => []
+    ],
+    'header' => [
+        'menuTop' => true,
+        'banner'  => false,
+        'mainMenu'=> false
+    ],
+    'footer' => true
+];
+$this->viewHook()->triggerEvt('layoutStruct', [
+    'layoutStruct' => &$arrayStructs
+]);
+
+$headerContent = $this->headerSession()->render();
+$footerContent = $arrayStructs['footer'] ? $this->footerSession() : '';
+echo $this->doctype(Doctype::HTML5);
+?>
+<html lang="<?= APPLICATION_LANGUAGE?>" class="no-js">
+    <head>
+       <meta charset="utf-8">
+        <?= $this->headTitle(WEB_NAME)->setSeparator(' - ')->setAutoEscape(false) ?>
+        <?= $this->headMeta()
+            ->setHttpEquiv('Content-Type', 'text/html; charset=utf-8')
+            ->appendName('viewport', 'height=device-height,width=device-width,initial-scale=1.0,maximum-scale=1.0, user-scalable=no, shrink-to-fit=no')
+            ->setHttpEquiv('X-UA-Compatible', 'IE=EDGE')
+            ->appendName('copyright', WEB_NAME.', Inc')
+            ->appendName('author', WEB_NAME.', Inc')
+            ->appendName('keywords', $arrayStructs['headMeta']['keyword'])
+            ->appendName('description', $arrayStructs['headMeta']['description'])
+
+            ->appendName('twitter:card', WEB_NAME.', Inc')
+            ->appendName('twitter:site', WEB_NAME.', Inc')
+            ->appendName('twitter:title', WEB_NAME.', Inc')
+            ->appendName('twitter:description', $arrayStructs['headMeta']['description'])
+            ->appendName('twitter:creator', WEB_NAME.', Inc')
+            ->appendName('twitter:image', WEB_NAME.', Inc')
+
+            ->appendProperty('fb:app_id', '655968634437471')
+            ->appendProperty('og:title', WEB_NAME.', Inc')
+            ->appendProperty('og:type', WEB_NAME.', Inc')
+            ->appendProperty('og:url', WEB_NAME.', Inc')
+            ->appendProperty('og:image', WEB_NAME.', Inc')
+            ->appendProperty('og:description', $arrayStructs['headMeta']['description'])
+            ->appendProperty('og:site_name', WEB_NAME.', Inc')
+            ->setAutoEscape(false)
+        ?>
+        <link rel="shortcut icon" type="image/png" href="<?=
+            $pubRes->files('favicon.png', 'images', false)?>"/>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Noto+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+        <?php 
+        if (isset($activeItemId)) {
+            $this->headerSession()->setActiveItemId($activeItemId);
+        }
+
+        $isDebug = $_GET['not-minify'] ?? 0;
+        $cssMinifyMethod = 'minifyHeadLink';
+        if ( $isDebug ) $cssMinifyMethod = 'headLink';
+
+        // -- custom css and jquery
+        $cssNo = 0; $jsNo = 0;
+
+        $assetsItems = [
+            'css' => array_replace([
+                ($cssNo+=10) => $pubRes->files( 'block.min.css', 'css', false),
+                ($cssNo+=10) => $pubRes->files( 'goodlayers-core/plugins/combine/style.css', 'js', false),
+                ($cssNo+=10) => $pubRes->files( 'page-builder.css', 'css', false),
+                ($cssNo+=10) => $pubRes->files( 'style-core.css', 'css', false),
+                ($cssNo+=10) => $pubRes->files( 'style-custom.css', 'css', false),
+            ], $cstAsset['css']),
+           'js' => array_replace([
+                ($jsNo+=10) => $pubRes->files( 'jquery/jquery-3.7.0.min.js', 'js', false),
+                ($jsNo+=10) => $pubRes->files( 'jquery/jquery-migrate.min.js', 'js', false),
+                ($jsNo+=10) => $pubRes->files( 'goodlayers-core/plugins/combine/script.js', 'js', false),
+                ($jsNo+=10) => $pubRes->files( 'goodlayers-core/include/js/page-builder.js', 'js', false),
+                ($jsNo+=10) => $pubRes->files( 'jquery/ui/effect.min.js', 'js', false),
+                ($jsNo+=10) => $pubRes->files( 'plugins.js', 'js', false),
+            ], $cstAsset['js'])
+        ];
+        ksort($assetsItems['css']);
+        foreach ($assetsItems['css'] as $css)
+            $this->{$cssMinifyMethod}() ->appendStylesheet($css, 'all');
+        echo $this->{$cssMinifyMethod}()->setAutoEscape(false) . "\n";
+
+        // -- Render custom css
+        echo $this->headStyle();
+        ?>
+    </head>
+    <body class="home page-template-default page page-id-2039 gdlr-core-body woocommerce-no-js inteco-body inteco-body-front inteco-full  inteco-with-sticky-navigation  inteco-blockquote-style-1 gdlr-core-link-to-lightbox">
+        
+        <div class="inteco-body-outer-wrapper ">
+            <div class="inteco-body-wrapper clearfix  inteco-with-transparent-header inteco-with-frame">
+                <?php
+                if ($headerContent) {
+                    echo $headerContent ?? '';
+                }
+                ?>
+                <div class="inteco-page-wrapper" id="inteco-page-wrapper">
+                    <?= $this->content; ?>
+                </div>
+                <?=$footerContent ?? '';?>
+            </div>
+        </div>
+        <script type='text/javascript'>
+            var gdlr_core_pbf = {
+                "admin": "",
+                "video": {
+                    "width": "640",
+                    "height": "360"
+                },
+                "ajax_url": "#"
+            }
+        </script>
+        <?php
+    	// Add files JS.
+	    $jsMinifyMethod = 'minifyHeadScript';
+	    if ( $isDebug ) $jsMinifyMethod = 'headScript';
+	    ksort($assetsItems['js']);
+	    $assetsItems['js'] = array_reverse($assetsItems['js']);
+    	foreach ($assetsItems['js'] as $js)
+    	   $this ->{$jsMinifyMethod}()->prependFile($js);
+	    echo $this ->{$jsMinifyMethod}()->setAutoEscape(false) . "\n";
+
+        if ($isDebug) echo $this->inlinescript();
+
+        $flashMessenger = $this->flashMessenger();
+        // Get messages from Zend_Action_Helper_FlashMessenger.
+		$flashMessengers = array_filter([
+		    'info' => array_merge(
+		        $flashMessenger->getCurrentInfoMessages(),
+		        $flashMessenger->getInfoMessages()
+	        ),
+		    'success' => array_merge(
+		        $flashMessenger->getCurrentSuccessMessages(),
+		        $flashMessenger->getSuccessMessages()
+	        ),
+		    'warning' => array_merge(
+		        $flashMessenger->getCurrentWarningMessages(),
+		        $flashMessenger->getWarningMessages()
+	        ),
+		    'danger' => array_merge(
+		        $flashMessenger->getCurrentErrorMessages(),
+		        $flashMessenger->getErrorMessages()
+	        )
+		]);
+
+		// Clear message
+		$flashMessenger->clearCurrentMessagesFromContainer();
+        ?>
+    </body>
+</html>

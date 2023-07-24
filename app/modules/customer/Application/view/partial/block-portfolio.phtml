@@ -1,0 +1,40 @@
+<?php if (DEVICE_ENV != 1):?>
+<div class="gdlr-core-pbf-wrapper gdlr-core-hide-in-mobile gdlr-core-pbf-wrapper-portfolio"
+    id="gdlr-core-wrapper-2">
+<?php else: ?>
+<div class="gdlr-core-pbf-wrapper gdlr-core-hide-in-desktop-tablet gdlr-core-pbf-wrapper-portfolio"
+    id="gdlr-core-wrapper-3">
+<?php endif; ?>
+    <div class="gdlr-core-pbf-background-wrap"></div>
+    <div class="gdlr-core-pbf-wrapper-content gdlr-core-js ">
+        <div class="gdlr-core-pbf-wrapper-container clearfix gdlr-core-container">
+            <div class="gdlr-core-pbf-element">
+                <div class="gdlr-core-portfolio-item gdlr-core-item-pdb clearfix gdlr-core-portfolio-item-style-metro-no-space gdlr-core-item-pdlr">
+                    <?php if ($isShow):?>
+                    <div class="gdlr-core-block-item-title-wrap gdlr-core-left-align gdlr-core-block-item-title-wrap-portfolio">
+                        <div class="gdlr-core-block-item-title-inner">
+                            <h3 class="gdlr-core-block-item-title gdlr-core-skin-title-home">
+                                <?= $this->translate('Portfolio')?>
+                            </h3>
+                            <span class="gdlr-core-separator gdlr-core-separator-portfolio"></span>
+                            <a class="gdlr-core-block-item-read-more gdlr-core-block-item-read-more-portfolio" href="#" target="_self">
+                                <?= $this->translate('Xem tất cả')?>
+                            </a>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+                    <?php 
+                    if (DEVICE_ENV != 1) 
+                        echo $this->partial('partial/block-portfolio-desktop.phtml', [
+                            'data' => $data
+                        ]);
+                    else
+                        echo $this->partial('partial/block-portfolio-mobile.phtml', [
+                            'data' => $data
+                        ]);
+                    ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

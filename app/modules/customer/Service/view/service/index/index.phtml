@@ -1,0 +1,387 @@
+<?php 
+$this->headerSession()->setActiveItemId($activeItemId);
+
+$pubRes = $this->zfResource();
+$this->lazyAsset()->addItems([
+    'js' => [
+        21 => $pubRes->files('swiper/js/swiper-bundle.min.js', 'js', false)
+    ],
+    'css' => [
+        31 => $pubRes->files('swiper/css/swiper-bundle.min.css', 'js', false),
+    ]
+]);
+$this->headScriptAction(null, [], [
+    'action' => 'index',
+    'controller' => 'index',
+    'module' => 'service'
+]);
+$this->headStyleAction(null, [], [
+    'action' => 'index',
+    'controller' => 'index',
+    'module' => 'service'
+]);
+$slides = [
+    [
+        'src' => '/assets/customer/images/source/shutterstock_543421996.jpg',
+        'name' => 'Name A',
+        'size' => [630,501],
+    ],
+    [
+        'src' => '/assets/customer/images/source/shutterstock_561468493.jpg',
+        'name' => 'Name B',
+        'size' => [630,501],
+    ],
+    [
+        'src' => '/assets/customer/images/source/shutterstock_631879034.jpg',
+        'name' => 'Name C',
+        'size' => [630,501],
+    ],
+    [
+        'src' => '/assets/customer/images/source/kara-michelle-544960-unsplash.jpg',
+        'name' => 'Name D',
+        'size' => [630,501],
+    ],
+]
+?>
+<div class="inteco-page-wrapper" id="inteco-page-wrapper">
+    <div class="gdlr-core-page-builder-body">
+        <div class="gdlr-core-pbf-wrapper gdlr-core-pbf-wrapper-project-detail" id="gdlr-core-wrapper-1">
+            <div class="gdlr-core-pbf-background-wrap">
+                <div class="gdlr-core-pbf-background gdlr-core-parallax gdlr-core-js gdlr-core-img-background"
+                    style="background-image: url(/assets/customer/images/source/hp3-service-bg.jpg);"
+                    data-parallax-speed="0.2"></div>
+            </div>
+            <div class="gdlr-core-pbf-wrapper-content gdlr-core-js ">
+                <div class="gdlr-core-pbf-wrapper-container clearfix gdlr-core-container">
+                    <div class="gdlr-core-pbf-column gdlr-core-column-60 gdlr-core-column-first">
+                        <div class="gdlr-core-pbf-column-content-margin gdlr-core-js ">
+                            <div class="gdlr-core-pbf-column-content clearfix gdlr-core-js max-width-720">
+                                <div class="gdlr-core-pbf-element">
+                                    <div class="gdlr-core-image-item gdlr-core-item-pdlr gdlr-core-item-pdb gdlr-core-center-align py-3">
+                                        <div class="gdlr-core-image-item-wrap gdlr-core-media-image gdlr-core-image-item-style-rectangle border-width-0">
+                                            <img src="/assets/customer/images/source/service3-hero-icon.png" alt="" width="78"
+                                                height="78" title="service3-hero-icon" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="gdlr-core-pbf-element">
+                                    <div class="gdlr-core-title-item gdlr-core-item-pdb clearfix gdlr-core-center-align gdlr-core-title-item-caption-top gdlr-core-item-pdlr py-3">
+                                        <span class="gdlr-core-title-item-caption gdlr-core-info-font gdlr-core-skin-caption gdlr-core-skin-caption-project-detail">
+                                            <?= $this->translate('Dịch vụ')?>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="gdlr-core-pbf-wrapper p-0">
+            <div class="gdlr-core-pbf-background-wrap"></div>
+            <div class="gdlr-core-pbf-wrapper-content gdlr-core-js ">
+                <div class="gdlr-core-pbf-wrapper-container clearfix gdlr-core-container">
+                    <div class="gdlr-core-pbf-column gdlr-core-column-30 gdlr-core-column-first">
+                        <div class="gdlr-core-pbf-column-content-margin gdlr-core-js "
+                            style="margin: 0px 0px 0px 30px;padding: 90px 20px 70px 0px;" data-sync-height="height-1">
+                            <div class="gdlr-core-pbf-background-wrap">
+                                <div class="gdlr-core-pbf-background gdlr-core-parallax gdlr-core-js gdlr-core-img-background-center-left"
+                                    style="background-image: url(/assets/customer/images/source/ourservice3-bg-1.jpg);"
+                                    data-parallax-speed="0.08"></div>
+                            </div>
+                            <div
+                                class="gdlr-core-pbf-column-content clearfix gdlr-core-js gdlr-core-sync-height-content">
+                                <div class="gdlr-core-pbf-element">
+                                    <div class="gdlr-core-image-item gdlr-core-item-pdlr gdlr-core-item-pdb gdlr-core-right-align">
+                                        <div class="gdlr-core-image-item-wrap gdlr-core-media-image gdlr-core-image-item-style-rectangle 
+                                         gdlr-core-image-item-style-rectangle-project-detail">
+                                            <img src="/assets/customer/images/source/ourservices3-bg-2.jpg" alt="" width="730" height="730"
+                                                title="ourservices3-bg-2" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gdlr-core-pbf-column gdlr-core-column-30" id="gdlr-core-column-1">
+                        <div class="gdlr-core-pbf-column-content-margin gdlr-core-js gdlr-core-pbf-column-content-margin-project-detail-pd"
+                            data-sync-height="height-1">
+                            <div class="gdlr-core-pbf-column-content clearfix gdlr-core-js gdlr-core-sync-height-content">
+                                <div class="gdlr-core-pbf-element">
+                                    <div class="gdlr-core-title-item gdlr-core-item-pdb clearfix gdlr-core-left-align gdlr-core-title-item-caption-top gdlr-core-item-pdlr py-4">
+                                        <span class="gdlr-core-title-item-caption gdlr-core-info-font gdlr-core-skin-caption gdlr-core-skin-caption-project-detail-bg">
+                                            <?= $this->translate('Chúng tôi chuyên cung cấp')?>
+                                        </span>
+                                        <div class="gdlr-core-title-item-title-wrap ">
+                                            <h3 class="gdlr-core-title-item-title gdlr-core-skin-title gdlr-core-skin-title-project-detail">
+                                                <?= $this->translate('Dịch vụ thiết kế')?>
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="gdlr-core-pbf-element">
+                                    <div
+                                        class="gdlr-core-text-box-item gdlr-core-item-pdlr gdlr-core-item-pdb gdlr-core-left-align">
+                                        <div class="gdlr-core-text-box-item-content dlr-core-text-box-item-content-service">
+                                            <p>Dịch vụ thiết kế kết cấu bao gồm lập kế hoạch không gian, bản vẽ thiết kế, lựa chọn, điều phối dự 
+                                                án và tạo kiểu. Có hàng trăm quyết định để thực hiện và chi tiết để xem xét khi lập kế hoạch thiết kế nhà 
+                                                của bạn. Làm sai có thể khiến bạn tốn rất nhiều thời gian và tiền bạc.</p>
+                                            <p>Textured Designs đã được bắt đầu 
+                                                để giúp bạn đạt được tầm nhìn của mình một cách tự tin và dễ dàng. Chúng tôi làm việc không mệt mỏi để đảm 
+                                                bảo dự án nhà của bạn được hoàn thành trên cả mong đợi của bạn.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="gdlr-core-pbf-wrapper gdlr-core-pbf-wrapper-list">
+            <div class="gdlr-core-pbf-background-wrap">
+                <div class="gdlr-core-pbf-background gdlr-core-parallax gdlr-core-js gdlr-core-img-background "
+                    style="background-image: url(/assets/customer/images/source/tobias-van-schneider-230813-unsplash.jpg);"
+                    data-parallax-speed="0.8"></div>
+            </div>
+            <div class="gdlr-core-pbf-wrapper-content gdlr-core-js ">
+                <div class="gdlr-core-pbf-wrapper-container clearfix gdlr-core-container">
+                    <div class="gdlr-core-pbf-column gdlr-core-column-20 gdlr-core-column-first"
+                        id="gdlr-core-column-2">
+                        <div class="gdlr-core-pbf-column-content-margin gdlr-core-js gdlr-core-pbf-column-content-margin-list"
+                            data-sync-height="height11">
+                            <div class="gdlr-core-pbf-background-wrap gdlr-core-pbf-background-wrap-custom"></div>
+                            <div class="gdlr-core-pbf-column-content clearfix gdlr-core-js gdlr-core-sync-height-content">
+                                <div class="gdlr-core-pbf-element">
+                                    <div class="gdlr-core-column-service-item gdlr-core-item-pdb gdlr-core-left-align gdlr-core-column-service-icon-top gdlr-core-no-caption gdlr-core-item-pdlr py-4">
+                                        <div class="gdlr-core-column-service-media gdlr-core-media-image gdlr-core-media-image-custom">
+                                            <img src="/assets/customer/images/source/icon-time-1.png" alt="" width="45" height="45"
+                                                title="icon-time-1" />
+                                        </div>
+                                        <div class="gdlr-core-column-service-content-wrapper">
+                                            <div class="gdlr-core-column-service-title-wrap">
+                                                <h3 class="gdlr-core-column-service-title gdlr-core-skin-title gdlr-core-skin-title-list">
+                                                    <?= $this->translate('Công trình mới')?>
+                                                </h3>
+                                            </div>
+                                            <div class="gdlr-core-column-service-content gdlr-core-column-service-content-custom">
+                                                <p>Cho dù đây là lần xây dựng ngôi nhà đầu tiên hay tiếp theo của bạn, việc có một
+                                                     chuyên gia thiết kế hướng dẫn bạn trong suốt quá trình sẽ đảm bảo rằng bạn 
+                                                     có một không gian yêu thích và tự hào thể hiện!</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gdlr-core-pbf-column gdlr-core-column-20"
+                        id="gdlr-core-column-2">
+                        <div class="gdlr-core-pbf-column-content-margin gdlr-core-js gdlr-core-pbf-column-content-margin-list"
+                            data-sync-height="height11">
+                            <div class="gdlr-core-pbf-background-wrap gdlr-core-pbf-background-wrap-custom"></div>
+                            <div class="gdlr-core-pbf-column-content clearfix gdlr-core-js gdlr-core-sync-height-content">
+                                <div class="gdlr-core-pbf-element">
+                                    <div class="gdlr-core-column-service-item gdlr-core-item-pdb gdlr-core-left-align gdlr-core-column-service-icon-top gdlr-core-no-caption gdlr-core-item-pdlr py-4">
+                                        <div class="gdlr-core-column-service-media gdlr-core-media-image gdlr-core-media-image-custom">
+                                            <img src="/assets/customer/images/source/icon-time-1.png" alt="" width="45" height="45"
+                                                title="icon-time-1" />
+                                        </div>
+                                        <div class="gdlr-core-column-service-content-wrapper">
+                                            <div class="gdlr-core-column-service-title-wrap">
+                                                <h3 class="gdlr-core-column-service-title gdlr-core-skin-title gdlr-core-skin-title-list">
+                                                    <?= $this->translate('Công trình tu sửa, cải tạo')?>
+                                                </h3>
+                                            </div>
+                                            <div class="gdlr-core-column-service-content gdlr-core-column-service-content-custom">
+                                                <p>Bạn có một giấc mơ lớn, nhưng đáng sợ cho ngôi nhà của bạn?
+                                                    Bạn đang ở đúng nơi để nhận được sự giúp đỡ bạn cần. Hãy để chúng tôi hướng dẫn 
+                                                    bạn một cách chuyên nghiệp đến ngôi nhà mơ ước của bạn một cách dễ dàng và tự tin.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gdlr-core-pbf-column gdlr-core-column-20"
+                        id="gdlr-core-column-2">
+                        <div class="gdlr-core-pbf-column-content-margin gdlr-core-js gdlr-core-pbf-column-content-margin-list"
+                            data-sync-height="height11">
+                            <div class="gdlr-core-pbf-background-wrap gdlr-core-pbf-background-wrap-custom"></div>
+                            <div class="gdlr-core-pbf-column-content clearfix gdlr-core-js gdlr-core-sync-height-content">
+                                <div class="gdlr-core-pbf-element">
+                                    <div class="gdlr-core-column-service-item gdlr-core-item-pdb gdlr-core-left-align gdlr-core-column-service-icon-top gdlr-core-no-caption gdlr-core-item-pdlr py-4">
+                                        <div class="gdlr-core-column-service-media gdlr-core-media-image gdlr-core-media-image-custom">
+                                            <img src="/assets/customer/images/source/icon-time-1.png" alt="" width="45" height="45"
+                                                title="icon-time-1" />
+                                        </div>
+                                        <div class="gdlr-core-column-service-content-wrapper">
+                                            <div class="gdlr-core-column-service-title-wrap">
+                                                <h3 class="gdlr-core-column-service-title gdlr-core-skin-title gdlr-core-skin-title-list">
+                                                    <?= $this->translate('Tư vấn')?>
+                                                </h3>
+                                            </div>
+                                            <div class="gdlr-core-column-service-content gdlr-core-column-service-content-custom">
+                                                <p>Bối rối về cách cải thiện không gian của bạn? Cần ai đó cho bạn biết làm thế nào
+                                                     để đạt được tầm nhìn của bạn? Tư vấn tại nhà giúp trả lời tất cả các câu hỏi 
+                                                     của bạn để bạn có thể tạo ra môi trường hoàn hảo.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="gdlr-core-pbf-wrapper gdlr-core-pbf-wrapper-get-contact">
+            <div class="gdlr-core-pbf-background-wrap" style="background-color: #1e1e1e ;"></div>
+            <div class="gdlr-core-pbf-wrapper-content gdlr-core-js ">
+                <div class="gdlr-core-pbf-wrapper-container clearfix gdlr-core-pbf-wrapper-full-no-space">
+                    <div class="gdlr-core-pbf-element">
+                        <div class="gdlr-core-title-item gdlr-core-item-pdb clearfix gdlr-core-center-align gdlr-core-title-item-caption-top gdlr-core-item-pdlr">
+                            <div class="gdlr-core-title-item-title-wrap ">
+                                <h3 class="gdlr-core-title-item-title gdlr-core-skin-title gdlr-core-skin-title-project-detail-white">
+                                    <?= $this->translate('Quan tâm tới dịch vụ của chúng tôi')?>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gdlr-core-pbf-element">
+                        <div class="gdlr-core-button-item gdlr-core-item-pdlr gdlr-core-item-pdb gdlr-core-center-align py-0">
+                            <a class="gdlr-core-button gdlr-core-button-transparent gdlr-core-button-with-border gdlr-core-button-with-border-custom"
+                                href="<?= $this->zfUrl('contact')?>">
+                                <span class="gdlr-core-content"><?= $this->translate('Liên hệ ngay')?></span>
+                                <i class="gdlr-core-pos-right fa fa-long-arrow-right text-white"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="gdlr-core-pbf-wrapper p-0">
+            <div class="gdlr-core-pbf-background-wrap"></div>
+            <div class="gdlr-core-pbf-wrapper-content gdlr-core-js">
+                <div class="gdlr-core-pbf-wrapper-container clearfix gdlr-core-container">
+                    <div class="gdlr-core-pbf-column gdlr-core-column-30 gdlr-core-column-first" id="gdlr-core-column-6">
+                        <div class="gdlr-core-pbf-column-content-margin gdlr-core-js gdlr-core-pbf-column-content-margin-custom"
+                            data-sync-height="height3">
+                            <div class="gdlr-core-pbf-column-content clearfix gdlr-core-js gdlr-core-sync-height-content">
+                                <div class="gdlr-core-pbf-element">
+                                    <div class="gdlr-core-title-item gdlr-core-item-pdb clearfix gdlr-core-left-align gdlr-core-title-item-caption-bottom gdlr-core-item-pdlr py-2">
+                                        <div class="gdlr-core-title-item-title-wrap ">
+                                            <h3 class="gdlr-core-title-item-title gdlr-core-skin-title gdlr-core-skin-title-custom">
+                                                <?= $this->translate('Các câu hỏi thường gặp')?>    
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="gdlr-core-pbf-element">
+                                    <div
+                                        class="gdlr-core-divider-item gdlr-core-divider-item-normal gdlr-core-item-pdlr gdlr-core-left-align">
+                                        <div class="gdlr-core-divider-container max-width-67">
+                                            <div class="gdlr-core-divider-line gdlr-core-skin-divider gdlr-core-skin-divider-about-lead">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="gdlr-core-pbf-element">
+                                    <div
+                                        class="gdlr-core-text-box-item gdlr-core-item-pdlr gdlr-core-left-align">
+                                        <div class="gdlr-core-text-box-item-content gdlr-core-item-pdb-custom">
+                                            <p>A wonderful serenity has taken possession of my entire soul, like these
+                                                sweet mornings of spring which I enjoy with my whole heart.</p>
+                                            <p><span style="color: #9a827d;">I am alone, and feel the charm of existence
+                                                    in this spot</span>, which was created for the bliss of souls like
+                                                mine. I am so happy, my dear friend, so absorbed in the exquisite</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gdlr-core-pbf-column gdlr-core-column-30" id="gdlr-core-column-7">
+                        <div class="gdlr-core-pbf-column-content-margin gdlr-core-js gdlr-core-pbf-column-content-margin-pdb-custom"
+                            data-sync-height="height3">
+                            <div class="gdlr-core-pbf-column-content clearfix gdlr-core-js gdlr-core-sync-height-content">
+                                <div class="gdlr-core-pbf-element">
+                                    <div class="gdlr-core-accordion-item gdlr-core-item-pdlr gdlr-core-item-pdb gdlr-core-accordion-style-icon p-0">
+                                        <div class="gdlr-core-accordion-item-tab clearfix gdlr-core-active">
+                                            <div class="gdlr-core-accordion-item-content-wrapper">
+                                                <h4 class="gdlr-core-accordion-item-title gdlr-core-js gdlr-core-accordion-item-title gdlr-core-accordion-item-title-custom">
+                                                    <div class="gdlr-core-accordion-item-icon gdlr-core-js gdlr-core-skin-icon">
+                                                    </div>Điều gì là cần thiết để bắt đầu?
+                                                </h4>
+                                                <div class="gdlr-core-accordion-item-content">
+                                                    <p>Cuộc gọi giải pháp thiết kế kéo dài 30 phút sẽ giúp làm rõ dự án của bạn và các nhu cầu cụ thể của ngôi nhà. 
+                                                        Nếu chúng ta phù hợp để làm việc cùng nhau, bạn sẽ nhận được đề xuất tùy chỉnh bao gồm hóa đơn và hợp đồng 
+                                                        của chúng tôi. Lên lịch cuộc gọi của bạn ở đây.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="gdlr-core-accordion-item-tab clearfix">
+                                            <div class="gdlr-core-accordion-item-content-wrapper">
+                                                <h4 class="gdlr-core-accordion-item-title gdlr-core-js gdlr-core-accordion-item-title gdlr-core-accordion-item-title-custom">
+                                                    <div class="gdlr-core-accordion-item-icon gdlr-core-js gdlr-core-skin-icon">
+                                                    </div>Khi nào tôi nên thuê một nhà thiết kế nội thất nếu tôi dự định xây một ngôi nhà mới?
+                                                </h4>
+                                                <div class="gdlr-core-accordion-item-content">
+                                                    <p>CÀNG SỚM CÀNG TỐT! Lý tưởng nhất là chúng ta sẽ bắt đầu làm việc cùng nhau trong giai đoạn lập kế hoạch. 
+                                                        Nếu bạn đã có tài liệu xây dựng hoặc đang làm việc trong quá trình đấu thầu, đây là thời điểm tuyệt vời 
+                                                        để thuê một nhà thiết kế. Chúng tôi có thể xem xét các sơ đồ tầng và cung cấp các phương pháp hay nhất 
+                                                        để lập kế hoạch không gian và lưu thông khắp nhà của bạn. Ngay cả khi bạn đã vượt xa giai đoạn đó, 
+                                                        chúng tôi có thể hỗ trợ lựa chọn tài liệu và hình ảnh để giúp kết hợp tất cả lại với nhau.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="gdlr-core-accordion-item-tab clearfix">
+                                            <div class="gdlr-core-accordion-item-content-wrapper">
+                                                <h4 class="gdlr-core-accordion-item-title gdlr-core-js gdlr-core-accordion-item-title gdlr-core-accordion-item-title-custom">
+                                                    <div class="gdlr-core-accordion-item-icon gdlr-core-js gdlr-core-skin-icon">
+                                                    </div>Bạn có cung cấp kế hoạch thanh toán?
+                                                </h4>
+                                                <div class="gdlr-core-accordion-item-content">
+                                                    <p>Hầu hết các dịch vụ đều yêu cầu đặt cọc 50% không hoàn lại để đặt trước dự án của bạn trên lịch của chúng tôi, 
+                                                        nhưng chúng tôi luôn sẵn sàng trò chuyện về những gì phù hợp nhất với nhu cầu của bạn. Vui lòng liên hệ và hỏi.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="gdlr-core-accordion-item-tab clearfix">
+                                            <div class="gdlr-core-accordion-item-content-wrapper">
+                                                <h4 class="gdlr-core-accordion-item-title gdlr-core-js gdlr-core-accordion-item-title gdlr-core-accordion-item-title-custom">
+                                                    <div class="gdlr-core-accordion-item-icon gdlr-core-js gdlr-core-skin-icon">
+                                                    </div>Điều gì là cần thiết để bắt đầu?
+                                                </h4>
+                                                <div class="gdlr-core-accordion-item-content">
+                                                    <p>Cuộc gọi giải pháp thiết kế kéo dài 30 phút sẽ giúp làm rõ dự án của bạn và các nhu cầu cụ thể của ngôi nhà. 
+                                                        Nếu chúng ta phù hợp để làm việc cùng nhau, bạn sẽ nhận được đề xuất tùy chỉnh bao gồm hóa đơn và hợp đồng 
+                                                        của chúng tôi. Lên lịch cuộc gọi của bạn ở đây.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="gdlr-core-accordion-item-tab clearfix">
+                                            <div class="gdlr-core-accordion-item-content-wrapper">
+                                                <h4 class="gdlr-core-accordion-item-title gdlr-core-js gdlr-core-accordion-item-title gdlr-core-accordion-item-title-custom">
+                                                    <div class="gdlr-core-accordion-item-icon gdlr-core-js gdlr-core-skin-icon">
+                                                    </div>Bạn có làm việc với một nhà thầu hoặc nhà xây dựng cụ thể không?
+                                                </h4>
+                                                <div class="gdlr-core-accordion-item-content">
+                                                    <p>Chúng tôi có một nhóm các nhà thầu và nhà tu sửa địa phương mà chúng tôi tin tưởng và thích làm việc cùng. 
+                                                        Sử dụng một trong số họ sẽ đảm bảo dự án của bạn diễn ra suôn sẻ vì chúng tôi hiểu quy trình của họ. 
+                                                        Tuy nhiên, chúng tôi có thể làm việc với bất kỳ nhà thầu nào mà bạn biết hoặc đã thiết lập quan hệ đối tác.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php echo $this->partial('partial/item-slide.phtml', ['slides' => $slides ?? [], 'idElement' => 'service-swiper']); ?>
+    </div>
+</div>

@@ -1,0 +1,40 @@
+<?php
+$this->headerSession()->setActiveItemId($activeItemId);
+$pubRes = $this->zfResource();
+$this->lazyAsset()->addItems([
+    'js' => [
+        21 => $pubRes->files('owl-carousel/js/owl.carousel.min.js', 'js', false),
+        22 => $pubRes->files('swiper/js/swiper-bundle.min.js', 'js', false)
+    ],
+    'css' => [
+        31 => $pubRes->files('owl-carousel/css/owl.carousel.min.css', 'js', false),
+        32 => $pubRes->files('owl-carousel/css/owl.theme.default.min.css', 'js', false),
+        33 => $pubRes->files('owl-carousel/css/style.css', 'js', false),
+        34 => $pubRes->files('swiper/css/swiper-bundle.min.css', 'js', false),
+    ]
+]);
+$this->headScriptAction(null, [], [
+    'action' => 'index',
+    'controller' => 'index',
+    'module' => 'application'
+]);
+$this->headStyleAction(null, [], [
+    'action' => 'index',
+    'controller' => 'index',
+    'module' => 'service'
+]);
+?>
+<div class="gdlr-core-page-builder-body">
+<?php echo $this->partial('partial/block-slide.phtml');?>
+<?php echo $this->partial('partial/block-project.phtml');?>
+<?php echo $this->partial('partial/block-story.phtml');?>
+<?php echo $this->partial('partial/block-slogan.phtml');?>
+<?php echo $this->partial('partial/block-customer-feedback.phtml');?>
+<?php echo $this->partial('partial/block-customer-report.phtml');?>
+<?php echo $this->partial('partial/block-service.phtml');?>
+<?php echo $this->partial('partial/block-team.phtml');?>
+<?php echo $this->partial('partial/block-expertise.phtml');?>
+<?php echo $this->partial('partial/block-legacy.phtml');?>
+<?php echo $this->partial('partial/block-blog.phtml');?>
+<?php echo $this->partial('partial/block-contact.phtml');?>
+</div>

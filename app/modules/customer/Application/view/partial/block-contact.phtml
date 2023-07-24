@@ -1,0 +1,190 @@
+<?php
+$contacts = [
+    '/assets/customer/images/source/banner-1.png',
+    '/assets/customer/images/source/banner-2.png',
+    '/assets/customer/images/source/banner-3.png',
+    '/assets/customer/images/source/banner-4.png',
+    '/assets/customer/images/source/banner-5.png',
+]
+    ?>
+<div class="gdlr-core-pbf-wrapper gdlr-core-pbf-wrapper-sponsor">
+    <div class="gdlr-core-pbf-background-wrap"></div>
+    <div class="gdlr-core-pbf-wrapper-content gdlr-core-js ">
+        <div class="gdlr-core-pbf-wrapper-container clearfix gdlr-core-container">
+            <div class="gdlr-core-pbf-column gdlr-core-column-60 gdlr-core-column-first">
+                <div class="gdlr-core-pbf-column-content-margin gdlr-core-js gdlr-core-pbf-column-content-blog">
+                    <div class="gdlr-core-pbf-background-wrap gdlr-core-pbf-background-wrap-expertise">
+                    </div>
+                    <div class="gdlr-core-pbf-column-content clearfix gdlr-core-js ">
+                        <div class="gdlr-core-pbf-element">
+                            <div
+                                class="gdlr-core-gallery-item gdlr-core-item-pdb clearfix gdlr-core-gallery-item-style-grid py-4">
+                                <div class="gdlr-core-gallery-item-holder gdlr-core-js-2 clearfix"
+                                    data-layout="fitrows">
+                                    <?php foreach ($contacts as $k => $contact): ?>
+                                        <div class="gdlr-core-item-list gdlr-core-gallery-column gdlr-core-column-12 gdlr-core-item-pdlr gdlr-core-item-mgb
+                                        <?= $k == 0 ? 'gdlr-core-column-first' : '' ?>">
+                                            <div class="gdlr-core-gallery-list gdlr-core-media-image">
+                                                <a class="gdlr-core-lightgallery gdlr-core-js " href="<?= $contact ?>"
+                                                    data-lightbox-group="gdlr-core-img-group-3">
+                                                    <img src="<?= $contact ?>" alt="" width="137" height="103"
+                                                        title="banner-1" />
+                                                </a>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="gdlr-core-pbf-wrapper gdlr-core-pbf-wrapper-contact">
+    <div class="gdlr-core-pbf-background-wrap">
+        <div class="gdlr-core-pbf-background gdlr-core-parallax gdlr-core-js gdlr-core-pbf-background-contact"
+            style="background-image: url(/assets/customer/images/source/contact-lamp.jpg);" data-parallax-speed="0">
+        </div>
+    </div>
+    <div class="gdlr-core-pbf-wrapper-content gdlr-core-js ">
+        <div class="gdlr-core-pbf-wrapper-container clearfix gdlr-core-container">
+            <div class="gdlr-core-pbf-column gdlr-core-column-30 gdlr-core-column-first">
+                <div class="gdlr-core-pbf-column-content-margin gdlr-core-js ">
+                    <div class="gdlr-core-pbf-column-content clearfix gdlr-core-js "></div>
+                </div>
+            </div>
+            <div class="gdlr-core-pbf-column gdlr-core-column-30">
+                <div class="gdlr-core-pbf-column-content-margin gdlr-core-js ">
+                    <div class="gdlr-core-pbf-column-content clearfix gdlr-core-js ">
+                        <div class="gdlr-core-pbf-element">
+                            <div
+                                class="gdlr-core-title-item gdlr-core-item-pdb clearfix gdlr-core-left-align gdlr-core-title-item-caption-top gdlr-core-item-pdlr py-4">
+                                <div class="gdlr-core-title-item-title-wrap ">
+                                    <h3
+                                        class="gdlr-core-title-item-title gdlr-core-skin-title gdlr-core-skin-title-contact">
+                                        <?= $this->translate('Liên hệ với chúng tôi') ?>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="gdlr-core-pbf-element">
+                            <div
+                                class="gdlr-core-text-box-item gdlr-core-item-pdlr gdlr-core-item-pdb gdlr-core-left-align gdlr-core-no-p-space py-2">
+                                <div class="gdlr-core-text-box-item-content gdlr-core-text-box-item-content-contact"
+                                    style="font-size: 18px ;text-transform: none ;">
+                                    <p>
+                                        <?= $this->translate('Mở cửa từ thứ 2 đến thứ 6') ?> / 09:00 &#8211; 18:00
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="gdlr-core-pbf-element">
+                            <div
+                                class="gdlr-core-social-network-item gdlr-core-item-pdb gdlr-core-left-align gdlr-core-item-pdlr py-5">
+                                <a href="#" target="_blank"
+                                    class="gdlr-core-social-network-icon gdlr-core-social-network-contact"
+                                    title="facebook">
+                                    <i class="fa fa-facebook"></i>
+                                </a>
+                                <a href="#" target="_blank"
+                                    class="gdlr-core-social-network-icon gdlr-core-social-network-contact"
+                                    title="linkedin">
+                                    <i class="fa fa-linkedin"></i>
+                                </a>
+                                <a href="#" target="_blank"
+                                    class="gdlr-core-social-network-icon gdlr-core-social-network-contact"
+                                    title="skype">
+                                    <i class="fa fa-skype"></i>
+                                </a>
+                                <a href="#" target="_blank"
+                                    class="gdlr-core-social-network-icon gdlr-core-social-network-contact"
+                                    title="fa-twitter">
+                                    <i class="fa fa-twitter"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="gdlr-core-pbf-column gdlr-core-column-30 gdlr-core-column-first">
+                <div class="gdlr-core-pbf-column-content-margin gdlr-core-js ">
+                    <div class="gdlr-core-pbf-column-content clearfix gdlr-core-js "></div>
+                </div>
+            </div>
+            <div class="gdlr-core-pbf-column gdlr-core-column-15">
+                <div class="gdlr-core-pbf-column-content-margin gdlr-core-js ">
+                    <div class="gdlr-core-pbf-column-content clearfix gdlr-core-js ">
+                        <div class="gdlr-core-pbf-element">
+                            <div class="gdlr-core-title-item gdlr-core-item-pdb clearfix gdlr-core-left-align gdlr-core-title-item-caption-top gdlr-core-item-pdlr py-3">
+                                <div class="gdlr-core-title-item-title-wrap ">
+                                    <h3 class="gdlr-core-title-item-title gdlr-core-skin-title gdlr-core-skin-title-contact-bot">
+                                        <?= $this->translate('Cơ sở chính') ?>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="gdlr-core-pbf-element">
+                            <div class="gdlr-core-text-box-item gdlr-core-item-pdlr gdlr-core-item-pdb gdlr-core-left-align gdlr-core-no-p-space py-2">
+                                <div class="gdlr-core-text-box-item-content gdlr-core-text-box-item-content-contact">
+                                    <p>230, Phạm Hữu Lầu, Q7, TPHCM</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="gdlr-core-pbf-element">
+                            <div class="gdlr-core-text-box-item gdlr-core-item-pdlr gdlr-core-item-pdb gdlr-core-left-align gdlr-core-no-p-space py-3">
+                                <div class="gdlr-core-text-box-item-content gdlr-core-text-box-item-content-contact">
+                                    <p>+0964938735</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="gdlr-core-pbf-element">
+                            <div class="gdlr-core-text-box-item gdlr-core-item-pdlr gdlr-core-item-pdb gdlr-core-left-align py-0">
+                                <div class="gdlr-core-text-box-item-content gdlr-core-text-box-item-content-contact">
+                                    <p>contact@kietdecor@gmail.com</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="gdlr-core-pbf-column gdlr-core-column-15">
+                <div class="gdlr-core-pbf-column-content-margin gdlr-core-js ">
+                    <div class="gdlr-core-pbf-column-content clearfix gdlr-core-js ">
+                        <div class="gdlr-core-pbf-element">
+                            <div class="gdlr-core-title-item gdlr-core-item-pdb clearfix  gdlr-core-left-align gdlr-core-title-item-caption-top gdlr-core-item-pdlr py-3">
+                                <div class="gdlr-core-title-item-title-wrap ">
+                                    <h3 class="gdlr-core-title-item-title gdlr-core-skin-title gdlr-core-skin-title-contact-bot">
+                                        Chi nhánh
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="gdlr-core-pbf-element">
+                            <div class="gdlr-core-text-box-item gdlr-core-item-pdlr gdlr-core-item-pdb gdlr-core-left-align gdlr-core-no-p-space py-2">
+                                <div class="gdlr-core-text-box-item-content gdlr-core-text-box-item-content-contact">
+                                    <p>30, Nguyễn Văn Trỗi, Bình Định</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="gdlr-core-pbf-element">
+                            <div class="gdlr-core-text-box-item gdlr-core-item-pdlr gdlr-core-item-pdb gdlr-core-left-align gdlr-core-no-p-space py-3">
+                                <div class="gdlr-core-text-box-item-content gdlr-core-text-box-item-content-contact">
+                                    <p>+0987654321</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="gdlr-core-pbf-element">
+                            <div class="gdlr-core-text-box-item gdlr-core-item-pdlr gdlr-core-item-pdb gdlr-core-left-align py-0">
+                                <div class="gdlr-core-text-box-item-content contact">
+                                    <p>contact@gmail.com</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

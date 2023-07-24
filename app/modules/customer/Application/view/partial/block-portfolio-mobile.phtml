@@ -1,0 +1,31 @@
+<div class="gdlr-core-portfolio-item-holder gdlr-core-js-2 clearfix" data-layout="fitrows">
+    <?php foreach ($data as $k => $item): ?>    
+    <div class="gdlr-core-item-list p-1 <?= $k == 0 ? 'gdlr-core-column-first' : ''?>">
+        <div class="gdlr-core-portfolio-modern">
+            <div
+                class="gdlr-core-portfolio-thumbnail gdlr-core-media-image  gdlr-core-style-title-icon">
+                <div class="gdlr-core-portfolio-thumbnail-image-wrap  gdlr-core-zoom-on-hover">
+                    <img src="<?= str_replace('.', '-700x430.', $item['src'])?>" 
+                        alt="<?=$item['name']?>" width="700" height="430"
+                        title="<?=$item['name']?>" />
+                    <span
+                        class="gdlr-core-image-overlay  gdlr-core-portfolio-overlay gdlr-core-image-overlay-center-icon gdlr-core-js">
+                        <span class="gdlr-core-image-overlay-content">
+                            <span class="gdlr-core-portfolio-title gdlr-core-title-font ">
+                                <a href="javascript:void(0);">Interior Work AvroKo Project</a>
+                            </span>
+                            <span class="gdlr-core-portfolio-icon-wrap">
+                                <a class="gdlr-core-lightgallery gdlr-core-js "
+                                    href="<?=$item['src']?>"
+                                    data-lightbox-group="gdlr-core-img-group-2">
+                                    <i class="gdlr-core-portfolio-icon arrow_expand"></i>
+                                </a>
+                            </span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php endforeach; ?>
+</div>

@@ -1,0 +1,45 @@
+<?php 
+
+use Models\Entities\Session;
+foreach ($sessions as $item):?>
+    <div class="item-session-<?=$item['ss_id']?>">
+        <div class="d-flex align-items-center">
+            <div class="text-center w-5">
+                <i class="<?= 
+                    Session::ARR_DEVICE_TYPE_ICON[
+                        isset($item['ss_device_type']) ? $item['ss_device_type'] : 14
+                    ] ?? Session::ARR_DEVICE_TYPE_ICON[14];
+                ?> text-lg opacity-6"></i>
+            </div>
+            <div class="my-auto ms-3">
+                <div class="h-100">
+                    <p class="text-sm mb-1">
+                        <?= $item['ss_os'] . ' ' . $item['ss_os_ver'];?>
+                    </p>
+                    <p class="mb-0 text-xs">
+                        <?= $item['ss_browser'] . ' ' . $item['ss_ip'];?>
+                    </p>
+                </div>
+            </div>
+            <span class="<?= $item['ss_id'] === session_id() 
+                ? 'badge badge-success badge-sm' 
+                : (!$item['ss_is_login'] ? 'badge badge-secondary badge-sm' : '')
+            ?>
+                my-auto ms-auto me-3"><?= 
+                    $item['ss_id'] === session_id() 
+                    ? $this->translate('Phiên hiện tại') 
+                    : (!$item['ss_is_login'] ? $this->translate('Đã đăng xuất') : '');
+                ?>
+            </span>
+            <a href="javascript:;" data-id="<?= $item['ss_id']?>"
+                data-name="<?= $item['ss_os'] . ' ' . $item['ss_os_ver'];?>"
+                class="text-primary text-sm icon-move-right my-auto see_detail_session">
+                <?= $this->translate('Xem chi tiết') ?>
+                <i class="fas fa-arrow-right text-xs ms-1" aria-hidden="true"></i>
+            </a>
+        </div>
+        <hr class="horizontal dark">
+    </div>
+    <?php 
+endforeach; 
+?>

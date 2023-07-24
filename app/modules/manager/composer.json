@@ -1,0 +1,27 @@
+{
+	"name" : "sytung/kietdecor",
+	"description" : "sytung/kietdecor",
+	"type" : "project",
+	"license" : "BSD-3-Clause",
+	"keywords" : [
+		"framework",
+		"mvc",
+		"laminas"
+	],
+	"homepage" : "https://kietdecor.com",
+	"minimum-stability" : "dev",
+	"prefer-stable" : true,
+	"require" : {
+		"php" : "^7.3 || ^8.0"
+	},
+	"autoload" : {
+		"psr-4" : {
+			"Models\\" : "../../models/",
+			"Manager\\" : "Manager/src",
+			"Application\\" : "Application/src",
+			"Product\\" : "Product/src",
+			"Manager\\" : "Manager/src",
+			"ImageTraits\\" : "../shareModules/ImageTraits"
+		}
+	}
+}

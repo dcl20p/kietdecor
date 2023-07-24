@@ -1,0 +1,234 @@
+<?php
+$this->headerSession()->setActiveItemId($activeItemId);
+$pubRes = $this->zfResource();
+$this->lazyAsset()->addItems([
+    'js' => [
+        21 => $pubRes->files('swiper/js/swiper-bundle.min.js', 'js', false)
+    ],
+    'css' => [
+        31 => $pubRes->files('swiper/css/swiper-bundle.min.css', 'js', false),
+    ]
+]);
+$this->headScriptAction(null, [], [
+    'action' => 'about',
+    'controller' => 'index',
+    'module' => 'application'
+]);
+$this->headStyleAction(null, [], [
+    'action' => 'index',
+    'controller' => 'index',
+    'module' => 'service'
+]);
+$slides = [
+    [
+        'src' => '/assets/customer/images/source/shutterstock_543421996.jpg',
+        'name' => 'Name A',
+        'size' => [630,501],
+    ],
+    [
+        'src' => '/assets/customer/images/source/shutterstock_561468493.jpg',
+        'name' => 'Name B',
+        'size' => [630,501],
+    ],
+    [
+        'src' => '/assets/customer/images/source/shutterstock_631879034.jpg',
+        'name' => 'Name C',
+        'size' => [630,501],
+    ],
+    [
+        'src' => '/assets/customer/images/source/kara-michelle-544960-unsplash.jpg',
+        'name' => 'Name D',
+        'size' => [630,501],
+    ],
+]
+?>
+<div class="inteco-page-title-wrap  inteco-style-large inteco-center-align">
+    <div class="inteco-header-transparent-substitute"></div>
+    <div class="inteco-page-title-overlay"></div>
+    <div class="inteco-page-title-container inteco-container">
+        <div class="inteco-page-title-content inteco-item-pdlr">
+            <h1 class="inteco-page-title"><?= $this->translate('Giới thiệu')?></h1>
+        </div>
+    </div>
+</div>
+<div class="inteco-page-wrapper" id="inteco-page-wrapper">
+    <div class="gdlr-core-page-builder-body">
+        <div class="gdlr-core-pbf-wrapper p-0">
+            <div class="gdlr-core-pbf-background-wrap"></div>
+            <div class="gdlr-core-pbf-wrapper-content gdlr-core-js ">
+                <div class="gdlr-core-pbf-wrapper-container clearfix gdlr-core-container">
+                    <div class="gdlr-core-pbf-column gdlr-core-column-30 gdlr-core-column-first"
+                        id="gdlr-core-column-1">
+                        <div class="gdlr-core-pbf-column-content-margin gdlr-core-js gdlr-core-pbf-column-content-about"
+                            data-sync-height="height-1">
+                            <div class="gdlr-core-pbf-column-content clearfix gdlr-core-js  gdlr-core-sync-height-content">
+                                <div class="gdlr-core-pbf-element">
+                                    <div class="gdlr-core-title-item gdlr-core-item-pdb clearfix  gdlr-core-left-align gdlr-core-title-item-caption-top gdlr-core-item-pdlr py-4">
+                                        <span class="gdlr-core-title-item-caption gdlr-core-info-font gdlr-core-skin-caption gdlr-core-skin-caption-about">
+                                            <?= $this->translate('Chúng tôi là ai')?>    
+                                        </span>
+                                        <div class="gdlr-core-title-item-title-wrap ">
+                                            <h3 class="gdlr-core-title-item-title gdlr-core-skin-title gdlr-core-skin-title-about">
+                                                <?= $this->translate('Tiểu sử')?>
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="gdlr-core-pbf-element">
+                                    <div class="gdlr-core-divider-item gdlr-core-divider-item-normal gdlr-core-item-pdlr gdlr-core-center-align">
+                                        <div class="gdlr-core-divider-line gdlr-core-skin-divider" style="border-color: #d6c5c2 ;">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="gdlr-core-pbf-element">
+                                    <div
+                                        class="gdlr-core-text-box-item gdlr-core-item-pdlr gdlr-core-item-pdb gdlr-core-left-align">
+                                        <div class="gdlr-core-text-box-item-content gdlr-core-text-box-item-content-service ">
+                                            <?php echo $this->partial('partial/item-our-story.phtml')?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gdlr-core-pbf-column gdlr-core-column-30" id="gdlr-core-column-2">
+                        <div class="gdlr-core-pbf-column-content-margin gdlr-core-js gdlr-core-pbf-column-content-about"
+                            data-sync-height="height-1">
+                            <div class="gdlr-core-pbf-background-wrap">
+                                <div class="gdlr-core-pbf-background gdlr-core-parallax gdlr-core-js gdlr-core-img-background-center-left"
+                                    style="background-image: url(/assets/customer/images/source/hp-1-chair-bg-4-1-1.jpg);"
+                                    data-parallax-speed="0.08"></div>
+                            </div>
+                            <div class="gdlr-core-pbf-column-content clearfix gdlr-core-js gdlr-core-sync-height-content">
+                                <div class="gdlr-core-pbf-element">
+                                    <div class="gdlr-core-image-item gdlr-core-item-pdlr gdlr-core-item-pdb  gdlr-core-center-align">
+                                        <div class="gdlr-core-image-item-wrap gdlr-core-media-image gdlr-core-image-item-style-rectangle gdlr-core-image-item-about">
+                                            <img  src="/assets/customer/images/source/hp-1-chair-1.jpg" alt="" width="620"
+                                                height="777" title="hp-1-chair" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php echo $this->partial('partial/item-slide.phtml', ['slides' => $slides ?? [], 'idElement' => 'about-swiper']); ?>
+        <div class="gdlr-core-pbf-wrapper gdlr-core-pbf-wrapper-about-expertise" style="padding: 85px 0px 15px 0px;" id="gdlr-core-wrapper-1">
+            <div class="gdlr-core-pbf-background-wrap"></div>
+            <div class="gdlr-core-pbf-wrapper-content gdlr-core-js ">
+                <div class="gdlr-core-pbf-wrapper-container clearfix gdlr-core-container">
+                    <div class="gdlr-core-pbf-column gdlr-core-column-30 gdlr-core-column-first">
+                        <div class="gdlr-core-pbf-column-content-margin gdlr-core-js gdlr-core-pbf-column-content-about-expertise">
+                            <?php echo $this->partial('partial/item-legacy.phtml')?>
+                        </div>
+                    </div>
+                    <div class="gdlr-core-pbf-column gdlr-core-column-30">
+                        <div class="gdlr-core-pbf-column-content-margin gdlr-core-js gdlr-core-pbf-column-content-margin-legacy"></div>
+                            <?php echo $this->partial('partial/item-expertise.phtml')?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="gdlr-core-pbf-wrapper gdlr-core-pbf-wrapper-about-lead" id="gdlr-core-wrapper-2">
+            <div class="gdlr-core-pbf-background-wrap"></div>
+            <div class="gdlr-core-pbf-wrapper-content gdlr-core-js ">
+                <div class="gdlr-core-pbf-wrapper-container clearfix gdlr-core-container">
+                    <div class="gdlr-core-pbf-column gdlr-core-column-30 gdlr-core-column-first">
+                        <div class="gdlr-core-pbf-column-content-margin gdlr-core-js gdlr-core-pbf-column-content-about-lead "
+                            data-sync-height="height-2">
+                            <div class="gdlr-core-pbf-background-wrap">
+                                <div class="gdlr-core-pbf-background gdlr-core-parallax gdlr-core-js gdlr-core-img-background-center"
+                                    style="background-image: url(/assets/customer/images/source/about-man-bg.jpg);"
+                                    data-parallax-speed="0.08"></div>
+                            </div>
+                            <div
+                                class="gdlr-core-pbf-column-content clearfix gdlr-core-js gdlr-core-sync-height-content">
+                                <div class="gdlr-core-pbf-element">
+                                    <div
+                                        class="gdlr-core-image-item gdlr-core-item-pdlr gdlr-core-item-pdb gdlr-core-left-align">
+                                        <div class="gdlr-core-image-item-wrap gdlr-core-media-image gdlr-core-image-item-style-rectangle gdlr-core-image-item-about-lead">
+                                            <img src="/assets/customer/images/source/about-man.jpg" alt="" width="700"
+                                                height="765" title="about-man" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gdlr-core-pbf-column gdlr-core-column-30" id="gdlr-core-column-3">
+                        <div class="gdlr-core-pbf-column-content-margin gdlr-core-js gdlr-core-pbf-column-content-margin-about-lead"
+                            data-sync-height="height-2">
+                            <div class="gdlr-core-pbf-column-content clearfix gdlr-core-js gdlr-core-sync-height-content">
+                                <div class="gdlr-core-pbf-element">
+                                    <div class="gdlr-core-title-item gdlr-core-item-pdb clearfix gdlr-core-left-align gdlr-core-title-item-caption-bottom gdlr-core-item-pdlr"
+                                        style="padding-bottom: 6px ;">
+                                        <div class="gdlr-core-title-item-title-wrap ">
+                                            <h3 class="gdlr-core-title-item-title gdlr-core-skin-title gdlr-core-skin-title-about-lead">
+                                                <?= $this->translate('Tư vấn hoàn thiện')?>
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="gdlr-core-pbf-element">
+                                    <div class="gdlr-core-divider-item gdlr-core-divider-item-normal gdlr-core-item-pdlr gdlr-core-left-align my-4">
+                                        <div class="gdlr-core-divider-container max-width-252">
+                                            <div class="gdlr-core-divider-line gdlr-core-skin-divider gdlr-core-skin-divider-about-lead"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="gdlr-core-pbf-element">
+                                    <div class="gdlr-core-text-box-item gdlr-core-item-pdlr gdlr-core-item-pdb gdlr-core-left-align py-2">
+                                        <div class="gdlr-core-text-box-item-content gdlr-core-text-box-item-content-service">
+                                            <p>
+                                                Buổi tư vấn kéo dài 90 phút có trả phí này bao gồm các ý tưởng, nguồn cảm hứng và giải pháp được 
+                                                tùy chỉnh cho ngôi nhà của bạn. Chúng tôi bắt đầu với một chuyến tham quan các khu vực ưu tiên chính t
+                                                rong nhà của bạn để được cập nhật và thảo luận về các nhu cầu và mục tiêu cho từng phòng.
+                                            </p>
+                                            <p>
+                                                Bạn có thể mong đợi các đề xuất để cải thiện từng lĩnh vực khi chúng tôi đi qua. Sau đó, chúng tôi sẽ ngồi 
+                                                lại để xây dựng kế hoạch cải thiện các lĩnh vực ưu tiên. Nếu bạn muốn tiếp tục làm việc cùng nhau, 
+                                                chúng tôi sẽ cung cấp cho bạn một đề xuất trong vòng 5-7 ngày làm việc nêu rõ phạm vi công việc và 
+                                                phí thiết kế cho các dịch vụ bổ sung.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="gdlr-core-pbf-element">
+                                    <div class="gdlr-core-title-item gdlr-core-item-pdb clearfix gdlr-core-left-align gdlr-core-title-item-caption-bottom gdlr-core-item-pdlr"
+                                        style="padding-bottom: 6px ;">
+                                        <div class="gdlr-core-title-item-title-wrap ">
+                                            <h3 class="gdlr-core-title-item-title gdlr-core-skin-title gdlr-core-skin-title-about-lead">
+                                                <?= $this->translate('Tư vấn hoàn thiện')?>
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="gdlr-core-pbf-element">
+                                    <div class="gdlr-core-divider-item gdlr-core-divider-item-normal gdlr-core-item-pdlr gdlr-core-left-align my-4">
+                                        <div class="gdlr-core-divider-container max-width-252">
+                                            <div class="gdlr-core-divider-line gdlr-core-skin-divider gdlr-core-skin-divider-about-lead"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="gdlr-core-pbf-element">
+                                    <div class="gdlr-core-text-box-item gdlr-core-item-pdlr gdlr-core-item-pdb gdlr-core-left-align py-2">
+                                        <div class="gdlr-core-text-box-item-content gdlr-core-text-box-item-content-service">
+                                            <p>
+                                                Buổi tư vấn kéo dài 90 phút có trả phí này bao gồm các ý tưởng, nguồn cảm hứng và giải pháp được 
+                                                tùy chỉnh cho ngôi nhà của bạn. Chúng tôi bắt đầu với một chuyến tham quan các khu vực ưu tiên chính t
+                                                rong nhà của bạn để được cập nhật và thảo luận về các nhu cầu và mục tiêu cho từng phòng.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

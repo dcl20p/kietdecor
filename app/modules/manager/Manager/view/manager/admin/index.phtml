@@ -1,0 +1,254 @@
+<?php
+use Laminas\Form\Element;
+use Models\Entities\Abstracted\Status;
+use Models\Entities\AccessLog;
+use Models\Entities\Admin;
+use Models\Utilities\User;
+$this->headTitle($pageTitle);
+$this->menuLeft()->setActiveItemId($activeItemId);
+$this->bootstrapToolbar([
+    $this->toolbarInsert($this->zfUrl($routeName, ['action'=>'add'])),
+    $this->toolbarDelete($this->zfUrl($routeName, ['action'=>'delete'])),
+]);
+
+$this->pageBreadcrumbs()->setItems([
+    $this->translate('Trang chủ') => $this->zfUrl('home'),
+    $pageTitle => $this->zfUrl($routeName),
+]);
+
+$this->headScriptAction(null, [
+    '__error_info__' => $this->translate(ZF_MSG_WENT_WRONG),
+], [
+    'action' => 'index',
+    'controller' => 'index',
+    'module' => 'admin'
+]);
+$this->headStyleAction(null, [], [
+    'action' => 'index', 'controller' => 'index', 'module' => 'admin'
+]);
+$status = Status::returnStatus();
+$token = $this->zfCsrfToken()->generateCsrfToken(
+    [Admin::USER_FOLDER_TOKEN, microtime(true), rand(100, 999999)],
+    Admin::USER_FOLDER_TOKEN
+);
+$tokenProfile = $this->zfCsrfToken()->generateCsrfToken(
+    [Admin::PROFILE_FOLDER_TOKEN, microtime(true), rand(100, 999999)],
+    Admin::PROFILE_FOLDER_TOKEN
+);
+?>
+<div class="row">
+    <div class="col-12">
+        <form id="adminForm" method="get" enctype="application/x-www-form-urlencoded">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <div class="d-lg-flex">
+                        <div>
+                            <h5 class="mb-0"><?= $pageTitle?></h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="input-group input-group-outline mt-3">
+                                <label class="form-label"><?= $this->translate('Từ khoá')?></label>
+                                <input type="text" 
+                                    name="keyword" 
+                                    class="form-control" 
+                                    autocomplete="off" 
+                                    maxlength="100"
+                                    value="<?= htmlspecialchars($_GET['keyword'] ?? '') ?>">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="select mt-3"><?php
+                                $select = new Element\Select('status');
+                                $select->setAttributes([
+                                    'class' => 'form-control px-3',
+                                    'id' => 'status'
+                                ]);
+                                $select->setValueOptions(array_replace([
+                                    '' => $this->translate('Vui lòng chọn')
+                                ], $status));
+                                $select->setValue($_GET['status'] ?? '');
+                                echo $this->formSelect($select);
+                            ?></div>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-icon bg-gradient-primary btn-md mt-3 mb-0 px-3" type="submit">
+                                <i class="material-icons text-md position-relative">search</i>
+                                <?= $this->translate('Tìm kiếm');?>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body pb-0">
+                    <div class="d-lg-flex ps-4">
+                        <p class="text-sm mb-0"><?= 
+                            str_replace(
+                                ['{current}', '{total}'],
+                                [
+                                    $paginator ? $paginator->getCurrentItemCount() : 0, 
+                                    $totalItem = $paginator ? $paginator->getTotalItemCount() : 0
+                                ],
+                                $this->translate('Hiển thị {current} trên {total} entries')
+                            );
+                        ?></p>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="mw-10 text-center fs-6">
+                                        <?= $this->manageCheckboxAll();?>
+                                    </th>
+                                    <th class="text-dark th-format">
+                                        <?=$this->translate('Thông tin cơ bản')?>
+                                    </th>
+                                    <th class="text-dark th-format">
+                                        <?=$this->translate('Loại tài khoản')?>
+                                    </th>
+                                    <th class="text-dark th-format">
+                                        <?=$this->translate('Địa chỉ')?>
+                                    </th>
+                                    <th class="text-dark th-format">
+                                        <?=$this->translate('Thông tin hoạt động')?>
+                                    </th>
+                                    <th class="text-dark th-format text-center">
+                                        <?=$this->translate('Trạng thái')?>
+                                    </th>
+                                    <th class="text-dark th-format text-center">
+                                        <?=$this->translate('Tác vụ')?>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody><?php
+                                if ($totalItem > 0): 
+                                    $imgPath = Admin::getImgPath();
+                                    $baseUrl = \Models\Utilities\ViewUtil::getDownloadLink(
+                                        'https://'. DOMAIN_NAME
+                                    );
+                                    $groupCodes = [
+                                        Admin::GROUP_MANAGER => $this->translate('Quản lý'),
+                                        Admin::GROUP_SUPPER_ADMIN => $this->translate('Super admin'),
+                                        Admin::GROUP_STAFF => $this->translate('Nhân viên'),
+                                        Admin::GROUP_TESTER => $this->translate('Tester'),
+                                        Admin::GROUP_SUPPORT => $this->translate('Hỗ trợ'),
+                                    ];
+                                    $login = $this->translate('Access start date and time');
+                                    $lasAccess = $this->translate('Last access date and time');
+                                    $lastAccessTitle = $this->translate('Last access date');
+                                    $lastDownLoadFileTitle = $this->translate('Last download file');
+                                    $lastIpAddressTitle = $this->translate('Connection source IP address');
+                                    $lastAccessUrlTitle = $this->translate('Access log');
+                                    $currentId = $this->zfAuthen()->adm_id;
+                                    $no = 1;
+                                    foreach ($paginator as $user): 
+                                        $id = $user->adm_id;
+                                        $lastLog = $repoAccLog->getLastAccessLog([
+                                            'al_site'   => AccessLog::SITE_MANAGERS,
+                                            'al_user_id'=> $id
+                                        ]);
+                                    ?><tr>
+                                        <td class="text-center fs-6">
+                                            <?= $this->manageCheckbox($user->adm_id ?? 0);?>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex px-2 py-1">
+                                                <div>
+                                                    <img src="<?=User::getAvatarUser($user)?>" alt="<?=$user->adm_fullname?>" class="avatar avatar-sm me-3">
+                                                </div>
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-xs"><?=$user->adm_fullname?></h6>
+                                                    <p class="text-xs text-secondary mb-0"><?=$user->adm_email?></p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0">
+                                                <?=$groupCodes[$user->adm_groupcode];?>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0">
+                                                <?=$this->translate($user->adm_address)?>
+                                            </p>
+                                        </td>
+                                        <td class="align-middle">
+                                            <p class="text-xs mb-1">
+                                                <b><?= $login ?></b>: 
+                                                <?=($lTime = $user->adm_first_login_time) > 0 
+                                                    ? date(APPLICATION_DATE_TIME, $lTime) 
+                                                    : '';
+                                                ?>
+                                            </p>
+                                            <p class="text-xs mb-1">
+                                                <b><?= $lasAccess ?></b>: 
+                                                <?= $user->adm_last_access_time 
+                                                    ? $user->getAdm_last_access_time(false) 
+                                                    : '';
+                                                ?>
+                                            </p>
+                                            <?php if (!empty($lastLog)):?>
+                                                <p class="text-xs mb-1">
+                                                    <b><?= $lastAccessUrlTitle ?></b>: 
+                                                    <?= $lastLog['access']['al_url'] ?? ''?>
+                                                </p>
+                                                <p class="text-xs mb-1">
+                                                    <b><?= $lastIpAddressTitle ?></b>: 
+                                                    <?= $lastLog['access']['al_ip_address'] ?? ''?>
+                                                </p><?php 
+                                                foreach ($lastLog['files'] as $key => $file): 
+                                                    $timeStr = date(APPLICATION_DATE_TIME, $file['time']);?>
+                                                    <p class="text-xs mb-1">
+                                                        <b><?= $titleFileName ?></b>: 
+                                                        <?= "[{$file['name']}] [{$timeStr}] [{$file['ip_address']}]";?>
+                                                    </p><?php 
+                                                endforeach;
+                                            endif; unset($lastLog);?>
+                                        </td>
+                                        <td class="font-weight-normal">
+                                            <div class="d-flex align-items-center"><?php
+                                                $statusClass = $currentId == $id ? 'not-allow disabled' : '';
+                                                echo $this->manageChangeStatus($this->zfUrl($routeName, 
+                                                    ['action'=>'change-status', 'id'=> $id]),
+                                                    $user->adm_status ?? 0, ['aclass' => $statusClass, 'data-token' => $token]
+                                                );
+                                                ?>
+                                                <span><?= $user->adm_status
+                                                    ? $this->translate('Kích hoạt')
+                                                    : $this->translate('Chưa kích hoạt')
+                                                ?></span>
+                                            </div>
+                                        </td>
+                                        <td class="text-sm text-center"><?php
+                                            echo  $this->manageUpdate(
+                                                $this->zfUrl($routeName, ['action'=>'edit', 'id'=> $id])
+                                            );
+                                            echo  $this->manageDelete($this->zfUrl($routeName, 
+                                                ['action'=>'delete', 'id'=> $id]), 
+                                                null, ['aclass' => $statusClass],
+                                            );
+                                        ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                            <?php else: ?>
+                                <td class="text-center fs-7 text-danger" colspan="100"><?= $this->translate(ZF_MSG_DATA_NOT_EXISTS); ?></td>
+                            <?php endif; ?>
+                        </table>
+                    </div>
+                </div>
+            
+                <?php if ($totalItem > 0) : ?>
+                    <div class="card-footer">
+                        <?= $this->paginationControl(
+                            $paginator, 'Sliding',
+                            'application/partial/paginator', 
+                            ['route' => $routeName]
+                        );?>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </form>
+    </div>
+</div>
