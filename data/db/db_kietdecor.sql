@@ -11,7 +11,7 @@
  Target Server Version : 100701 (10.7.1-MariaDB-1:10.7.1+maria~focal)
  File Encoding         : 65001
 
- Date: 24/07/2023 17:52:26
+ Date: 24/07/2023 18:23:47
 */
 
 SET NAMES utf8mb4;
@@ -41,7 +41,7 @@ CREATE TABLE `tbl_access_log`  (
   INDEX `IDX_method`(`al_method`) USING BTREE,
   INDEX `IDX_created`(`al_created`) USING BTREE,
   INDEX `IDX_user_code`(`al_user_code`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 497 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 502 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tbl_access_log
@@ -542,6 +542,11 @@ INSERT INTO `tbl_access_log` VALUES (493, 1, 'biDaf7T3lljdV1438KU', 'MANAGERS', 
 INSERT INTO `tbl_access_log` VALUES (494, 1, 'biDaf7T3lljdV1438KU', 'MANAGERS', '/admin-user/delete', 'POST', 'admin-user', '{\"get\":[],\"post\":{\"keyword\":\"\",\"status\":\"0\",\"id\":[\"6\",\"4\"]},\"files\":[],\"route\":{\"controller\":\"Manager\\\\Controller\\\\AdminController\",\"action\":\"delete\"}}', '172.17.0.1', 1688580175, '', '');
 INSERT INTO `tbl_access_log` VALUES (495, 1, 'biDaf7T3lljdV1438KU', 'MANAGERS', '/admin-user', 'GET', 'admin-user', '{\"get\":[],\"post\":[],\"files\":[],\"route\":{\"controller\":\"Manager\\\\Controller\\\\AdminController\",\"action\":\"index\"}}', '172.17.0.1', 1688580176, '', '');
 INSERT INTO `tbl_access_log` VALUES (496, 1, 'biDaf7T3lljdV1438KU', 'MANAGERS', '/admin-user', 'GET', 'admin-user', '{\"get\":[],\"post\":[],\"files\":[],\"route\":{\"controller\":\"Manager\\\\Controller\\\\AdminController\",\"action\":\"index\"}}', '172.17.0.1', 1688580181, '', '');
+INSERT INTO `tbl_access_log` VALUES (497, 1, 'biDaf7T3lljdV1438KU', 'MANAGERS', '/login', 'POST', 'login', '{\"get\":[],\"post\":{\"redirect_url\":\"\",\"csrf\":\"e137c15fc138ad4d50a6b82513fd129b-77ac3f8dabaa09524678886e93a7d33e\",\"screen\":\"\",\"email\":\"tung0963002862@*********\",\"password\":\"************\",\"remember_me\":\"0\"},\"files\":[],\"route\":{\"controller\":\"Manager\\\\Controller\\\\IndexController\",\"action\":\"login\"}}', '172.17.0.1', 1690197057, 'YES', 'Login success');
+INSERT INTO `tbl_access_log` VALUES (498, 1, 'biDaf7T3lljdV1438KU', 'MANAGERS', '/', 'GET', 'home', '{\"get\":[],\"post\":[],\"files\":[],\"route\":{\"controller\":\"Application\\\\Controller\\\\IndexController\",\"action\":\"index\"}}', '172.17.0.1', 1690197057, '', '');
+INSERT INTO `tbl_access_log` VALUES (499, 1, 'biDaf7T3lljdV1438KU', 'MANAGERS', '/', 'GET', 'home', '{\"get\":[],\"post\":[],\"files\":[],\"route\":{\"controller\":\"Application\\\\Controller\\\\IndexController\",\"action\":\"index\"}}', '172.17.0.1', 1690197251, '', '');
+INSERT INTO `tbl_access_log` VALUES (500, 1, 'biDaf7T3lljdV1438KU', 'MANAGERS', '/service', 'GET', 'service', '{\"get\":[],\"post\":[],\"files\":[],\"route\":{\"controller\":\"Service\\\\Controller\\\\IndexController\",\"action\":\"index\"}}', '172.17.0.1', 1690197256, '', '');
+INSERT INTO `tbl_access_log` VALUES (501, 1, 'biDaf7T3lljdV1438KU', 'MANAGERS', '/service', 'GET', 'service', '{\"get\":[],\"post\":[],\"files\":[],\"route\":{\"controller\":\"Service\\\\Controller\\\\IndexController\",\"action\":\"index\"}}', '172.17.0.1', 1690197454, '', '');
 
 -- ----------------------------
 -- Table structure for tbl_admin
@@ -581,7 +586,7 @@ CREATE TABLE `tbl_admin`  (
 -- ----------------------------
 -- Records of tbl_admin
 -- ----------------------------
-INSERT INTO `tbl_admin` VALUES (1, 'biDaf7T3lljdV1438KU', 'Thiều Sỹ Tùng', 'tung0963002862@gmail.com', '963002862', '+84', 'zhWbrk3vk7ui516G.jpg', '', '26Rm/urngv2iX1/I1isSuTSc.lAP3i8R7UKSLSSHVWnCFVqHBk7pwroZieXcpodnBRO', '35, chung cư Ngọc Lan, đường Phú Thuận, phường Phú Thuận, quận 7, TPHCM', 1491885621, NULL, 1688322273, 1688580119, '0c9c36465a611425039f4786a696e464', 1, 'SUPPORT', 1620644751, 0, 0, '874qZ3H969ki51LC.jpg', 'MALE', 793126800, '{\"first\":\"S\\u1ef9 T\\u00f9ng\",\"last\":\"Thi\\u1ec1u\"}');
+INSERT INTO `tbl_admin` VALUES (1, 'biDaf7T3lljdV1438KU', 'Thiều Sỹ Tùng', 'tung0963002862@gmail.com', '963002862', '+84', 'zhWbrk3vk7ui516G.jpg', '', '26Rm/urngv2iX1/I1isSuTSc.lAP3i8R7UKSLSSHVWnCFVqHBk7pwroZieXcpodnBRO', '35, chung cư Ngọc Lan, đường Phú Thuận, phường Phú Thuận, quận 7, TPHCM', 1491885621, NULL, 1690197057, 1690197454, '5ocdr7p2ej8n4783nc0n97ibbk', 1, 'SUPPORT', 1620644751, 0, 0, '874qZ3H969ki51LC.jpg', 'MALE', 793126800, '{\"first\":\"S\\u1ef9 T\\u00f9ng\",\"last\":\"Thi\\u1ec1u\"}');
 
 -- ----------------------------
 -- Table structure for tbl_admin_fts
@@ -673,7 +678,7 @@ CREATE TABLE `tbl_error`  (
   `error_time` int(12) UNSIGNED NULL DEFAULT 0,
   PRIMARY KEY (`error_id`) USING BTREE,
   FULLTEXT INDEX `FT_keyword`(`error_uri`, `error_params`, `error_msg`, `error_trace`)
-) ENGINE = InnoDB AUTO_INCREMENT = 640 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 641 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tbl_error
@@ -1143,6 +1148,7 @@ INSERT INTO `tbl_error` VALUES (636, NULL, '/assets/customer/js/phpjs.js', '{\"p
 INSERT INTO `tbl_error` VALUES (637, NULL, '/assets/customer/js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js', '{\"post\":[],\"get\":[]}', 'GET', 'Message: Unclosed \'{\' on line 112 does not match \')\'.\nOn line: 113.\nOf file: /app/layouts/customer/layout.phtml', '0', '#0 /vendor/laminas/laminas-view/src/View.php(194): Laminas\\View\\Renderer\\PhpRenderer->render(NULL)\n#1 /vendor/laminas/laminas-mvc/src/View/Http/DefaultRenderingStrategy.php(92): Laminas\\View\\View->render(Object(Laminas\\View\\Model\\ViewModel))\n#2 /vendor/laminas/laminas-eventmanager/src/EventManager.php(320): Laminas\\Mvc\\View\\Http\\DefaultRenderingStrategy->render(Object(Laminas\\Mvc\\MvcEvent))\n#3 /vendor/laminas/laminas-eventmanager/src/EventManager.php(170): Laminas\\EventManager\\EventManager->triggerListeners(Object(Laminas\\Mvc\\MvcEvent))\n#4 /vendor/laminas/laminas-mvc/src/Application.php(354): Laminas\\EventManager\\EventManager->triggerEvent(Object(Laminas\\Mvc\\MvcEvent))\n#5 /vendor/laminas/laminas-mvc/src/Application.php(313): Laminas\\Mvc\\Application->completeRequest(Object(Laminas\\Mvc\\MvcEvent))\n#6 /public/index.php(166): Laminas\\Mvc\\Application->run()\n#7 {main}', 0, 1688503670);
 INSERT INTO `tbl_error` VALUES (638, NULL, '/assets/customer/js/plugins/bootstrap-growl/bootstrap-growl.min.js', '{\"post\":[],\"get\":[]}', 'GET', 'Message: Unclosed \'{\' on line 112 does not match \')\'.\nOn line: 113.\nOf file: /app/layouts/customer/layout.phtml', '0', '#0 /vendor/laminas/laminas-view/src/View.php(194): Laminas\\View\\Renderer\\PhpRenderer->render(NULL)\n#1 /vendor/laminas/laminas-mvc/src/View/Http/DefaultRenderingStrategy.php(92): Laminas\\View\\View->render(Object(Laminas\\View\\Model\\ViewModel))\n#2 /vendor/laminas/laminas-eventmanager/src/EventManager.php(320): Laminas\\Mvc\\View\\Http\\DefaultRenderingStrategy->render(Object(Laminas\\Mvc\\MvcEvent))\n#3 /vendor/laminas/laminas-eventmanager/src/EventManager.php(170): Laminas\\EventManager\\EventManager->triggerListeners(Object(Laminas\\Mvc\\MvcEvent))\n#4 /vendor/laminas/laminas-mvc/src/Application.php(354): Laminas\\EventManager\\EventManager->triggerEvent(Object(Laminas\\Mvc\\MvcEvent))\n#5 /vendor/laminas/laminas-mvc/src/Application.php(313): Laminas\\Mvc\\Application->completeRequest(Object(Laminas\\Mvc\\MvcEvent))\n#6 /public/index.php(166): Laminas\\Mvc\\Application->run()\n#7 {main}', 0, 1688503670);
 INSERT INTO `tbl_error` VALUES (639, NULL, '/', '{\"post\":[],\"get\":[]}', 'GET', 'Message: Laminas\\View\\Renderer\\PhpRenderer::render: Unable to render template \"partial/block-team.phtml\"; resolver could not resolve to a file.\nOn line: 518.\nOf file: /vendor/laminas/laminas-view/src/Renderer/PhpRenderer.php', '0', '#0 /vendor/laminas/laminas-view/src/Helper/Partial.php(63): Laminas\\View\\Renderer\\PhpRenderer->render(NULL, NULL)\n#1 /vendor/laminas/laminas-view/src/Renderer/PhpRenderer.php(414): Laminas\\View\\Helper\\Partial->__invoke(\'partial/block-t...\')\n#2 /app/modules/customer/Application/view/application/index/index.phtml(28): Laminas\\View\\Renderer\\PhpRenderer->__call(\'partial\', Array)\n#3 /vendor/laminas/laminas-view/src/Renderer/PhpRenderer.php(526): include(\'/var/www/first-...\')\n#4 /vendor/laminas/laminas-view/src/View.php(194): Laminas\\View\\Renderer\\PhpRenderer->render(NULL)\n#5 /vendor/laminas/laminas-view/src/View.php(222): Laminas\\View\\View->render(Object(Laminas\\View\\Model\\ViewModel))\n#6 /vendor/laminas/laminas-view/src/View.php(187): Laminas\\View\\View->renderChildren(Object(Laminas\\View\\Model\\ViewModel))\n#7 /vendor/laminas/laminas-mvc/src/View/Http/DefaultRenderingStrategy.php(92): Laminas\\View\\View->render(Object(Laminas\\View\\Model\\ViewModel))\n#8 /vendor/laminas/laminas-eventmanager/src/EventManager.php(320): Laminas\\Mvc\\View\\Http\\DefaultRenderingStrategy->render(Object(Laminas\\Mvc\\MvcEvent))\n#9 /vendor/laminas/laminas-eventmanager/src/EventManager.php(170): Laminas\\EventManager\\EventManager->triggerListeners(Object(Laminas\\Mvc\\MvcEvent))\n#10 /vendor/laminas/laminas-mvc/src/Application.php(354): Laminas\\EventManager\\EventManager->triggerEvent(Object(Laminas\\Mvc\\MvcEvent))\n#11 /vendor/laminas/laminas-mvc/src/Application.php(335): Laminas\\Mvc\\Application->completeRequest(Object(Laminas\\Mvc\\MvcEvent))\n#12 /public/index.php(166): Laminas\\Mvc\\Application->run()\n#13 {main}', 0, 1689875290);
+INSERT INTO `tbl_error` VALUES (640, 1, '/', '{\"post\":[],\"get\":[]}', 'GET', 'Message: Route with name \"product\" not found.\nOn line: 371.\nOf file: /vendor/laminas/laminas-router/src/Http/TreeRouteStack.php', '0', '#0 /vendor/laminas/laminas-view/src/Helper/Url.php(106): Laminas\\Router\\Http\\TreeRouteStack->assemble()\n#1 /vendor/laminas/laminas-view/src/Renderer/PhpRenderer.php(414): Laminas\\View\\Helper\\Url->__invoke()\n#2 /zf-ext/View/Helper/Url.php(85): Laminas\\View\\Renderer\\PhpRenderer->__call()\n#3 /vendor/laminas/laminas-view/src/Renderer/PhpRenderer.php(414): Zf\\Ext\\View\\Helper\\Url->__invoke()\n#4 /app/modules/manager/Application/src/View/Helper/MenuLeft.php(106): Laminas\\View\\Renderer\\PhpRenderer->__call()\n#5 /app/modules/manager/Application/src/View/Helper/MenuLeft.php(141): Application\\View\\Helper\\MenuLeft->createUrl()\n#6 /app/modules/manager/Application/src/View/Helper/MenuLeft.php(160): Application\\View\\Helper\\MenuLeft->renderLink()\n#7 /app/modules/manager/Application/src/View/Helper/MenuLeft.php(75): Application\\View\\Helper\\MenuLeft->renderSubs()\n#8 /app/layouts/manager/layout.phtml(4): Application\\View\\Helper\\MenuLeft->render()\n#9 /vendor/laminas/laminas-view/src/Renderer/PhpRenderer.php(526): include(\'...\')\n#10 /vendor/laminas/laminas-view/src/View.php(194): Laminas\\View\\Renderer\\PhpRenderer->render()\n#11 /vendor/laminas/laminas-mvc/src/View/Http/DefaultRenderingStrategy.php(92): Laminas\\View\\View->render()\n#12 /vendor/laminas/laminas-eventmanager/src/EventManager.php(320): Laminas\\Mvc\\View\\Http\\DefaultRenderingStrategy->render()\n#13 /vendor/laminas/laminas-eventmanager/src/EventManager.php(170): Laminas\\EventManager\\EventManager->triggerListeners()\n#14 /vendor/laminas/laminas-mvc/src/Application.php(354): Laminas\\EventManager\\EventManager->triggerEvent()\n#15 /vendor/laminas/laminas-mvc/src/Application.php(335): Laminas\\Mvc\\Application->completeRequest()\n#16 /public/index.php(166): Laminas\\Mvc\\Application->run()\n#17 {main}', 0, 1690197057);
 
 -- ----------------------------
 -- Table structure for tbl_fe_menu
@@ -1232,7 +1238,11 @@ CREATE TABLE `tbl_project`  (
   `pr_edit_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   `pr_status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'Trạng thái',
   `pr_state` enum('DONE','PROCESS','PENDING','CANCEL','FAIL') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT 'PENDING',
-  PRIMARY KEY (`pr_id`) USING BTREE
+  PRIMARY KEY (`pr_id`) USING BTREE,
+  INDEX `IDX_sv`(`pr_sv_id`) USING BTREE,
+  INDEX `IDX_sv_code`(`pr_sv_code`) USING BTREE,
+  INDEX `IDX_prc`(`pr_prc_id`) USING BTREE,
+  INDEX `IDX_prc_code`(`pr_prc_code`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -1334,6 +1344,7 @@ CREATE TABLE `tbl_session`  (
 -- Records of tbl_session
 -- ----------------------------
 INSERT INTO `tbl_session` VALUES ('0c9c36465a611425039f4786a696e464', 1, '1', 'MANAGER', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36', '172.17.0.1', '1', 'Chrome', '114.0', 'desktop', 0, 'BROWSER', 'Mac', '10.15', '[]', 0, 1688322273, 1);
+INSERT INTO `tbl_session` VALUES ('5ocdr7p2ej8n4783nc0n97ibbk', 1, '1', 'MANAGER', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36', '172.17.0.1', 'gateway', 'Chrome', '114.0', 'desktop', 0, 'BROWSER', 'Windows', '10', '[]', 0, 1690197057, 1);
 INSERT INTO `tbl_session` VALUES ('d8a7cbbeb00f48ad5f45c144b72b2927', 1, '1', 'MANAGER', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36', '172.17.0.1', '1', 'Chrome', '114.0', 'desktop', 0, 'BROWSER', 'Mac', '10.15', '[]', 0, 1687605803, 1);
 
 -- ----------------------------
