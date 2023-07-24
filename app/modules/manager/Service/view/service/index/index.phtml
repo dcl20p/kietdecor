@@ -1,6 +1,6 @@
 <?php
 $this->headTitle($pageTitle);
-$this->menuLeft()->setActiveItemId('product_list');
+$this->menuLeft()->setActiveItemId($activeItemId);
 $this->bootstrapToolbar([
     $this->toolbarInsert($this->zfUrl($routeName, ['action'=>'add'])),
     $this->toolbarDelete($this->zfUrl($routeName, ['action'=>'delete'])),
@@ -14,10 +14,10 @@ $this->pageBreadcrumbs()->setItems([
 $this->headScriptAction(null, [], [
     'action' => 'index',
     'controller' => 'index',
-    'module' => 'product'
+    'module' => 'project'
 ]);
 $this->headStyleAction(null, [], [
-    'action' => 'index', 'controller' => 'index', 'module' => 'product'
+    'action' => 'index', 'controller' => 'index', 'module' => 'project'
 ]);
 ?>
 <div class="row">

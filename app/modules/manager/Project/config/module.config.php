@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Product;
+namespace Project;
 
 use \Zf\Ext\Router\RouterSegment;
 return [
     'router' => [
         'routes' => [
-            'product' => [
+            'project' => [
                 'type'    => RouterSegment::class,
                 'options' => [
-                    'route'    => '/product[/:action[/:id]]',
+                    'route'    => '/project[/:action[/:id]]',
                     'constraints' => [
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'id' => '[0-9]*'

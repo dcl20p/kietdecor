@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Product\Controller;
+namespace Service\Controller;
 
 use \Zf\Ext\Controller\ZfController;
 use Laminas\View\Model\ViewModel;
@@ -13,21 +13,25 @@ class IndexController extends ZfController
     public function indexAction()
     {
         try {
-            // dd($this->getAuthen());
         } catch (\Throwable $e) {
             $this->saveErrorLog($e);
             
         }
         
         return new ViewModel([
-            'routeName' => $this->getEvent()->getRouteMatch()->getMatchedRouteName(),
-            'pageTitle' => $this->mvcTranslate('Tất cả sản phẩm')
+            'routeName'     => $this->getCurrentRouteName(),
+            'pageTitle'     => $this->mvcTranslate('Tất cả dịch vụ'),
+            'activeItemId'  => 'service'
         ]);
     }
 
     public function addAction()
     {
-        return new ViewModel([]);
+        return new ViewModel([
+            'pageTitle'     => $this->mvcTranslate('Thêm dịch vụ'),
+            'routeName'     => $this->getCurrentRouteName(),
+            'activeItemId'  => 'service'
+        ]);
     }
 
     public function deleteAction()
@@ -36,10 +40,5 @@ class IndexController extends ZfController
         return $this->zfRedirect()->toCurrentRoute(
             [], ['useOldQuery' => true]
         );
-    }
-
-    public function listCateAction()
-    {
-        return new ViewModel([]);
     }
 }
