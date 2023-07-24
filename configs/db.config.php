@@ -8,8 +8,8 @@ return [
       'username'=> 'root',
       'user'    => 'root',
       'password'=> 'root'],
-      ['dbname'  => 'db_first_laminas']
+      ['dbname'  => 'db_kietdecor']
   ),
- 'v2' => array_merge($acc, ['dbname'  => 'db_first_laminas']),
- 'vtest' => array_merge($acc, ['dbname'  => 'db_first_laminas']),
+ 'v2' => array_merge($acc, ['dbname'  => 'db_kietdecor']),
+ 'vtest' => array_merge($acc, ['dbname'  => 'db_kietdecor']),
 ];

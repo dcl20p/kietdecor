@@ -37,7 +37,7 @@ abstract class Admin extends Status
     /**
      * @Column(type="smallint", length=1, nullable=false)
      */
-    protected $adm_status = 0;
+    protected $adm_status = self::STATUS_UNACTIVE;
     /**
      * @Column(type="string", length=10, nullable=false)
      */

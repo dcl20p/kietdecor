@@ -6,7 +6,8 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Product\\' => array($baseDir . '/Product/src'),
+    'Service\\' => array($baseDir . '/Service/src'),
+    'Project\\' => array($baseDir . '/Project/src'),
     'Models\\' => array($baseDir . '/../../models'),
     'Manager\\' => array($baseDir . '/Manager/src'),
     'ImageTraits\\' => array($baseDir . '/../shareModules/ImageTraits'),

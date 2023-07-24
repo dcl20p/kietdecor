@@ -49,7 +49,7 @@ abstract class LogError extends Status
     /**
      * @Column(type="smallint", length=1, nullable=false)
      */
-    protected $error_status = 0;
+    protected $error_status = self::STATUS_UNACTIVE;
     /**
      * @Column(type="integer", length=12, nullable=false)
      */
