@@ -4,7 +4,7 @@ defined ('DEVELOPER_TOOL') || define('DEVELOPER_TOOL', [
     'vtest' => false,
     'release' => false
 ]);
-defined ('WEB_NAME') || define('WEB_NAME', 'Web name');
+defined ('WEB_NAME') || define('WEB_NAME', 'Kiệt decor');
 defined ('ENABLE_CONFIG_CACHE') || define('ENABLE_CONFIG_CACHE', [
     'vtest' => false,
     'release' => true
