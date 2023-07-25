@@ -20,14 +20,19 @@ class IndexController extends ZfController
         }
         
         return new ViewModel([
-            'routeName' => $this->getEvent()->getRouteMatch()->getMatchedRouteName(),
-            'pageTitle' => $this->mvcTranslate('Tất cả dự án')
+            'routeName'     => $this->getCurrentRouteName(),
+            'pageTitle'     => $this->mvcTranslate('Tất cả dự án'),
+            'activeItemId'  => 'project'
         ]);
     }
 
     public function addAction()
     {
-        return new ViewModel([]);
+        return new ViewModel([
+            'routeName'     => $this->getCurrentRouteName(),
+            'pageTitle'     => $this->mvcTranslate('Thêm dự án'),
+            'activeItemId'  => 'project'
+        ]);
     }
 
     public function deleteAction()
@@ -40,6 +45,10 @@ class IndexController extends ZfController
 
     public function listCateAction()
     {
-        return new ViewModel([]);
+        return new ViewModel([
+            'routeName'     => $this->getCurrentRouteName(),
+            'pageTitle'     => $this->mvcTranslate('Loại dự án'),
+            'activeItemId'  => 'project_cate'
+        ]);
     }
 }

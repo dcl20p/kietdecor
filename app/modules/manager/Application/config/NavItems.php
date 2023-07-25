@@ -27,7 +27,7 @@ return [
         'icon'  => 'inventory_2',
         'subs'  => [
             [
-                'id'    => 'project_list',
+                'id'    => 'project',
                 'label' => 'Tất cả dự án',
                 'link'  => ['project'],
                 'routeName' => 'project',
@@ -35,9 +35,9 @@ return [
                 'icon' => 'adjust',
             ],
             [
-                'id'    => 'project_list_cate',
+                'id'    => 'project_cate',
                 'label' => 'Loại dự án',
-                'link'  => ['project'],
+                'link'  => ['project', ['action' => 'list-cate']],
                 'routeName' => 'project',
                 'render'=> 'Link',
                 'icon' => 'adjust',
