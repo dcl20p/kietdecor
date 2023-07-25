@@ -34,6 +34,7 @@
     defined ('ZF_MSG_NOT_MATCH') || define('ZF_MSG_NOT_MATCH', 'Trường xác nhận không khớp');
     defined ('ZF_MSG_PHONE_INVALID') || define('ZF_MSG_PHONE_INVALID', 'Số điện thoại không đúng');
     defined ('ZF_MSG_PASSWORD_INVALID') || define('ZF_MSG_PASSWORD_INVALID', 'Mật khẩu không đúng định dạng');
+    defined ('ZF_MSG_REQUIRE_DATA') || define('ZF_MSG_REQUIRE_DATA', 'Vui lòng nhập đầy đủ thông tin');
 
     defined ('NO_REPLY_EMAIL') || define('NO_REPLY_EMAIL', 'tungts11.fpt@gmail.com');
     defined ('SIGN_UP_EMAIL') || define('SIGN_UP_EMAIL', 'tungts10.fpt@gmail.com');

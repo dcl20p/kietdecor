@@ -203,5 +203,6 @@
         'Thông tin hoạt động' => 'Operation information',
         'Kích hoạt' => 'Active',
         'Chưa kích hoạt' => 'Deactive',
+        'Vui lòng nhập đầy đủ thông tin' => 'Please enter full information',
     ];
 ?>
