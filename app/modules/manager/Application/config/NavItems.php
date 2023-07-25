@@ -28,7 +28,7 @@ return [
         'subs'  => [
             [
                 'id'    => 'project',
-                'label' => 'Tất cả dự án',
+                'label' => 'Danh sách dự án',
                 'link'  => ['project'],
                 'routeName' => 'project',
                 'render'=> 'Link',
@@ -42,9 +42,18 @@ return [
                 'render'=> 'Link',
                 'icon' => 'adjust',
             ],
+            
+        ]
+    ],
+    [
+        'id'    => 'services',
+        'label' => 'Dịch vụ',
+        'render'=> 'Subs',
+        'icon'  => 'settings_applications',
+        'subs'  => [
             [
                 'id'    => 'service',
-                'label' => 'Dịch vụ',
+                'label' => 'Danh sách dịch vụ',
                 'link'  => ['service'],
                 'routeName' => 'service',
                 'render'=> 'Link',
