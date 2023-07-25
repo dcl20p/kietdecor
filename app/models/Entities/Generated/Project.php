@@ -86,4 +86,16 @@ abstract class Project extends Status
      * @Column(type="string", length=20, nullable=false)
      */
     protected $pr_state = '[]';
+    /**
+     * @Column(type="string", length=1024, nullable=false)
+     */
+    protected $pr_meta_title = '';
+    /**
+     * @Column(type="string", nullable=false)
+     */
+    protected $pr_meta_desc = '';
+    /**
+     * @Column(type="string", length=2048, nullable=false)
+     */
+    protected $pr_meta_keyword = '[]';
 }
