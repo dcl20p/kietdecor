@@ -312,10 +312,10 @@ const common = (function () {
                         } else {
                             let altFlag = country.flags.alt,
                                 flag = flagToPNG(country.flags.png),
-                                img = document.createElement('img');
+                                img  = document.createElement('img');
 
-                            img.src = flag;
-                            img.alt = altFlag;
+                            img.src   = flag;
+                            img.alt   = altFlag;
                             img.style = "width:16px; height:12px";
                             option.appendChild(img);
                             
@@ -462,17 +462,17 @@ const common = (function () {
     };
 
     return {
-        showMessage: showMessage,
-        isValidEmail: isValidEmail,
-        isValidPassword: isValidPassword,
-        alertConfirm: alertConfirm,
-        checkRequired: checkRequired,
-        checkLength: checkLength,
-        getListPhoneCode: getListPhoneCode,
-        checkEmailValid: checkEmailValid,
-        checkMatch: checkMatch,
+        showMessage:        showMessage,
+        isValidEmail:       isValidEmail,
+        isValidPassword:    isValidPassword,
+        alertConfirm:       alertConfirm,
+        checkRequired:      checkRequired,
+        checkLength:        checkLength,
+        getListPhoneCode:   getListPhoneCode,
+        checkEmailValid:    checkEmailValid,
+        checkMatch:         checkMatch,
         isValidPhoneNumber: isValidPhoneNumber,
-        checkPhoneNumber: checkPhoneNumber,
-        checkPassWord: checkPassWord,
+        checkPhoneNumber:   checkPhoneNumber,
+        checkPassWord:      checkPassWord,
     };
 })();

@@ -45,7 +45,7 @@ abstract class Service extends Status
     /**
      * @Column(type="smallint", length=1, nullable=false)
      */
-    protected $sv_status = self::STATUS_ACTIVE;
+    protected $sv_status = self::STATUS_UNACTIVE;
     /**
      * @Column(type="integer", length=12, nullable=false)
      */
@@ -54,4 +54,8 @@ abstract class Service extends Status
      * @Column(type="integer", length=12, nullable=false)
      */
     protected $sv_update_time = 0;
+    /**
+     * @Column(type="smallint", length=1, nullable=false)
+     */
+    protected $sv_is_use = self::STATUS_UNACTIVE;
 }
