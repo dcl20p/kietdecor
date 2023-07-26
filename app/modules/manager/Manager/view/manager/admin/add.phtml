@@ -60,7 +60,7 @@ if (!empty($user) && $user->adm_bg_timeline) {
                 <div class="row justify-content-center align-items-center">
                     <div class="col-sm-auto col-4">
                         <div class="avatar avatar-xl position-relative">
-                            <img src="<?=User::getAvatarUser($user)?>" alt="<?= $user->adm_fullname ?? 'Avatar'?>"
+                            <img src="<?=User::getAvatarUser($user)?>" alt="<?= $user?->adm_fullname ?? 'Avatar'?>"
                                 class="w-100 h-100 object-fit-cover rounded-circle shadow-sm">
                             <a href="javascript:;" id="update-avatar-btn" 
                                 title="<?=$this->translate($transAvt = $isEdit ? 'Chỉnh sửa avatar' : 'Thêm avatar')?>"

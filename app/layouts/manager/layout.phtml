@@ -3,6 +3,7 @@ $pubRes = $this->zfResource();
 $cstAsset = $this->lazyAsset()->getItems();
 $menuLeft = $this->menuLeft()->render();
 $menuHeader = $this->menuHeader();
+$urlDefault = $this->serverurl();
 echo $this->doctype('HTML5');
 ?>
 <html lang="<?= APPLICATION_LANGUAGE?>">
@@ -14,28 +15,25 @@ echo $this->doctype('HTML5');
             ->appendName('viewport', 'height=device-height,width=device-width,initial-scale=1.0,maximum-scale=1.0, user-scalable=no, shrink-to-fit=no')
             ->setHttpEquiv('X-UA-Compatible', 'IE=EDGE')
             ->appendName('copyright', WEB_NAME.', Inc')
-            ->appendName('author', WEB_NAME.', Inc')
-            ->appendName('keywords', WEB_NAME.', Inc')
-            ->appendName('description', 'Sỹ Tùng đẹp trai vãi nồi')
-
-            ->appendName('twitter:card', WEB_NAME.', Inc')
-            ->appendName('twitter:site', WEB_NAME.', Inc')
-            ->appendName('twitter:title', WEB_NAME.', Inc')
-            ->appendName('twitter:description', WEB_NAME.', Inc')
-            ->appendName('twitter:creator', WEB_NAME.', Inc')
-            ->appendName('twitter:image', WEB_NAME.', Inc')
-
-            ->appendProperty('fb:app_id', '655968634437471')
-            ->appendProperty('og:title', WEB_NAME.', Inc')
-            ->appendProperty('og:type', WEB_NAME.', Inc')
-            ->appendProperty('og:url', WEB_NAME.', Inc')
-            ->appendProperty('og:image', WEB_NAME.', Inc')
-            ->appendProperty('og:description', WEB_NAME.', Inc')
-            ->appendProperty('og:site_name', WEB_NAME.', Inc')
+            ->appendName('author', WEB_NAME)
+            ->appendName('keywords', WEB_NAME.', thiết kế nội thất, kiến trúc nội thất, sửa chữa nhà, trang trí nội thất, phong cách thiết kế nội thất, xây dựng nhà, bố trí nội thất, thi công nội thất, thiết kế phòng ngủ, cải tạo nhà, đồ nội thất, thiết kế phòng khách, nội thất căn hộ, sửa chữa phòng bếp, thiết kế nhà phố, trang trí phòng tắm, thiết kế biệt thự, tư vấn nội thất, sửa chữa sàn nhà, thiết kế nội thất văn phòng')
+            ->appendName('description', WEB_NAME.' - Thiết kế & thi công nội thất. Các thiết kế của chúng tôi bao gồm tu sửa nhà bếp và phòng tắm cũng như toàn bộ công trình tùy chỉnh. Mỗi thiết kế là duy nhất và được thiết kế riêng theo sở thích, nhu cầu và phong cách sống của khách hàng.')
             ->setAutoEscape(false)
         ?>
-        <link rel="shortcut icon" type="image/png" href="<?=
-            $pubRes->files('favicon.png', 'images', false)?>"/>
+
+        <link rel="shortcut icon" type="image/png" href="<?= $urlDefault?>/logo/favicon-32x32.png?v=1" sizes="32x32">
+        <link rel="shortcut icon" type="image/png" href="<?= $urlDefault?>/logo/favicon-16x16.png?v=1" sizes="16x16">
+        <!-- iPad icons -->
+        <link rel="apple-touch-icon-precomposed" href="<?= $urlDefault?>/logo/apple-icon-72x72.png?v=1" sizes="72x72">
+        <link rel="apple-touch-icon-precomposed" href="<?= $urlDefault?>/logo/apple-icon-144x144.png?v=1" sizes="144x144">
+        <!-- iPhone and iPod touch icons -->
+        <link rel="apple-touch-icon-precomposed" href="<?= $urlDefault?>/logo/apple-icon-57x57.png?v=1" sizes="57x57">
+        <link rel="apple-touch-icon-precomposed" href="<?= $urlDefault?>/logo/apple-icon-114x114.png?v=1" sizes="114x114">
+        <!-- Nokia Symbian -->
+        <link rel="nokia-touch-icon" href="<?= $urlDefault?>/logo/apple-icon-57x57.png?v=1">
+        <!-- Android icon precomposed so it takes precedence -->
+        <link rel="apple-touch-icon-precomposed" href="<?= $urlDefault?>/logo/apple-icon-precomposed.png?v=1" sizes="1x1">
+
         <link rel="stylesheet" type="text/css"
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
 	    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">

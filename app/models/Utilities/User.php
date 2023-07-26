@@ -273,7 +273,10 @@ class User
      */
     public static function getAvatarUser($user): string
     {
-        if (empty($user)) return '';
+        $path = '/assets/manager/images/users/';
+        if (empty($user)) { 
+            return $path . 'user-default_male.png';
+        }
         $imgNameDefault = ($user->adm_gender ?? Admin::GENDER_MALE) == Admin::GENDER_FEMALE
             ? 'user-default-female.png'
             : 'user-default_male.png';
@@ -283,10 +286,10 @@ class User
             $srcImg = str_replace('__id__', $user->adm_code, $imgPath)
                 . $user->adm_avatar;
             if (!file_exists(PUBLIC_PATH.$srcImg)) {
-                $srcImg = "/assets/manager/images/users/{$imgNameDefault}";
+                $srcImg = $path . $imgNameDefault;
             }
         } else {
-            $srcImg = "/assets/manager/images/users/{$imgNameDefault}";
+            $srcImg = $srcImg = $path . $imgNameDefault;
         }
 
         return $srcImg;
