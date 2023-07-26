@@ -119,9 +119,9 @@ class Session extends EntityRepository
     /**
      * Add new Session
      * @param array $data
-     * @return \Models\Entities\Session
+     * @return EntitiesSession
      */
-    public function insertData(array $data = [])
+    public function insertData(array $data = []): EntitiesSession
     {
         $entity = new EntitiesSession($data);
         $this->getEntityManager()->persist($entity);
@@ -133,9 +133,9 @@ class Session extends EntityRepository
     /**
      * Edit Session
      *
-     * @param \Models\Entities\Session $entity
+     * @param EntitiesSession $entity
      * @param array $updateData
-     * @return \Models\Entities\Session
+     * @return EntitiesSession
      */
     public function updateData(EntitiesSession $entity, array $updateData): EntitiesSession
     {
@@ -176,6 +176,8 @@ class Session extends EntityRepository
         foreach ($rs as $row) {
             $result[$row['ss_id']] = $row;
         }
+        
+        return $result;
     }
 
     /**
