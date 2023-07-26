@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping\Table;
  */
 class Service extends Generated\Service
 {
+    const FOLDER_TOKEN = 'service';
 }
 
 ?>

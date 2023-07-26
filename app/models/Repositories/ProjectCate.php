@@ -1,10 +1,10 @@
 <?php
 namespace Models\Repositories;
 use Doctrine\ORM\QueryBuilder;
-use Models\Entities\Service as EntitiesService;
+use Models\Entities\ProjectCate as EntitiesProjectCate;
 use Models\Repositories\Abstracted\Repository;
 
-class Service extends Repository
+class ProjectCate extends Repository
 {
     /**
      * Get list
@@ -17,18 +17,18 @@ class Service extends Repository
     {
         return $this->buildFetchOpts(
             $this->getEntityName(),
-            'SV', 'sv', $opts, $fetchJoinKey
+            'PRC', 'prc', $opts, $fetchJoinKey
         );
     }
 
     /**
      * Add new Service
      * @param array $data
-     * @return EntitiesService
+     * @return EntitiesProjectCate
      */
-    public function insertData(array $data = []): EntitiesService
+    public function insertData(array $data = []): EntitiesProjectCate
     {
-        $entity = new EntitiesService($data);
+        $entity = new EntitiesProjectCate($data);
         $this->getEntityManager()->persist($entity);
         $this->getEntityManager()->flush();
         //	Return
@@ -38,11 +38,11 @@ class Service extends Repository
     /**
      * Edit Service
      *
-     * @param EntitiesService $entity
+     * @param EntitiesProjectCate $entity
      * @param array $updateData
-     * @return EntitiesService
+     * @return EntitiesProjectCate
      */
-    public function updateData(EntitiesService $entity, array $updateData): EntitiesService
+    public function updateData(EntitiesProjectCate $entity, array $updateData): EntitiesProjectCate
     {
         $entity->fromArray($updateData);
         $this->getEntityManager()->flush($entity);

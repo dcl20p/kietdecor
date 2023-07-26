@@ -11,8 +11,8 @@
         const quill = new Quill(element, {
             modules: {
                 toolbar: [
-                    ['bold', 'italic', 'underline',],
-                    ['blockquote', 'code-block', 'image'],
+                    ['bold', 'italic', 'underline'],
+                    ['blockquote', 'code-block'],
                     [{ list: 'ordered' }, { list: 'bullet' }]
                 ]
             },
@@ -44,7 +44,7 @@
     };
 
     const checkValidForm = () => {
-        let descriptionValue = quillDes ? quillDes.getText().trim() : '';
+        let descriptionValue = quillDes ? quillDes.root.innerHTML.trim() : '';
         const fieldRequired = [title];
         const fieldLength = [
             [title, 1, 100]
@@ -70,7 +70,7 @@
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
-        let descriptionValue = quillDes ? quillDes.getText() : '';
+        let descriptionValue = quillDes ? quillDes.root.innerHTML.trim() : '';
         let imgVale = serviceDropzone ? serviceDropzone.getQueuedFiles() : [];
 
         const inputDes = document.createElement('input');
@@ -94,4 +94,4 @@
     btnNextStep2 && btnNextStep2.addEventListener('click', handleNextStep1);
     btnSubmit && btnSubmit.addEventListener('click', handleSubmit);
 
-})()
+})();

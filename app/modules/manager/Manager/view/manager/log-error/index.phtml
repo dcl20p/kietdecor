@@ -140,11 +140,11 @@ $this->headScriptAction(null, [
                                                 );
                                             ?></td>
                                         </tr>
-                                    <?php endforeach;?>
+                                    <?php endforeach; 
+                                    else: ?>
+                                        <td class="text-center fs-7 text-danger" colspan="100"><?= $this->translate(ZF_MSG_DATA_NOT_EXISTS); ?></td>
+                                    <?php endif; ?>
                                 </tbody>
-                                <?php else: ?>
-                                    <td class="text-center fs-7 text-danger" colspan="100"><?= $this->translate(ZF_MSG_DATA_NOT_EXISTS); ?></td>
-                                <?php endif; ?>
                             </table>
                         </div>
                     </div>
