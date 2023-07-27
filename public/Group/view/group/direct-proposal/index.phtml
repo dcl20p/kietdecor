@@ -1,0 +1,107 @@
+<?php
+use Laminas\Form\Element;
+
+$this->headTitle($pageTitle);
+$this->pageBreadcrumbs()->setItems([
+    $this->translate('Home') => $this->zfUrl('home'),
+    $pageTitle => '#'
+]);
+
+$this->menuLeft()->setActiveItemId($activeItemId);
+
+$this->bootstrapToolbar([
+    $this->toolbarInsert($this->zfUrl($this->routeName, [
+        'action' => 'add',
+    ])),
+]);
+
+?>
+<div class="content__title">
+    <h2><?= $pageTitle?></h2>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form method="post" id="adminForm" enctype="application/x-www-form-urlencoded">
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered cst-badge">
+                    <thead>
+                        <tr>
+                            <th width="50" class="text-center">
+                                <?= $this->manageCheckboxAll()?>
+                            </th>
+                            <th width="100" class="text-center">
+                                <?= $this->translate('No.') ?>
+                            </th>
+                            <th class="text-center">
+                                <?= $this->translate('Sending group name') ?>
+                            </th>
+                            <th class="text-center">
+                                <?= $this->translate('Number of registrations') ?>
+                            </th>
+                            <th width="150" class="text-center">
+                                <?= $this->translate('Last sent date') ?>
+                            </th>
+                            <th width="100" class="text-center">
+                                <?= $this->translate('Management') ?>
+                            </th>
+                        </tr>
+                    </thead>
+                    <?php //if ($totalItem): ?>
+                    <tbody>
+                        <?php 
+                        $no = 0;
+                        // foreach ($paginator as $item):
+                        //     $id = $item->ga_id ?? '';
+                            ?>
+                            <tr>
+                                <td class="text-center">
+                                    <?= $this->manageCheckbox($id ?? 0)?>
+                                </td>
+                                <td><?= ++$no; ?></td>
+
+                                <td>ABC</td>
+
+                                <td>CDE</td>
+
+                                <td>
+                                    <a href="javascript:void(0);" class="btn-date">
+                                        2023/07/21
+                                    </a>
+                                </td>
+
+                                <td align="center" style="vertical-align: middle; white-space:nowrap;">
+                                    <?php
+                                    echo $this->manageUpdate($this->zfUrl($routeName, 
+                                    ['action'=>'edit', 'id'=> $id ?? '' ]));
+                                        echo '&nbsp;' . $this->manageDelete($this->zfUrl($routeName, 
+                                    ['action'=>'delete', 'id'=> $id ?? '' ]));
+                                    ?>
+                                </td>
+                            </tr>
+                        <?php //endforeach; ?>
+                    </tbody>
+                    <?php //else: ?>
+                        <tbody>
+                            <tr>
+                                <td colspan="100">
+                                    <?= $this->translate('Data not found.'); ?>
+                                </td>
+                            </tr>
+                        </tbody>
+                    <?php //endif; ?>
+                </table>
+            </div>
+            <div class="pagination-outside">
+                <div class="bootgrid-footer container-fluid">
+                    <?= $totalItem > 0 ? $this->paginationControl(
+                        $paginator,
+                        'Sliding',
+                        'application/partial/paginator',
+                        ['route' => $routeName]
+                    ) : ''?>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

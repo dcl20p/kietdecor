@@ -3,8 +3,8 @@ use Models\Entities\ProjectCate;
 $this->headTitle($pageTitle);
 $this->menuLeft()->setActiveItemId($activeItemId);
 $this->bootstrapToolbar([
-    $this->toolbarInsert($this->zfUrl('project-cate', ['action'=>'add'])),
-    $this->toolbarDelete($this->zfUrl('project-cate', ['action'=>'delete'])),
+    $this->toolbarInsert($this->zfUrl('project', ['action'=>'add-cate'])),
+    $this->toolbarDelete($this->zfUrl('project', ['action'=>'delete-cate'])),
 ]);
 
 $this->pageBreadcrumbs()->setItems([
@@ -59,13 +59,10 @@ $this->headStyleAction(null, [
                                         <?= $this->manageCheckboxAll();?>
                                     </th>
                                     <th class="text-dark text-xs text-secondary text-uppercase opacity-7">
-                                        <?= $this->translate('Icon')?>
+                                        <?= $this->translate('Hình ảnh')?>
                                     </th>
                                     <th class="text-dark text-xs text-center text-secondary text-uppercase opacity-7">
-                                        <?= $this->translate('Tiêu đề')?>
-                                    </th>
-                                    <th class="text-dark text-xs text-center text-secondary text-uppercase opacity-7">
-                                        <?= $this->translate('Mô tả')?>
+                                        <?= $this->translate('Tên')?>
                                     </th>
                                     <th class="text-dark text-xs text-center text-secondary text-uppercase opacity-7">
                                         <?= $this->translate('Trạng thái')?>
@@ -88,21 +85,20 @@ $this->headStyleAction(null, [
                                             <div class="d-flex px-2 py-1">
                                                 <div>
                                                     <?php $defaultImg = '/assets/customer/images/source/icon-time-1.png';?>
-                                                    <img src="<?= !empty($item->sv_icon) ? $item->sv_icon : $defaultImg;?>"
+                                                    <img src="<?= !empty($item->prc_image) ? $item->prc_image : $defaultImg;?>"
                                                         class=" avatar-sm me-3">
                                                 </div>
                                             </div>
                                         </td>
-                                        <td><?= $item->sv_title ?? '';?></td>
-                                        <td><?= $item->sv_description ?? '';?></td>
+                                        <td><?= $item->prc_name ?? '';?></td>
                                         <td class="font-weight-normal">
                                             <div class="d-flex align-items-center justify-content-center"><?php
                                                 echo $this->manageChangeStatus($this->zfUrl($routeName, 
                                                     ['action'=>'change-status', 'id'=> $id]),
-                                                    $item->sv_status ?? 0, ['data-token' => $token]
+                                                    $item->prc_status ?? 0, ['data-token' => $token]
                                                 );
                                                 ?>
-                                                <span><?= $item->sv_status 
+                                                <span><?= $item->prc_status 
                                                     ? $this->translate('Kích hoạt')
                                                     : $this->translate('Chưa kích hoạt')
                                                 ?></span>
@@ -110,10 +106,10 @@ $this->headStyleAction(null, [
                                         </td>
                                         <td class="text-sm text-center"><?php
                                             echo  $this->manageUpdate(
-                                                $this->zfUrl($routeName, ['action'=>'edit', 'id'=> $id])
+                                                $this->zfUrl($routeName, ['action'=>'edit-cate', 'id'=> $id])
                                             );
                                             echo  $this->manageDelete($this->zfUrl($routeName, 
-                                                ['action'=>'delete', 'id'=> $id])
+                                                ['action'=>'delete-cate', 'id'=> $id])
                                             );
                                         ?>
                                         </td>

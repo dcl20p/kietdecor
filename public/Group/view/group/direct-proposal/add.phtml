@@ -1,0 +1,179 @@
+<?php
+use Laminas\Form\Element;
+
+$this->headTitle($this->translate($pageTitle));
+$this->menuLeft()->setActiveItemId($activeItemId);
+$this->menuLeft()->setActiveNavProposal([
+    'showing' => 1
+]);
+
+$pubRes = $this->zfResource();
+$this->lazyAsset()->addItems([
+    'css' => [
+        303 => '/assets/css/pages/search-filter.css'
+    ]
+]);
+
+$this->pageBreadcrumbs()->setItems([
+    $this->translate('Home') => $this->zfUrl('home'),
+    $this->translate('Sending group settings') => $this->zfUrl($routeName),
+    $pageTitle => '#'
+]);
+$this->bootstrapToolbar([
+    $this->toolbarSaveAndClose(),
+    $this->toolbarClose(
+        $this->zfUrl(null, [], ['useOldQuery' => true])
+    )
+]);
+
+$this->headScriptAction(null, [], [
+    'action' => 'search-proposal', 'controller' => 'direct-proposal', 'module' => 'group'
+]);
+
+$this->headScriptAction(null, [], [
+    'action' => 'table-proposal', 'controller' => 'direct-proposal', 'module' => 'group'
+]);
+?>
+
+<div class="content__title">
+    <h2><?= $pageTitle ?></h2>
+</div>
+<div class="card-body card-padding">
+   
+        <div class="col-md-6 col-lg-3">
+            <div class="form-group">
+                <label><?= $this->translate('Group name') ?></label>
+                <input type="text" class="form-control" name="name" placeholder="" maxlength="30">
+            </div>
+        </div>
+    
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="mb-4">
+                    <a href="javascript:void(0)" class="btn btn-md btn-danger btn-add-all disabled not-allow">
+                        <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                        <?= $this->translate('Add all together') ?>
+                    </a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered cst-badge" id="table-main">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <div class="checkbox">
+                                        <input type="checkbox" id="checkall">
+                                        <label class="checkbox__label" for="checkall"></label>
+                                    </div>
+                                </th>
+                                <th>No.</th>
+                                <th class="text-nowrap"><?= $this->translate('Enterprise/Responsible') ?></th>
+                                <th class="text-nowrap"><?= $this->translate('Email address') ?></th>
+                                <th class="text-nowrap"><?= $this->translate('Management') ?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="checkbox">
+                                        <input type="checkbox" name="id[]" id="25" value="25">
+                                        <label class="checkbox__label" for="25"></label>
+                                    </div>
+                                </td>
+                                <td>1</td>
+                                <td>
+                                    <ul>
+                                        <li class="text-nowrap"><?= $this->translate('Partner name') ?>:
+                                            <a href="#" class="limit-text">This is company first</a>
+                                        </li>
+                                        <li><?= $this->translate('Persons in charge') ?>:
+                                            Tran Manh Tri
+                                        </li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <?= $this->translate('Email partner') ?>: 
+                                        nesv047@gmail.com
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0)" class="btn btn-success btn-add-row text-nowrap"><?= $this->translate('Addition') ?></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="checkbox">
+                                        <input type="checkbox" name="id[]" id="26" value="26">
+                                        <label class="checkbox__label" for="26"></label>
+                                    </div>
+                                </td>
+                                <td>2</td>
+                                <td>
+                                    <ul>
+                                        <li class="text-nowrap"><?= $this->translate('Affiliation') ?>:
+                                            <a href="#" class="limit-text">This is second company</a>
+                                        </li>
+                                        <li><?= $this->translate('BP sales name') ?>:
+                                            Tran Manh Tri
+                                        </li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <?= $this->translate('Email partner') ?>: 
+                                        nesv047@gmail.com
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0)" class="btn btn-success btn-add-row text-nowrap"><?= $this->translate('Addition') ?></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="checkbox">
+                                        <input type="checkbox" name="id[]" id="27" value="27">
+                                        <label class="checkbox__label" for="27"></label>
+                                    </div>
+                                </td>
+                                <td>3</td>
+                                <td>
+                                    <ul>
+                                        <li class="text-nowrap"><?= $this->translate('Affiliation') ?>:
+                                            <a href="#" class="limit-text">Company Branch 3</a>
+                                        </li>
+                                        <li><?= $this->translate('BP sales name') ?>:
+                                            Tran Manh Tri
+                                        </li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <?= $this->translate('Email partner') ?>: 
+                                        nesv047@gmail.com
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0)" class="btn btn-success btn-add-row text-nowrap"><?= $this->translate('Addition') ?></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <form method="post" name="filterForm" enctype="multipart/form-data" id="adminForm">
+                    <div class="mb-4 d-flex justify-content-between align-items-end">
+                        <span><span id="number-select">0</span><?= $this->translate('Selecting items') ?></span>
+                        <button class="btn btn-danger" type="submit"><?= $this->translate('Lưu') ?></button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered cst-badge" id="table-result">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th class="text-nowrap"><?= $this->translate('Enterprise/Responsible') ?></th>
+                                    <th class="text-nowrap"><?= $this->translate('Management') ?></th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+</div>
