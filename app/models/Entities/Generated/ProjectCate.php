@@ -27,6 +27,10 @@ abstract class ProjectCate extends Status
      */
     protected $prc_name = '';
     /**
+     * @Column(type="string", length=100, nullable=false)
+     */
+    protected $prc_image = '';
+    /**
      * @Column(type="bigint", length=19, nullable=false)
      */
     protected $prc_parent_id;
@@ -50,4 +54,16 @@ abstract class ProjectCate extends Status
      * @Column(type="integer", length=12, nullable=false)
      */
     protected $prc_update_time = 0;
+    /**
+     * @Column(type="string", length=1024, nullable=false)
+     */
+    protected $prc_meta_title = '';
+    /**
+     * @Column(type="string", nullable=false)
+     */
+    protected $prc_meta_desc = '';
+    /**
+     * @Column(type="string", length=2048, nullable=false)
+     */
+    protected $prc_meta_keyword = '';
 }
