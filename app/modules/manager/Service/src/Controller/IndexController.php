@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Service\Controller;
 
 use Laminas\Http\PhpEnvironment\Response;
+use Laminas\View\Model\JsonModel;
 use Models\Entities\Service;
 use \Zf\Ext\Controller\ZfController;
 use Laminas\View\Model\ViewModel;
@@ -26,12 +27,11 @@ class IndexController extends ZfController
                 'resultMode' => 'Query'
             ];
 
-            $limit = $this->getParamsQuery('limit', 30);
-            $page = $this->getParamsQuery('page', 1);
+            $limit = (int) $this->getParamsQuery('limit', 30);
+            $page = (int) $this->getParamsQuery('page', 1);
 
             $paginator = $this->getZfPaginator(
-                $this->getEntityRepo(Service::class)
-                    ->fetchOpts($params),
+                $repo->fetchOpts($params),
                 $limit,
                 $page
             );
@@ -64,7 +64,7 @@ class IndexController extends ZfController
         ]);
 
         $params['title'] = trim(mb_substr($params['title'], 0, 100));
-        $params['description'] = trim(mb_substr($params['title'], 0, 2048));
+        $params['description'] = trim(mb_substr($params['description'], 0, 2048));
         $params['status'] = isset($params['status']) && $params['status'] == 'on' ? 1 : 0;
         $params['is_use'] = isset($params['is_use']) && $params['is_use'] == 'on' ? 1 : 0;
 
@@ -185,9 +185,87 @@ class IndexController extends ZfController
      */
     public function deleteAction(): Response
     {
-        $this->addSuccessMessage('Xoá thành công');
-        return $this->zfRedirect()->toCurrentRoute(
-            [], ['useOldQuery' => true]
+        $routeName = $this->getCurrentRouteName();
+        try {
+            if ($this->isPostRequest()) {
+                $ids = $this->getParamsPost('id', []);
+                $repo = $this->getEntityRepo(Service::class);
+
+                if (!$ids
+                    || empty($entities = $repo->findBy(['sv_id' => $ids]))
+                ) {
+                    $this->addErrorMessage(
+                        $this->mvcTranslate(ZF_MSG_DATA_NOT_EXISTS)
+                    );
+                    return $this->redirectToRoute($routeName, [], ['useOldQuery' => true]);
+                }
+                foreach ($entities as $entity) {
+                    $this->getEntityManager()->remove($entity);
+                }
+                $this->flushTransaction();
+                $this->addSuccessMessage(
+                    $this->mvcTranslate(ZF_MSG_DEL_SUCCESS)
+                );
+            } else {
+                $this->addErrorMessage(
+                    $this->mvcTranslate(ZF_MSG_NOT_ALLOW)
+                );
+            }
+        } catch (\Throwable $e) {
+            $this->saveErrorLog($e);
+            $this->addSuccessMessage(
+                $this->mvcTranslate(ZF_MSG_DEL_FAIL)
+            );
+        }
+        return $this->redirectToRoute($routeName, [], ['useOldQuery' => true]);
+    }
+
+    /**
+     * change status
+     *
+     * @return JsonModel
+     */
+    public function changeStatusAction(): JsonModel
+    {
+        $id = (int) $this->getParamsRoute('id', 0);
+        $status = (int) $this->getParamsPayload('status', null);
+
+        if (!$this->isValidCsrfToken(
+            null, Service::FOLDER_TOKEN
+        )) {
+            return $this->returnJsonModel(
+                false, 'went_wrong', Service::FOLDER_TOKEN
+            );
+        }
+
+        if (!in_array($status, [0, 1]) 
+            || $id < 1
+            || empty($entity = $this->getEntityRepo(Service::class)->find($id))
+        ) {
+            return $this->returnJsonModel(
+                false, 'update', Service::FOLDER_TOKEN
+            );
+        }
+
+        try {
+            $entity->sv_status = $status;
+            $this->flushTransaction($entity);
+
+            $this->addSuccessMessage(
+                $this->mvcTranslate(ZF_MSG_UPDATE_SUCCESS)
+            );
+
+            return $this->returnJsonModel(
+                true, 'update', Service::FOLDER_TOKEN
+            );
+        } catch (\Throwable $e) {
+            $this->saveErrorLog($e);
+            return $this->returnJsonModel(
+                false, 'update', Service::FOLDER_TOKEN
+            );
+        }
+        return $this->returnJsonModel(
+            false, 'update', Service::FOLDER_TOKEN
         );
     }
 }

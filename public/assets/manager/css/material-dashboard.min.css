@@ -34988,3 +34988,7 @@ div a i.collapse-close, div a i.collapse-open {
 .dark-version .form-check:not(.form-switch) .form-check-input[type=checkbox]:checked {
    background: #e91e63 !important;
 } */
+
+.ql-container p{
+   font-size: .875rem !important;
+}

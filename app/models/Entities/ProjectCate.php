@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping\Table;
  */
 class ProjectCate extends Generated\ProjectCate
 {
+    const FOLDER_TOKEN = 'project_cate';
 }
 
 ?>
