@@ -41,7 +41,7 @@ abstract class Service extends Status
     /**
      * @Column(type="bigint", length=19, nullable=false)
      */
-    protected $sv_create_by;
+    protected $sv_created_by;
     /**
      * @Column(type="smallint", length=1, nullable=false)
      */
@@ -53,7 +53,7 @@ abstract class Service extends Status
     /**
      * @Column(type="integer", length=12, nullable=false)
      */
-    protected $sv_update_time = 0;
+    protected $sv_updated_time = 0;
     /**
      * @Column(type="smallint", length=1, nullable=false)
      */
