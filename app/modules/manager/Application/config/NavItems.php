@@ -37,8 +37,8 @@ return [
             [
                 'id'    => 'project_cate',
                 'label' => 'Loại dự án',
-                'link'  => ['project', ['action' => 'list-cate']],
-                'routeName' => 'project',
+                'link'  => ['project-cate'],
+                'routeName' => 'project-cate',
                 'render'=> 'Link',
                 'icon' => 'adjust',
             ],

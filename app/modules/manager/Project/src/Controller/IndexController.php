@@ -182,10 +182,10 @@ class IndexController extends ZfController
                         'prc_code'         => $this->getZfHelper()->getRandomCode([
                                                 'id' => time(), 'maxLen' => 19
                                             ]),
-                        'prc_created_by'    => $this->getAuthen()->adm_id,
+                        'prc_created_by'   => $this->getAuthen()->adm_id,
                         'prc_created_time' => time(),
                         'prc_parent_id'    => $parentId,
-                        'prc_edit_by'    => $parentId,
+                        'prc_edit_by'      => $parentId,
                     ]);
 
                     $repo->insertData($params);
@@ -201,7 +201,6 @@ class IndexController extends ZfController
                 }
             }
         } catch (\Throwable $e) {
-            dd($e->getMessage(), $e->getTraceAsString());
             $this->saveErrorLog($e);
             $this->addErrorMessage(
                 $this->mvcTranslate(ZF_MSG_WENT_WRONG)
@@ -213,5 +212,15 @@ class IndexController extends ZfController
             'routeName'     => $this->getCurrentRouteName(),
             'activeItemId'  => 'project_cate'
         ]);
+    }
+
+    /**
+     * Edit action
+     *
+     * @return ViewModel|Response
+     */
+    public function editAction(): ViewModel|Response
+    {
+
     }
 }

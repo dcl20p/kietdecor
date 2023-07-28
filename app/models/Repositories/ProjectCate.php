@@ -1,11 +1,33 @@
 <?php
 namespace Models\Repositories;
+
 use Doctrine\ORM\QueryBuilder;
 use Models\Entities\ProjectCate as EntitiesProjectCate;
 use Models\Repositories\Abstracted\Repository;
 
 class ProjectCate extends Repository
 {
+    /**
+     * @param QueryBuilder $qb
+     * @param integer $val
+     */
+    protected function _filter_parent_id(QueryBuilder $qb, int $val): QueryBuilder
+    {
+        return $qb->andWhere('PRC.prc_parent_id = :parent_id')
+            ->setParameter('parent_id', $val);
+    }
+
+    /**
+     * @param QueryBuilder $qb
+     * @param boolean $val
+     */
+    protected function _filter_only_parent(QueryBuilder $qb, bool $val): QueryBuilder
+    {
+        if ($val)
+            return $qb->andWhere('PRC.prc_parent_id IS NULL');
+
+        return $qb->andWhere('PRC.prc_parent_id IS NOT NULL');
+    }
     /**
      * Get list
      *
@@ -17,7 +39,10 @@ class ProjectCate extends Repository
     {
         return $this->buildFetchOpts(
             $this->getEntityName(),
-            'PRC', 'prc', $opts, $fetchJoinKey
+            'PRC',
+            'prc',
+            $opts,
+            $fetchJoinKey
         );
     }
 
@@ -48,5 +73,35 @@ class ProjectCate extends Repository
         $this->getEntityManager()->flush($entity);
 
         return $entity;
-    }  
+    }
+
+    /**
+     * Change status
+     *
+     * @param array $opts
+     * @return void
+     */
+    public function changeStatus(array $opts): void
+    {
+        $this->getEntityManager()
+            ->getConnection()->executeStatement(
+                'CALL sp_ChangeStatusProjectCate(:id,:status)',
+                $opts
+            );
+    }
+
+    /**
+     * Change status
+     *
+     * @param array $data
+     * @return void
+     */
+    public function deleteData(array $data): void
+    {
+        $this->getEntityManager()
+            ->getConnection()->executeStatement(
+                'CALL sp_DeleteMultipleProjectCate(:ids)',
+                ['ids' => @json_encode($data)]
+            );
+    }
 }

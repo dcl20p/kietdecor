@@ -4,7 +4,9 @@ $this->headTitle($pageTitle);
 
 $this->menuLeft()->setActiveItemId($activeItemId);
 $this->bootstrapToolbar([
-    $this->toolbarClose($this->zfUrl('home'))
+    $this->toolbarClose(
+        $this->zfUrl(null, [], ['useOldQuery' => true])
+    )
 ]);
 
 $this->pageBreadcrumbs()->setItems([
@@ -22,8 +24,8 @@ $this->lazyAsset()->addItems([
 ]);
 
 $this->headScriptAction(null, [], [
-    'action' => 'add-cate',
-    'controller' => 'index',
+    'action' => 'add',
+    'controller' => 'project-cate',
     'module' => 'project'
 ]);
 ?>
