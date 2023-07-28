@@ -116,14 +116,13 @@ class IndexController extends ZfController
             'status'       => 'off',
             'is_use'       => 'off',
             'meta_title'   => '',
-            'meta_desc'    => '',
             'meta_keyword' => '',
         ]);
 
-        $params['name']  = trim(mb_substr($params['title'], 0, 100));
+        $params['name']  = trim(mb_substr($params['name'], 0, 100));
         $params['image'] = trim(mb_substr($params['image'], 0, 100));
         $params['meta_title'] = trim(mb_substr($params['meta_title'], 0, 1024));
-        $params['meta_keyword'] = trim(mb_substr($params['description'], 0, 2048));
+        $params['meta_keyword'] = trim(mb_substr($params['meta_keyword'], 0, 2048));
         $params['status'] = isset($params['status']) && $params['status'] == 'on' ? 1 : 0;
         $params['is_use'] = isset($params['is_use']) && $params['is_use'] == 'on' ? 1 : 0;
 
@@ -165,7 +164,7 @@ class IndexController extends ZfController
     {
         try {
             $repo = $this->getEntityRepo(ProjectCate::class);
-            $parentId = $this->paramsRoute('pid', null);
+            $parentId = $this->getParamsRoute('pid', null);
             if (!empty($parentId))
                 $parent = $this->getParentEntity($parentId, $repo);
             else
@@ -180,14 +179,14 @@ class IndexController extends ZfController
                     }
 
                     $params = array_replace($params, [
-                        'prc_code' => $this->getZfHelper()->getRandomCode([
-                                        'id' => time(), 'maxLen' => 19
-                                    ]),
-                        'prc_create_by'    => $this->getAuthen()->adm_id,
+                        'prc_code'         => $this->getZfHelper()->getRandomCode([
+                                                'id' => time(), 'maxLen' => 19
+                                            ]),
+                        'prc_created_by'    => $this->getAuthen()->adm_id,
                         'prc_created_time' => time(),
+                        'prc_parent_id'    => $parentId,
+                        'prc_edit_by'    => $parentId,
                     ]);
-
-                    if (!empty($parent)) $params['prc_parent_id'] = $parentId;
 
                     $repo->insertData($params);
 
@@ -202,6 +201,7 @@ class IndexController extends ZfController
                 }
             }
         } catch (\Throwable $e) {
+            dd($e->getMessage(), $e->getTraceAsString());
             $this->saveErrorLog($e);
             $this->addErrorMessage(
                 $this->mvcTranslate(ZF_MSG_WENT_WRONG)
@@ -211,7 +211,7 @@ class IndexController extends ZfController
             'postData'      => $postData ?? [],
             'pageTitle'     => $this->mvcTranslate('Thêm loại dự án'),
             'routeName'     => $this->getCurrentRouteName(),
-            'activeItemId'  => 'service'
+            'activeItemId'  => 'project_cate'
         ]);
     }
 }

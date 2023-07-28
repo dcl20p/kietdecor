@@ -98,7 +98,7 @@ class IndexController extends ZfController
                         'sv_code' => $this->getZfHelper()->getRandomCode([
                                         'id' => time(), 'maxLen' => 19
                                     ]),
-                        'sv_create_by'    => $this->getAuthen()->adm_id,
+                        'sv_created_by'    => $this->getAuthen()->adm_id,
                         'sv_created_time' => time(),
                     ]));
 
@@ -148,7 +148,7 @@ class IndexController extends ZfController
 
                     $repo->updateData($entity, array_replace($params, [
                         'sv_edit_by'    => $this->getAuthen()->adm_id,
-                        'sv_update_time' => time(),
+                        'sv_updated_time' => time(),
                     ]));
 
                     $this->addSuccessMessage(

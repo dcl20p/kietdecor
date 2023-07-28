@@ -11,9 +11,10 @@ return [
             'project' => [
                 'type'    => RouterSegment::class,
                 'options' => [
-                    'route'    => '/project[/:action[/:id]]',
+                    'route'    => '/project[/:action[/:pid[/:id]]]',
                     'constraints' => [
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'pid' => '[0-9]*',
                         'id' => '[0-9]*'
                     ],
                     'defaults' => [

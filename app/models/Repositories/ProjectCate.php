@@ -22,7 +22,7 @@ class ProjectCate extends Repository
     }
 
     /**
-     * Add new Service
+     * Add new prject cate
      * @param array $data
      * @return EntitiesProjectCate
      */
@@ -36,7 +36,7 @@ class ProjectCate extends Repository
     }
 
     /**
-     * Edit Service
+     * Edit prject cate
      *
      * @param EntitiesProjectCate $entity
      * @param array $updateData
