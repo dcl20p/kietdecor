@@ -3,8 +3,13 @@ use Models\Entities\ProjectCate;
 $this->headTitle($pageTitle);
 $this->menuLeft()->setActiveItemId($activeItemId);
 $this->bootstrapToolbar([
-    $this->toolbarInsert($this->zfUrl('project', ['action'=>'add-cate'])),
-    $this->toolbarDelete($this->zfUrl('project', ['action'=>'delete-cate'])),
+    $this->toolbarInsert(
+        $this->zfUrl('project-cate', [
+            'action'=>'add',
+            'pid' => $parentEntity->prc_id ?? null
+        ])
+    ),
+    $this->toolbarDelete($this->zfUrl('project-cate', ['action'=>'delete'])),
 ]);
 
 $this->pageBreadcrumbs()->setItems([
@@ -13,8 +18,8 @@ $this->pageBreadcrumbs()->setItems([
 ]);
 
 $this->headScriptAction(null, [], [
-    'action' => 'list-cate',
-    'controller' => 'index',
+    'action' => 'index',
+    'controller' => 'project-cate',
     'module' => 'project'
 ]);
 $this->headStyleAction(null, [
@@ -24,12 +29,12 @@ $this->headStyleAction(null, [
     ),
     '__error_info__' => $this->translate(ZF_MSG_WENT_WRONG),
 ], [
-    'action' => 'list-cate', 'controller' => 'index', 'module' => 'project'
+    'action' => 'index', 'controller' => 'project-cate', 'module' => 'project'
 ]);
 ?>
 <div class="row">
     <div class="col-12">
-        <form id="adminForm" method="get" enctype="application/x-www-form-urlencoded">
+        <form id="adminForm" method="POST" enctype="application/x-www-form-urlencoded">
             <div class="card">
                 <div class="card-header pb-0">
                     <div class="d-lg-flex">
@@ -93,8 +98,11 @@ $this->headStyleAction(null, [
                                         <td><?= $item->prc_name ?? '';?></td>
                                         <td class="font-weight-normal">
                                             <div class="d-flex align-items-center justify-content-center"><?php
-                                                echo $this->manageChangeStatus($this->zfUrl($routeName, 
-                                                    ['action'=>'change-status', 'id'=> $id]),
+                                                echo $this->manageChangeStatus($this->zfUrl($routeName, [
+                                                    'action'=>'change-status', 
+                                                    'pid' => $item->prc_parent_id ?? '',
+                                                    'id'=> $id
+                                                ]),
                                                     $item->prc_status ?? 0, ['data-token' => $token]
                                                 );
                                                 ?>
@@ -105,11 +113,19 @@ $this->headStyleAction(null, [
                                             </div>
                                         </td>
                                         <td class="text-sm text-center"><?php
+                                            echo $this->manageIcon(
+                                                'list_alt',
+                                                [
+                                                    'href'   => $this->zfUrl($routeName, ['action' => 'small', 'pid' => $id]),
+                                                    'iclass' => 'text-info',
+                                                    'title'  => 'Danh sách con'
+                                                ]
+                                            );
                                             echo  $this->manageUpdate(
-                                                $this->zfUrl($routeName, ['action'=>'edit-cate', 'id'=> $id])
+                                                $this->zfUrl($routeName, ['action'=>'edi', 'id'=> $id])
                                             );
                                             echo  $this->manageDelete($this->zfUrl($routeName, 
-                                                ['action'=>'delete-cate', 'id'=> $id])
+                                                ['action'=>'delete', 'id'=> $id])
                                             );
                                         ?>
                                         </td>

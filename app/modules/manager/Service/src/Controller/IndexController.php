@@ -260,8 +260,8 @@ class IndexController extends ZfController
             );
         } catch (\Throwable $e) {
             $this->saveErrorLog($e);
-            return $this->returnJsonModel(
-                false, 'update', Service::FOLDER_TOKEN
+            $this->addErrorMessage(
+                $this->mvcTranslate(ZF_MSG_UPDATE_FAIL)
             );
         }
         return $this->returnJsonModel(

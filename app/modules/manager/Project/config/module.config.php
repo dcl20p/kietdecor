@@ -11,14 +11,28 @@ return [
             'project' => [
                 'type'    => RouterSegment::class,
                 'options' => [
-                    'route'    => '/project[/:action[/:pid[/:id]]]',
+                    'route'    => '/project[/:action[/:id]]',
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id' => '[0-9]*'
+                    ],
+                    'defaults' => [
+                        'controller' => Controller\IndexController::class,
+                        'action'     => 'index'
+                    ],
+                ],
+            ],
+            'project-cate' => [
+                'type'    => RouterSegment::class,
+                'options' => [
+                    'route'    => '/project-cate[/:action[/:pid[/:id]]]',
                     'constraints' => [
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'pid' => '[0-9]*',
                         'id' => '[0-9]*'
                     ],
                     'defaults' => [
-                        'controller' => Controller\IndexController::class,
+                        'controller' => Controller\ProjectCateController::class,
                         'action'     => 'index'
                     ],
                 ],
@@ -29,7 +43,8 @@ return [
         'factories' => [
         ],
         'invokables' => [
-            Controller\IndexController::class
+            Controller\IndexController::class,
+            Controller\ProjectCateController::class
         ]
     ],
     'view_manager' => [
