@@ -44,7 +44,6 @@ class ProjectCateController extends ZfController
             );
             
         } catch (\Throwable $e) {
-            dd($e->getMessage(), $e->getTraceAsString());
             $this->saveErrorLog($e);
         }
 
@@ -52,9 +51,7 @@ class ProjectCateController extends ZfController
             'paginator'     => $paginator ?? null,
             'parentEntity'  => $parent ?? null,
             'routeName'     => $this->getCurrentRouteName(),
-            'pageTitle'     => $parent 
-                                ? $this->mvcTranslate('Loại dự án (Con)')
-                                : $this->mvcTranslate('Loại dự án (Cha)'),
+            'pageTitle'     => $this->mvcTranslate('Loại dự án'),
             'activeItemId'  => 'project_cate'
         ]))->setTemplate('project/project-cate/index.phtml');
     }
@@ -135,11 +132,12 @@ class ProjectCateController extends ZfController
                         'prc_code'         => $this->getZfHelper()->getRandomCode([
                                                 'id' => time(), 'maxLen' => 19
                                             ]),
-                        'prc_created_by'    => $this->getAuthen()->adm_id,
+                        'prc_created_by'   => $this->getAuthen()->adm_id,
                         'prc_created_time' => time(),
-                        'prc_parent_id'    => $parentId,
-                        'prc_edit_by'    => $parentId,
+                        'prc_edit_by'      => $parentId,
                     ]);
+
+                    if (!empty($parentId)) $params['prc_parent_id'] = $parentId;
 
                     $repo->insertData($params);
 
@@ -154,7 +152,6 @@ class ProjectCateController extends ZfController
                 }
             }
         } catch (\Throwable $e) {
-            dd($e->getMessage(), $e->getTraceAsString());
             $this->saveErrorLog($e);
             $this->addErrorMessage(
                 $this->mvcTranslate(ZF_MSG_WENT_WRONG)
@@ -163,11 +160,85 @@ class ProjectCateController extends ZfController
         return new ViewModel([
             'postData'      => $postData ?? [],
             'pageTitle'     => $parent 
-                                ? $this->mvcTranslate('Thêm loại dự án (Con)')
-                                : $this->mvcTranslate('Thêm loại dự án (Cha)'),
+                                ? $this->mvcTranslate('Thêm loại dự án (Danh mục con)')
+                                : $this->mvcTranslate('Thêm loại dự án'),
             'routeName'     => $this->getCurrentRouteName(),
             'activeItemId'  => 'project_cate'
         ]);
+    }
+
+
+    /**
+     * Edit peroject cate action
+     *
+     * @return ViewModel|Response
+     */
+    public function editAction(): ViewModel|Response
+    {
+        try {
+            $repo = $this->getEntityRepo(ProjectCate::class);
+
+            $parentId = (int) $this->getParamsRoute('pid', null);
+            if (!empty($parentId))
+                $parent = $this->getParentEntity($parentId, $repo);
+            else $parent = null;
+
+            if (empty($id = $this->getParamsRoute('id', null))
+                || empty($entity = $repo->findOneBy(['prc_id' => $id]))
+            ) { 
+                $this->getResponse()->setStatusCode(404);
+                return new ViewModel([]);
+            }
+
+            $postData = [];
+            if ($this->isPostRequest()) {
+                if ($postData = $this->validDataProjectCate($this->getParamsPost())) {
+                    $params = [];
+                    foreach ($postData as $key => $item) {
+                        $params["prc_{$key}"] = $item;
+                    }
+
+                    $params = array_replace($params, [
+                        'prc_created_time' => time(),
+                        'prc_edit_by'      => $this->getAuthen()->adm_id,
+                    ]);
+
+                    $repo->updateData($entity, $params);
+
+                    $this->addSuccessMessage(
+                        $this->mvcTranslate(ZF_MSG_ADD_SUCCESS)
+                    );
+
+                    return $this->zfRedirect()->toCurrentRoute([
+                        'action' => empty($parentId) ? null : 'small',
+                        'pid' => $parentId,
+                    ], ['useOldQuery' => true]);
+                }
+            } else $postData = [
+                'name'         => $entity->prc_name,
+                'status'       => $entity->prc_status,
+                'is_use'       => $entity->prc_is_use,
+                'meta_title'   => $entity->prc_meta_title,
+                'meta_keyword' => $entity->prc_meta_keyword,
+                'meta_desc'    => $entity->prc_meta_desc,
+            ];
+        } catch (\Throwable $e) {
+            $this->saveErrorLog($e);
+            $this->addErrorMessage(
+                $this->mvcTranslate(ZF_MSG_UPDATE_FAIL)
+            );
+        }
+
+        return (new ViewModel([
+            'parentEntity'  => $parent ?? null,
+            'postData'      => $postData ?? [],
+            'pageTitle'     => $parent 
+                                ? $this->mvcTranslate('Sửa loại dự án (Danh mục con)')
+                                : $this->mvcTranslate('Sửa loại dự án'),
+            'routeName'     => $this->getCurrentRouteName(),
+            'activeItemId'  => 'group-skill',
+            'isEdit'        => true
+        ]))->setTemplate('project/project-cate/add.phtml');
     }
 
     /**
@@ -222,7 +293,6 @@ class ProjectCateController extends ZfController
             $this->addErrorMessage(
                 $this->mvcTranslate(ZF_MSG_UPDATE_FAIL)
             );
-            dd($e->getMessage(), $e->getTraceAsString());
         }
         
         return $this->returnJsonModel(
