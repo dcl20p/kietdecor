@@ -4,7 +4,7 @@ return [
         'host'  => '172.17.0.1',
         'port'  => 6379
     ],
-    'database'  => 9,
+    'database'  => 2,
     'password'  => 'Rm91bmQgMiB1lb3GVt4ZW50cy',
     
     //'lib_options'   => [],

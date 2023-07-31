@@ -3,7 +3,7 @@ return [
   'v1' => array_merge($acc = [
       'driver' => 'pdo_mysql',
       'host'    => '172.17.0.1',
-      'port'    => 3306,
+      'port'    => 3308,
       'charset' => 'utf8mb4',
       'username'=> 'root',
       'user'    => 'root',
