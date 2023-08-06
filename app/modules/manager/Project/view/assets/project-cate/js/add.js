@@ -9,26 +9,6 @@
         name        = document.querySelector('#name'),
         btnNextStep2 = document.querySelector('#btnNextStep2');
 
-    const initDropzone = (element) => {
-        const img = new Dropzone(element, {
-            maxFilesize: 5,
-            maxFiles: 1,
-            acceptedFiles: ".png, .jpg, .jpeg, .gif",
-            addRemoveLinks: true,
-            dictDefaultMessage: "Thả tệp vào đây hoặc nhấp để tải lên",
-            dictRemoveFile: "Xóa tệp",
-            init: function() {
-                this.on("success", function(file, response) {
-                    console.log(file, response);
-                });
-                this.on("error", function(file, errorMessage) {
-                    console.log(file, errorMessage);
-                });
-            }
-        });
-        return img;
-    };
-
     const initChoicesTag = (element) => {
         const tags = new Choices(element, {
             removeItemButton: false
@@ -89,8 +69,7 @@
         adminForm.submit();
     };
     
-    Dropzone.autoDiscover = false;
-    const projectCateDropzone = elIcon && initDropzone(elIcon);
+    const projectCateDropzone = elIcon && common.initDropzone(elIcon);
     btnNextStep2 && btnNextStep2.addEventListener('click', handleNextStep1);
     btnSubmit && btnSubmit.addEventListener('click', handleSubmit);
     metaKeyword && initChoicesTag(metaKeyword);
