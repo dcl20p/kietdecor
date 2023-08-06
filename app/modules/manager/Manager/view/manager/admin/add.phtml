@@ -42,7 +42,7 @@ if (!empty($user) && $user->adm_bg_timeline) {
             <div class="page-header min-height-300 border-radius-xl mx-n2" id="block-bg-timeline"
                 style="background-image: url('<?=$srcImgBg?>');">
                 <span class="bg-gradient-primary opacity-6"></span>
-                <a href="javascript:;" id="update-bg-timeline" 
+                <a href="javascript:void(0);" id="update-bg-timeline" 
                     title="<?=$this->translate($transBg = $isEdit ? 'Chỉnh sửa ảnh bìa' : 'Thêm ảnh bìa')?>"
                     class="btn btn-sm btn-icon-only p-02 bg-gradient-primary position-absolute top-2 end-2 mb-n2 me-n2">
                     <span class="material-icons text-xs top-0 mt-n2 icon-edit-bg-timeline" data-bs-toggle="tooltip" 
@@ -62,7 +62,7 @@ if (!empty($user) && $user->adm_bg_timeline) {
                         <div class="avatar avatar-xl position-relative">
                             <img src="<?=User::getAvatarUser($user)?>" alt="<?= $user?->adm_fullname ?? 'Avatar'?>"
                                 class="w-100 h-100 object-fit-cover rounded-circle shadow-sm">
-                            <a href="javascript:;" id="update-avatar-btn" 
+                            <a href="javascript:void(0);" id="update-avatar-btn" 
                                 title="<?=$this->translate($transAvt = $isEdit ? 'Chỉnh sửa avatar' : 'Thêm avatar')?>"
                                 class="btn btn-sm btn-icon-only p-02 bg-gradient-primary position-absolute bottom-0 end-0 mb-n2 me-n2">
                                 <span class="material-icons text-xs top-0 mt-n2 icon-edit-avatar" data-bs-toggle="tooltip" 
@@ -286,7 +286,7 @@ if (!empty($user) && $user->adm_bg_timeline) {
                             <?= $this->translate('Mật khẩu') ?>
                         </label>
                         <input type="password" name="new_password" id="new_password" class="form-control" autocomplete="off">
-                        <a href="javascript:;" class="position-absolute top-10px end-1 visible-icon show-pass" id="show-new-pass">
+                        <a href="javascript:void(0);" class="position-absolute top-10px end-1 visible-icon show-pass" id="show-new-pass">
                             <i class="material-icons" aria-hidden="true">
                                 visibility
                             </i>
@@ -297,7 +297,7 @@ if (!empty($user) && $user->adm_bg_timeline) {
                             <?= $this->translate('Xác nhận mật khẩu') ?>
                         </label>
                         <input type="password" name="confirm_new_password" id="confirm_new_password" class="form-control" autocomplete="off">
-                        <a href="javascript:;" class="position-absolute top-10px end-1 visible-icon show-pass" id="confirm-new-pass">
+                        <a href="javascript:void(0);" class="position-absolute top-10px end-1 visible-icon show-pass" id="confirm-new-pass">
                             <i class="material-icons" aria-hidden="true">
                                 visibility
                             </i>
