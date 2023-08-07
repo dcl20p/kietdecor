@@ -541,6 +541,16 @@ const common = (function () {
         return img;
     };
 
+    const initChoicesTags = (element, maxItemCount = 50, placeholder = 'Nhập tags keyword...') => {
+        return new Choices(element, {
+            removeItemButton: false,
+            delimiter: ',',
+            maxItemCount: maxItemCount,  
+            placeholder: placeholder,
+            duplicateItemsAllowed: false
+        });
+    };
+
 
     return {
         showMessage:        showMessage,
