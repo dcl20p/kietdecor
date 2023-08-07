@@ -6,30 +6,9 @@
         btnSubmit    = document.getElementById('btnSubmit'),
         elIcon       = document.getElementById('cateImg'),
         adminForm    = document.getElementById('adminForm'),
-        name        = document.querySelector('#name'),
+        name         = document.querySelector('#name'),
         btnNextStep2 = document.querySelector('#btnNextStep2');
 
-    const initChoicesTag = (element) => {
-        const tags = new Choices(element, {
-            removeItemButton: false
-        });
-    }
-
-    const initQuill = (element) => {
-        const quill = new Quill(element, {
-            modules: {
-                toolbar: [
-                    ['bold', 'italic', 'underline'],
-                    ['blockquote', 'code-block'],
-                    [{ list: 'ordered' }, { list: 'bullet' }]
-                ]
-            },
-            placeholder: 'Nhập thông tin mô tả về dịch vụ...',
-            theme: 'snow' 
-        });
-
-        return quill;
-    };
     const checkValidForm = () => {
         const fieldRequired = [name];
         const fieldLength = [
@@ -42,7 +21,7 @@
         return true;
     };
 
-    const handleNextStep1 = (evt) => {
+    const handleNextStep2 = (evt) => {
         evt.preventDefault();
         if (!checkValidForm()) {
             evt.stopPropagation();
@@ -70,10 +49,10 @@
     };
     
     const projectCateDropzone = elIcon && common.initDropzone(elIcon);
-    btnNextStep2 && btnNextStep2.addEventListener('click', handleNextStep1);
+    btnNextStep2 && btnNextStep2.addEventListener('click', handleNextStep2);
     btnSubmit && btnSubmit.addEventListener('click', handleSubmit);
-    metaKeyword && initChoicesTag(metaKeyword);
-    const quillDes = metaDesc && initQuill(metaDesc);
+    metaKeyword && common.initChoicesTag(metaKeyword);
+    const quillDes = metaDesc && common.initQuill(metaDesc);
 
 
 })();
