@@ -2,15 +2,24 @@
 use Models\Entities\ProjectCate;
 $this->headTitle($pageTitle);
 $this->menuLeft()->setActiveItemId($activeItemId);
-$this->bootstrapToolbar([
+$toolbars = [
     $this->toolbarInsert(
         $this->zfUrl('project-cate', [
             'action'=>'add',
             'pid' => $parentEntity->prc_id ?? null
         ])
     ),
-    $this->toolbarDelete($this->zfUrl('project-cate', ['action'=>'delete'])),
-]);
+    $this->toolbarDelete(
+        $this->zfUrl('project-cate', [
+            'action'=>'delete',
+            'pid' => $parentEntity->prc_id ?? null
+        ])
+    ),
+];
+if (!empty($parentEntity)) {
+    $toolbars[] = $this->toolbarClose();
+}
+$this->bootstrapToolbar($toolbars);
 
 $this->pageBreadcrumbs()->setItems([
     $this->translate('Trang chủ') => $this->zfUrl('home'),
@@ -39,7 +48,9 @@ $this->headStyleAction(null, [
                 <div class="card-header pb-0">
                     <div class="d-lg-flex">
                         <div>
-                            <h5 class="mb-0"><?= $pageTitle?></h5>
+                            <h5 class="mb-0"><?= empty($parentEntity) 
+                                ? $pageTitle
+                                : $this->translate('Danh sách danh mục con của "') . $parentEntity->prc_name . '"';?></h5>
                         </div>
                     </div>
                 </div>
@@ -113,16 +124,21 @@ $this->headStyleAction(null, [
                                             </div>
                                         </td>
                                         <td class="text-sm text-center"><?php
-                                            echo $this->manageIcon(
-                                                'list_alt',
-                                                [
-                                                    'href'   => $this->zfUrl($routeName, ['action' => 'small', 'pid' => $id]),
-                                                    'iclass' => 'text-info',
-                                                    'title'  => 'Danh sách con'
-                                                ]
-                                            );
+                                            if (empty($parentEntity)) 
+                                                echo $this->manageIcon(
+                                                    'list_alt',
+                                                    [
+                                                        'href'   => $this->zfUrl($routeName, ['action' => 'small', 'pid' => $id]),
+                                                        'iclass' => 'text-info',
+                                                        'title'  => 'Danh mục con'
+                                                    ]
+                                                );
                                             echo  $this->manageUpdate(
-                                                $this->zfUrl($routeName, ['action'=>'edi', 'id'=> $id])
+                                                $this->zfUrl($routeName, [
+                                                    'action'=>'edit', 
+                                                    'id'=> $id,
+                                                    'pid' => $item->prc_parent_id ?? '',
+                                                ])
                                             );
                                             echo  $this->manageDelete($this->zfUrl($routeName, 
                                                 ['action'=>'delete', 'id'=> $id])

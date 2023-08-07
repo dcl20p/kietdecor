@@ -461,6 +461,87 @@ const common = (function () {
         }
     };
 
+    /**
+     * Init quill plugin
+     * @param {*} element 
+     * @param {*} toolbar 
+     * @param {*} placeholder 
+     * @param {*} theme 
+     * @param {*} options: options of plugin
+     * @returns 
+     */
+    const initQuill = (
+        element, 
+        toolbar = [
+            ['bold', 'italic', 'underline'],
+            ['blockquote', 'code-block'],
+            [{ list: 'ordered' }, { list: 'bullet' }]
+        ],
+        placeholder = 'Nhập thông tin mô tả...',
+        theme = 'snow',
+        options = {}
+    ) => {
+        let params = {...{
+            modules: {
+                toolbar: toolbar
+            },
+            placeholder: placeholder,
+            theme: theme
+        }, ...options};
+
+        const quill = new Quill(element, params);
+
+        return quill;
+    };
+
+
+    /**
+     * Init Dropzone
+     * @param {*} element 
+     * @param {*} maxFilesize 
+     * @param {*} maxFiles 
+     * @param {*} addRemoveLinks 
+     * @param {*} callbackInit 
+     * @returns 
+     */
+    const initDropzone = (
+        element, 
+        callbackSuccess = null,
+        callbackError = null,
+        maxFilesize = 5, 
+        maxFiles = 1, 
+        addRemoveLinks = true,
+    ) => {
+        Dropzone.autoDiscover = false;
+        const img = new Dropzone(element, {
+            maxFilesize: maxFilesize,
+            maxFiles: maxFiles,
+            acceptedFiles: ".png, .jpg, .jpeg, .gif",
+            addRemoveLinks: addRemoveLinks,
+            dictDefaultMessage: "Thả tệp vào đây hoặc nhấp để tải lên",
+            dictRemoveFile: "Xóa tệp",
+            init: function() {
+                this.on("success", (file, response) => {
+                    if (typeof callbackSuccess === 'function') {
+                        callbackSuccess(file, response);
+                    } else {
+                        console.log(file, response);
+                    }
+                });
+                this.on("error", (file, errorMessage) => {
+                    if (typeof callbackError === 'function') {
+                        callbackError(file, errorMessage);
+                    } else {
+                        console.log(file, errorMessage);
+                    }
+                });
+            }
+        });
+
+        return img;
+    };
+
+
     return {
         showMessage:        showMessage,
         isValidEmail:       isValidEmail,
@@ -474,5 +555,7 @@ const common = (function () {
         isValidPhoneNumber: isValidPhoneNumber,
         checkPhoneNumber:   checkPhoneNumber,
         checkPassWord:      checkPassWord,
+        initQuill:          initQuill,
+        initDropzone:       initDropzone,
     };
 })();

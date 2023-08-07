@@ -5,7 +5,7 @@ use Models\Entities\Admin;
 <div class="page-header min-height-300 border-radius-xl mx-n1" id="block-bg-timeline"
     style="background-image: url('<?=$srcImgBg?>');">
     <span class="bg-gradient-primary opacity-6"></span>
-    <a href="javascript:;" id="update-bg-timeline" 
+    <a href="javascript:void(0);" id="update-bg-timeline" 
         title="<?=$this->translate('Chỉnh sửa ảnh bìa')?>"
         class="btn btn-sm btn-icon-only p-02 bg-gradient-primary position-absolute top-2 end-2 mb-n2 me-n2">
         <span class="material-icons text-xs top-0 mt-n2 icon-edit-bg-timeline" data-bs-toggle="tooltip" 
@@ -25,7 +25,7 @@ use Models\Entities\Admin;
             <div class="avatar avatar-xl position-relative">
                 <img src="<?=$srcImg?>" alt="<?= $user->adm_fullname ?? 'Avatar'?>"
                     class="w-100 h-100 object-fit-cover rounded-circle shadow-sm">
-                <a href="javascript:;" id="update-avatar-btn" 
+                <a href="javascript:void(0);" id="update-avatar-btn" 
                     title="<?=$this->translate('Chỉnh sửa avatar')?>"
                     class="btn btn-sm btn-icon-only p-02 bg-gradient-primary position-absolute bottom-0 end-0 mb-n2 me-n2">
                     <span class="material-icons text-xs top-0 mt-n2 icon-edit-avatar" data-bs-toggle="tooltip" 

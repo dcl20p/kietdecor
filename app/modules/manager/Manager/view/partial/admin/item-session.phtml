@@ -31,7 +31,7 @@ foreach ($sessions as $item):?>
                     : (!$item['ss_is_login'] ? $this->translate('Đã đăng xuất') : '');
                 ?>
             </span>
-            <a href="javascript:;" data-id="<?= $item['ss_id']?>"
+            <a href="javascript:void(0);" data-id="<?= $item['ss_id']?>"
                 data-name="<?= $item['ss_os'] . ' ' . $item['ss_os_ver'];?>"
                 class="text-primary text-sm icon-move-right my-auto see_detail_session">
                 <?= $this->translate('Xem chi tiết') ?>

@@ -1,429 +1,240 @@
 <?php
-$this->menuLeft()->setActiveItemId('project');
+use Laminas\Form\Element;
+
+$this->headTitle($pageTitle);
+
+$this->menuLeft()->setActiveItemId($activeItemId);
+$this->bootstrapToolbar([
+    $this->toolbarClose(
+        $this->zfUrl(null, [], ['useOldQuery' => true])
+    )
+]);
+
+$this->pageBreadcrumbs()->setItems([
+    $this->translate('Trang chủ') => $this->zfUrl('home'),
+    $pageTitle => $this->zfUrl($routeName),
+]);
+
+$pubRes = $this->zfResource();
+$this->lazyAsset()->addItems([
+    'js' => [
+        21 => $pubRes->files('plugins/quill.min.js', 'js', false),
+        22 => $pubRes->files('plugins/dropzone.min.js', 'js', false),
+        23 => $pubRes->files('plugins/multistep-form.js', 'js', false),
+    ],
+]);
+
+$this->headScriptAction(null, [], [
+    'action' => 'add',
+    'controller' => 'index',
+    'module' => 'project'
+]);
 ?>
 <div class="row">
-    <div class="col-12">
+    <div class="col-12 m-auto">
         <div class="card">
-            <div class="card-header pb-0">
-                <div class="d-lg-flex">
-                    <div>
-                        <h5 class="mb-0">All Products</h5>
-                        <p class="text-sm mb-0">
-                            A lightweight, extendable, dependency-free javascript HTML table plugin.
-                        </p>
+            <div class="card-header pb-0 position-relative z-index-2">
+                <div class="mb-3">
+                    <h5 class="mb-0"><?= $this->translate($pageTitle)?></h5>
+                </div>
+                <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                    <div class="multisteps-form__progress">
+                        <button class="multisteps-form__progress-btn js-active" type="button"
+                            title="<?= $this->translate('Thông tin cơ bản')?>">
+                            <span>1. <?= $this->translate('Thông tin cơ bản')?></span>
+                        </button>
+                        <button class="multisteps-form__progress-btn" type="button" title="Hình ảnh">
+                            2. <?= $this->translate('Hình ảnh')?>
+                        </button>
+                        <button class="multisteps-form__progress-btn" type="button" title="SEO">
+                            3. <?= $this->translate('SEO')?>
+                        </button>
                     </div>
-                    <div class="ms-auto my-auto mt-lg-0 mt-4">
-                        <div class="ms-auto my-auto">
-                            <a href="./new-product.html" class="btn bg-gradient-primary btn-sm mb-0" target="_blank">+&nbsp; New Product</a>
-                            <button type="button" class="btn btn-outline-primary btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#import">
-                                Import
-                            </button>
-                            <div class="modal fade" id="import" tabindex="-1" aria-hidden="true">
-                                <div class="modal-dialog mt-lg-10">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="ModalLabel">Import CSV</h5>
-                                            <i class="material-icons ms-3">file_upload</i>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <p>You can browse your computer for a file.</p>
-                                            <div class="input-group input-group-dynamic mb-3">
-                                                <label class="form-label">Browse file...</label>
-                                                <input type="email" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)">
-                                            </div>
-                                            <div class="form-check is-filled">
-                                                <input class="form-check-input" type="checkbox" value="" id="importCheck" checked="">
-                                                <label class="custom-control-label" for="importCheck">I
-                                                    accept the terms and conditions</label>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn bg-gradient-secondary btn-sm" data-bs-dismiss="modal">Close</button>
-                                            <button type="button" class="btn bg-gradient-primary btn-sm">Upload</button>
-                                        </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <form class="multisteps-form__form" method="POST" id="adminForm">
+                    <div class="multisteps-form__panel pt-3 border-radius-xl bg-white js-active"
+                        data-animation="FadeIn">
+                        <h5 class="font-weight-bolder"><?= $this->translate('Thông tin cơ bản')?></h5>
+                        <div class="multisteps-form__content">
+                            <div class="row mt-3">
+                                <div class="col-12 col-sm-6 mt-3">
+                                    <div class="input-group input-group-dynamic">
+                                        <label for="name" class="form-label">
+                                            <?= $this->translate('Tên dự án')?>
+                                        </label>
+                                        <input class="multisteps-form__input form-control" type="text" 
+                                            name="name" id="name"
+                                            value="<?= $postData['name'] ?? ''; ?>"/>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6 mt-3">
+                                    <div class="input-group input-group-dynamic">
+                                        <label for="location" class="form-label">
+                                            <?= $this->translate('Địa điểm')?>
+                                        </label>
+                                        <input class="multisteps-form__input form-control" type="text" 
+                                            name="location" id="location"
+                                            value="<?= $postData['location'] ?? ''; ?>"/>
                                     </div>
                                 </div>
                             </div>
-                            <button class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1" data-type="csv" type="button" name="button">Export</button>
+                            <div class="row mt-3">
+                                <div class=" col-12 col-sm-6 mt-3">
+                                    <div class="input-group input-group-dynamic">
+                                        <label for="location" class="form-label">
+                                            <?= $this->translate('Người phụ trách')?>
+                                        </label>
+                                        <input class="multisteps-form__input form-control" type="text" 
+                                            name="location" id="location"
+                                            value="<?= $postData['location'] ?? ''; ?>"/>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6 ms-sm-auto mt-sm-0 mt-3 d-flex align-items-center">
+                                    <label for="status" class="form-check-label mb-0">
+                                        <small>
+                                            <?= $this->translate('Trạng thái')?>
+                                        </small>
+                                    </label>
+                                    <div class="form-check form-switch ms-2 my-auto">
+                                        <input class="form-check-input" type="checkbox" id="status" name="status"
+                                            <?= !empty($postData['status']) ? 'checked' : ''; ?>>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-12 col-sm-6 mt-3">
+                                    <label class="form-control ms-0">
+                                        <?= $this->translate('Loại dự án')?>
+                                    </label>
+                                    <?php
+                                        $select = new Element\Select('project_cate');
+                                        $select->setAttributes([
+                                            'class' => 'form-control choices',
+                                            'id' => 'project_cate'
+                                        ]);
+                                        $select->setValueOptions([
+                                            '1' => "àdfds",
+                                            '2' => "àdfdsfds",
+                                            '3' => "àdfsdfds",
+                                        ]);
+                                        $select->setValue('1');
+                                        echo $this->formSelect($select);
+                                    ?>
+                                </div>
+                                <div class="col-12 col-sm-6 mt-3">
+                                    <label class="form-control ms-0">
+                                        <?= $this->translate('Loại dịch vụ')?>
+                                    </label>
+                                    <?php
+                                        $select = new Element\Select('service');
+                                        $select->setAttributes([
+                                            'class' => 'form-control choices',
+                                            'id' => 'service'
+                                        ]);
+                                        $select->setValueOptions([
+                                            '1' => "àdfds",
+                                            '2' => "àdfdsfds",
+                                            '3' => "àdfsdfds",
+                                        ]);
+                                        $select->setValue('1');
+                                        echo $this->formSelect($select);
+                                    ?>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-12">
+                                    <label class="mt-4"><?= $this->translate('Mô tả')?></label>
+                                    <div id="description" style="height:300px">
+                                        <?= $postData['description'] ?? ''?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="button-row d-flex mt-4">
+                                <a class="btn bg-gradient-dark ms-auto mb-0 js-btn-next" id="btnNextStep2"
+                                    title="<?= $this->translate('Tiếp theo')?>">
+                                    <?= $this->translate('Tiếp theo')?>
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
+
+                    <div class="multisteps-form__panel pt-3 border-radius-xl bg-white"
+                        data-animation="FadeIn">
+                        <h5 class="font-weight-bolder"><?= $this->translate('Hình ảnh')?></h5>
+                        <div class="multisteps-form__content">
+                            <div class="row mt-3">
+                                <div class="col-12">
+                                    <label class="form-control mb-0"><?= $this->translate('Danh sách hình ảnh')?></label>
+                                    <div action="file-upload" class="form-control border dropzone"
+                                        id="jsonImage" style="height:200px"></div>
+                                </div>
+                            </div>
+                            <div class="button-row d-flex mt-4">
+                                <button class="btn bg-gradient-light mb-0 js-btn-prev" type="button"
+                                    title="Prev"><?= $this->translate('Quay lại')?></button>
+                                <a class="btn bg-gradient-dark ms-auto mb-0 js-btn-next" id="btnNextStep3"
+                                    title="<?= $this->translate('Tiếp theo')?>">
+                                    <?= $this->translate('Tiếp theo')?>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="multisteps-form__panel pt-3 border-radius-xl bg-white"
+                        data-animation="FadeIn">
+                        <h5 class="font-weight-bolder"><?= $this->translate('SEO')?></h5>
+                        <div class="multisteps-form__content">
+                            <div class="row mt-3">
+                                <div class="col-12 col-sm-6 mt-3">
+                                    <div class="input-group input-group-dynamic">
+                                        <label for="meta_title" class="form-label">
+                                            <?= $this->translate('Meta title')?>
+                                        </label>
+                                        <input class="multisteps-form__input form-control" type="text" 
+                                            name="meta_title" id="meta_title"
+                                            value="<?= $postData['meta_title'] ?? ''; ?>"/>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6 mt-3">
+                                    <div class="input-group input-group-dynamic">
+                                        <label for="meta_title" class="form-label">
+                                            <?= $this->translate('Share url')?>
+                                        </label>
+                                        <input class="multisteps-form__input form-control" type="text" 
+                                            name="share_url" id="share_url"
+                                            value="<?= $postData['share_url'] ?? ''; ?>"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <label class="mt-4 form-label"><?= $this->translate('Meta keyword')?></label>
+                                    <input class="multisteps-form__input form-control" type="text" 
+                                        name="meta_keyword" id="meta_keyword"
+                                        value="<?= $postData['meta_keyword'] ?? ''; ?>"/>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-12">
+                                    <label class="mt-4"><?= $this->translate('Mô tả')?></label>
+                                    <div id="meta_desc" style="height:300px">
+                                        <?= $postData['meta_desc'] ?? ''?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="button-row d-flex mt-4">
+                                <button class="btn bg-gradient-light mb-0 js-btn-prev" type="button"
+                                    title="Prev"><?= $this->translate('Quay lại')?></button>
+                                <a class="btn bg-gradient-dark ms-auto mb-0" id="btnSubmit"
+                                    href="javascript:void(0);" title="<?= $this->translate('Lưu')?>">
+                                    <?= $this->translate('Lưu')?>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div class="card-body px-0 pb-0">
-                <div class="table-responsive">
-                    <table class="table align-items-center mb-0">
-                        <thead>
-                            <tr>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Author</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                    Function</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                    Technology</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                    Employed</th>
-                                <th class="text-secondary opacity-7"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="d-flex px-2 py-1">
-                                        <div>
-                                            <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/team-2.jpg"
-                                                class="avatar avatar-sm me-3">
-                                        </div>
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="mb-0 text-xs">John Michael</h6>
-                                            <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p class="text-xs font-weight-bold mb-0">Manager</p>
-                                    <p class="text-xs text-secondary mb-0">Organization</p>
-                                </td>
-                                <td class="align-middle text-center text-sm">
-                                    <span class="badge badge-sm badge-success">Online</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-normal">23/04/18</span>
-                                </td>
-                                <td class="align-middle">
-                                    <a href="javascript:;" class="text-secondary font-weight-normal text-xs"
-                                        data-toggle="tooltip" data-original-title="Edit user">
-                                        Edit
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="d-flex px-2 py-1">
-                                        <div>
-                                            <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/team-3.jpg"
-                                                class="avatar avatar-sm me-3">
-                                        </div>
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="mb-0 text-xs">Alexa Liras</h6>
-                                            <p class="text-xs text-secondary mb-0">alexa@creative-tim.com</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p class="text-xs font-weight-bold mb-0">Programator</p>
-                                    <p class="text-xs text-secondary mb-0">Developer</p>
-                                </td>
-                                <td class="align-middle text-center text-sm">
-                                    <span class="badge badge-sm badge-secondary">Offline</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-normal">11/01/19</span>
-                                </td>
-                                <td class="align-middle">
-                                    <a href="#!" class="text-secondary font-weight-normal text-xs" data-toggle="tooltip"
-                                        data-original-title="Edit user">
-                                        Edit
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="d-flex px-2 py-1">
-                                        <div>
-                                            <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/team-4.jpg"
-                                                class="avatar avatar-sm me-3">
-                                        </div>
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="mb-0 text-xs">Laurent Perrier</h6>
-                                            <p class="text-xs text-secondary mb-0">laurent@creative-tim.com</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p class="text-xs font-weight-bold mb-0">Executive</p>
-                                    <p class="text-xs text-secondary mb-0">Projects</p>
-                                </td>
-                                <td class="align-middle text-center text-sm">
-                                    <span class="badge badge-sm badge-success">Online</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-normal">19/09/17</span>
-                                </td>
-                                <td class="align-middle">
-                                    <a href="#!" class="text-secondary font-weight-normal text-xs" data-toggle="tooltip"
-                                        data-original-title="Edit user">
-                                        Edit
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="d-flex px-2 py-1">
-                                        <div>
-                                            <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/team-3.jpg"
-                                                class="avatar avatar-sm me-3">
-                                        </div>
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="mb-0 text-xs">Michael Levi</h6>
-                                            <p class="text-xs text-secondary mb-0">michael@creative-tim.com</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p class="text-xs font-weight-bold mb-0">Programator</p>
-                                    <p class="text-xs text-secondary mb-0">Developer</p>
-                                </td>
-                                <td class="align-middle text-center text-sm">
-                                    <span class="badge badge-sm badge-success">Online</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-normal">24/12/08</span>
-                                </td>
-                                <td class="align-middle">
-                                    <a href="#!" class="text-secondary font-weight-normal text-xs" data-toggle="tooltip"
-                                        data-original-title="Edit user">
-                                        Edit
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="d-flex px-2 py-1">
-                                        <div>
-                                            <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/team-2.jpg"
-                                                class="avatar avatar-sm me-3">
-                                        </div>
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="mb-0 text-xs">Richard Gran</h6>
-                                            <p class="text-xs text-secondary mb-0">richard@creative-tim.com</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p class="text-xs font-weight-bold mb-0">Manager</p>
-                                    <p class="text-xs text-secondary mb-0">Executive</p>
-                                </td>
-                                <td class="align-middle text-center text-sm">
-                                    <span class="badge badge-sm badge-secondary">Offline</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-normal">04/10/21</span>
-                                </td>
-                                <td class="align-middle">
-                                    <a href="#!" class="text-secondary font-weight-normal text-xs" data-toggle="tooltip"
-                                        data-original-title="Edit user">
-                                        Edit
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                            <tr>
-                                <td>
-                                    <div class="d-flex px-2 py-1">
-                                        <div>
-                                            <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/team-2.jpg"
-                                                class="avatar avatar-sm me-3">
-                                        </div>
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="mb-0 text-xs">John Michael</h6>
-                                            <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p class="text-xs font-weight-bold mb-0">Manager</p>
-                                    <p class="text-xs text-secondary mb-0">Organization</p>
-                                </td>
-                                <td class="align-middle text-center text-sm">
-                                    <span class="badge badge-sm badge-success">Online</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-normal">23/04/18</span>
-                                </td>
-                                <td class="align-middle">
-                                    <a href="javascript:;" class="text-secondary font-weight-normal text-xs"
-                                        data-toggle="tooltip" data-original-title="Edit user">
-                                        Edit
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="d-flex px-2 py-1">
-                                        <div>
-                                            <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/team-3.jpg"
-                                                class="avatar avatar-sm me-3">
-                                        </div>
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="mb-0 text-xs">Alexa Liras</h6>
-                                            <p class="text-xs text-secondary mb-0">alexa@creative-tim.com</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p class="text-xs font-weight-bold mb-0">Programator</p>
-                                    <p class="text-xs text-secondary mb-0">Developer</p>
-                                </td>
-                                <td class="align-middle text-center text-sm">
-                                    <span class="badge badge-sm badge-secondary">Offline</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-normal">11/01/19</span>
-                                </td>
-                                <td class="align-middle">
-                                    <a href="#!" class="text-secondary font-weight-normal text-xs" data-toggle="tooltip"
-                                        data-original-title="Edit user">
-                                        Edit
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="d-flex px-2 py-1">
-                                        <div>
-                                            <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/team-4.jpg"
-                                                class="avatar avatar-sm me-3">
-                                        </div>
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="mb-0 text-xs">Laurent Perrier</h6>
-                                            <p class="text-xs text-secondary mb-0">laurent@creative-tim.com</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p class="text-xs font-weight-bold mb-0">Executive</p>
-                                    <p class="text-xs text-secondary mb-0">Projects</p>
-                                </td>
-                                <td class="align-middle text-center text-sm">
-                                    <span class="badge badge-sm badge-success">Online</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-normal">19/09/17</span>
-                                </td>
-                                <td class="align-middle">
-                                    <a href="#!" class="text-secondary font-weight-normal text-xs" data-toggle="tooltip"
-                                        data-original-title="Edit user">
-                                        Edit
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="d-flex px-2 py-1">
-                                        <div>
-                                            <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/team-3.jpg"
-                                                class="avatar avatar-sm me-3">
-                                        </div>
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="mb-0 text-xs">Michael Levi</h6>
-                                            <p class="text-xs text-secondary mb-0">michael@creative-tim.com</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p class="text-xs font-weight-bold mb-0">Programator</p>
-                                    <p class="text-xs text-secondary mb-0">Developer</p>
-                                </td>
-                                <td class="align-middle text-center text-sm">
-                                    <span class="badge badge-sm badge-success">Online</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-normal">24/12/08</span>
-                                </td>
-                                <td class="align-middle">
-                                    <a href="#!" class="text-secondary font-weight-normal text-xs" data-toggle="tooltip"
-                                        data-original-title="Edit user">
-                                        Edit
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="d-flex px-2 py-1">
-                                        <div>
-                                            <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/team-2.jpg"
-                                                class="avatar avatar-sm me-3">
-                                        </div>
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="mb-0 text-xs">Richard Gran</h6>
-                                            <p class="text-xs text-secondary mb-0">richard@creative-tim.com</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p class="text-xs font-weight-bold mb-0">Manager</p>
-                                    <p class="text-xs text-secondary mb-0">Executive</p>
-                                </td>
-                                <td class="align-middle text-center text-sm">
-                                    <span class="badge badge-sm badge-secondary">Offline</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-normal">04/10/21</span>
-                                </td>
-                                <td class="align-middle">
-                                    <a href="#!" class="text-secondary font-weight-normal text-xs" data-toggle="tooltip"
-                                        data-original-title="Edit user">
-                                        Edit
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="d-flex px-2 py-1">
-                                        <div>
-                                            <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/team-4.jpg"
-                                                class="avatar avatar-sm me-3">
-                                        </div>
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="mb-0 text-xs">Miriam Eric</h6>
-                                            <p class="text-xs text-secondary mb-0">miriam@creative-tim.com</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p class="text-xs font-weight-bold mb-0">Programtor</p>
-                                    <p class="text-xs text-secondary mb-0">Developer</p>
-                                </td>
-                                <td class="align-middle text-center text-sm">
-                                    <span class="badge badge-sm badge-secondary">Offline</span>
-                                </td>
-                                <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-normal">14/09/20</span>
-                                </td>
-                                <td class="align-middle">
-                                    <a href="#!" class="text-secondary font-weight-normal text-xs" data-toggle="tooltip"
-                                        data-original-title="Edit user">
-                                        Edit
-                                    </a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="card-footer">
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item disabled">
-                        <a class="page-link" href="javascript:;" tabindex="-1">
-                            <span class="material-icons">keyboard_arrow_left</span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="javascript:;">1</a></li>
-                        <li class="page-item active"><a class="page-link" href="javascript:;">2</a></li>
-                        <li class="page-item"><a class="page-link" href="javascript:;">3</a></li>
-                        <li class="page-item">
-                        <a class="page-link" href="javascript:;">
-                            <span class="material-icons">
-                            keyboard_arrow_right
-                            </span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                        </li>
-                    </ul>
-                </nav>
-            </div> 
         </div>
     </div>
 </div>
