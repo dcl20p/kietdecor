@@ -137,12 +137,18 @@ const common = (function () {
             if (stopLoop) return false;
             if ("" === evt.value.trim()) {
                 showToast && showMessage(window.msg.not_empty, 'danger');
-                evt.closest('div.input-group').classList.add('is-invalid', 'is-filled');
-                evt.focus();
+                if (evt.tagName == 'INPUT') {
+                    evt.closest('div.input-group').classList.add('is-invalid', 'is-filled');
+                    evt.focus();
+                } else if (evt.tagName == 'SELECT') {
+                    evt.click();
+                }
                 stopLoop = true;
             } else {
-                evt.closest('div.input-group').classList.remove('is-invalid');
-                evt.closest('div.input-group').classList.add('is-valid', 'is-filled');
+                if (evt.tagName == 'INPUT') {
+                    evt.closest('div.input-group').classList.remove('is-invalid');
+                    evt.closest('div.input-group').classList.add('is-valid', 'is-filled');
+                }
             }
         });
 
@@ -567,5 +573,6 @@ const common = (function () {
         checkPassWord:      checkPassWord,
         initQuill:          initQuill,
         initDropzone:       initDropzone,
+        initChoicesTags:    initChoicesTags,
     };
 })();

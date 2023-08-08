@@ -39,16 +39,16 @@ $this->headScriptAction(null, [], [
                 </div>
                 <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
                     <div class="multisteps-form__progress">
-                        <button class="multisteps-form__progress-btn js-active" type="button"
+                        <a class="multisteps-form__progress-btn btnDefault js-active" href="javascript:void(0);"
                             title="<?= $this->translate('Thông tin cơ bản')?>">
                             <span>1. <?= $this->translate('Thông tin cơ bản')?></span>
-                        </button>
-                        <button class="multisteps-form__progress-btn" type="button" title="Hình ảnh">
+                        </a>
+                        <a class="multisteps-form__progress-btn btnDefault" href="javascript:void(0);" title="Hình ảnh">
                             2. <?= $this->translate('Hình ảnh')?>
-                        </button>
-                        <button class="multisteps-form__progress-btn" type="button" title="SEO">
+                        </a>
+                        <a class="multisteps-form__progress-btn btnDefault" href="javascript:void(0);" title="SEO">
                             3. <?= $this->translate('SEO')?>
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -165,6 +165,13 @@ $this->headScriptAction(null, [], [
                         <div class="multisteps-form__content">
                             <div class="row mt-3">
                                 <div class="col-12">
+                                    <label class="form-control mb-0"><?= $this->translate('Thumbnail')?></label>
+                                    <div action="file-upload" class="form-control border dropzone"
+                                        id="thumbnail" style="height:200px"></div>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-12">
                                     <label class="form-control mb-0"><?= $this->translate('Danh sách hình ảnh')?></label>
                                     <div action="file-upload" class="form-control border dropzone"
                                         id="jsonImage" style="height:200px"></div>
@@ -185,7 +192,7 @@ $this->headScriptAction(null, [], [
                         <h5 class="font-weight-bolder"><?= $this->translate('SEO')?></h5>
                         <div class="multisteps-form__content">
                             <div class="row mt-3">
-                                <div class="col-12 col-sm-6 mt-3">
+                                <div class="col-12 mt-3">
                                     <div class="input-group input-group-dynamic">
                                         <label for="meta_title" class="form-label">
                                             <?= $this->translate('Meta title')?>
@@ -193,16 +200,6 @@ $this->headScriptAction(null, [], [
                                         <input class="multisteps-form__input form-control" type="text" 
                                             name="meta_title" id="meta_title"
                                             value="<?= $postData['meta_title'] ?? ''; ?>"/>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-6 mt-3">
-                                    <div class="input-group input-group-dynamic">
-                                        <label for="meta_title" class="form-label">
-                                            <?= $this->translate('Share url')?>
-                                        </label>
-                                        <input class="multisteps-form__input form-control" type="text" 
-                                            name="share_url" id="share_url"
-                                            value="<?= $postData['share_url'] ?? ''; ?>"/>
                                     </div>
                                 </div>
                             </div>
