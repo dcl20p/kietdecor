@@ -68,4 +68,9 @@ trait UploadImages
         unset($file);
         return ['name' => array_pop($name), 'path' => $imgDir];
     }
+
+    public function uploadImageDropzone()
+    {
+        
+    }
 }

@@ -137,12 +137,18 @@ const common = (function () {
             if (stopLoop) return false;
             if ("" === evt.value.trim()) {
                 showToast && showMessage(window.msg.not_empty, 'danger');
-                evt.closest('div.input-group').classList.add('is-invalid', 'is-filled');
-                evt.focus();
+                if (evt.tagName == 'INPUT') {
+                    evt.closest('div.input-group').classList.add('is-invalid', 'is-filled');
+                    evt.focus();
+                } else if (evt.tagName == 'SELECT') {
+                    evt.click();
+                }
                 stopLoop = true;
             } else {
-                evt.closest('div.input-group').classList.remove('is-invalid');
-                evt.closest('div.input-group').classList.add('is-valid', 'is-filled');
+                if (evt.tagName == 'INPUT') {
+                    evt.closest('div.input-group').classList.remove('is-invalid');
+                    evt.closest('div.input-group').classList.add('is-valid', 'is-filled');
+                }
             }
         });
 
@@ -504,39 +510,76 @@ const common = (function () {
      * @param {*} callbackInit 
      * @returns 
      */
-    const initDropzone = (
-        element, 
-        callbackSuccess = null,
-        callbackError = null,
-        maxFilesize = 5, 
-        maxFiles = 1, 
-        addRemoveLinks = true,
-    ) => {
+    const initDropzone = (element, options = {}) => {
         Dropzone.autoDiscover = false;
-        const img = new Dropzone(element, {
-            maxFilesize: maxFilesize,
-            maxFiles: maxFiles,
+        let defaultOptions = {
+            maxFilesize: 5,
+            uploadMultiple: false,
+            autoProcessQueue: false,
             acceptedFiles: ".png, .jpg, .jpeg, .gif",
-            addRemoveLinks: addRemoveLinks,
             dictDefaultMessage: "Thả tệp vào đây hoặc nhấp để tải lên",
             dictRemoveFile: "Xóa tệp",
+            addRemoveLinks: true,
             init: function() {
-                this.on("success", (file, response) => {
-                    if (typeof callbackSuccess === 'function') {
-                        callbackSuccess(file, response);
-                    } else {
-                        console.log(file, response);
-                    }
-                });
                 this.on("error", (file, errorMessage) => {
-                    if (typeof callbackError === 'function') {
-                        callbackError(file, errorMessage);
-                    } else {
-                        console.log(file, errorMessage);
-                    }
+                    showMessage(errorMessage, 'danger');
+                    this.removeFile(file);
                 });
+            },
+            accept: function(file, done) {
+                let isDuplicate = this.files.some(function(existingFile) {
+                    return existingFile.name === file.name && existingFile.size === file.size;
+                });
+                console.log("ACcept", this.files, 
+                "===========================", file, isDuplicate);
+                
+                if (isDuplicate) {
+                    showMessage('File đã tồn tại trong danh sách.', 'danger');
+                    this.removeFile(file);
+                } else {
+                    done();
+                }
             }
-        });
+        };
+        let params = {...defaultOptions, ...options};
+        const img = new Dropzone(element, params
+        // {
+        //     maxFilesize: maxFilesize,
+        //     maxFiles: maxFiles,
+        //     acceptedFiles: ".png, .jpg, .jpeg, .gif",
+        //     addRemoveLinks: addRemoveLinks,
+        //     dictDefaultMessage: "Thả tệp vào đây hoặc nhấp để tải lên",
+        //     dictRemoveFile: "Xóa tệp",
+        //     init: function() {
+        //         this.on("success", (file, response) => {
+        //             if (typeof callbackSuccess === 'function') {
+        //                 callbackSuccess(file, response);
+        //             } else {
+        //                 // console.log(file, response);
+        //             }
+        //         });
+        //         this.on("error", (file, errorMessage) => {
+        //             if (typeof callbackError === 'function') {
+        //                 callbackError(file, errorMessage);
+        //             } else {
+        //                 console.log(errorMessage);
+        //             }
+        //         });
+        //     },
+        //     accept: function(file, done) {
+        //         var isDuplicate = this.files.some(function(existingFile) {
+        //             return existingFile.name === file.name && existingFile.size === file.size;
+        //         });
+        //         console.log(file, done, isDuplicate);
+                
+        //         // if (isDuplicate) {
+        //         //     done("File đã tồn tại trong danh sách.");
+        //         // } else {
+        //         //     done();
+        //         // }
+        //     }
+        // }
+        );
 
         return img;
     };
@@ -567,5 +610,6 @@ const common = (function () {
         checkPassWord:      checkPassWord,
         initQuill:          initQuill,
         initDropzone:       initDropzone,
+        initChoicesTags:    initChoicesTags,
     };
 })();
