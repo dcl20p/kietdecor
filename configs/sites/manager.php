@@ -6,5 +6,6 @@ return [
         'Project',
         'Service',
         'Manager',
+        'Upload'
     ]
 ];

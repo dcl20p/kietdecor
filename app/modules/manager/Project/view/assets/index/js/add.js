@@ -1,4 +1,5 @@
 (function(){
+    var isValidThumbnail = isValidListImage = true;
 
     const elDes      = document.getElementById('description'),
         choices      = document.querySelectorAll('.choices'),
@@ -12,6 +13,7 @@
         service      = document.querySelector('#service'),
         assignee     = document.querySelector('#assignee'),
         btnDefault   = document.querySelectorAll('.btnDefault'),
+        btnSubmit    = document.getElementById('btnSubmit'),
         btnNextStep2 = document.querySelector('#btnNextStep2');    
 
     const checkValidForm = () => {
@@ -30,9 +32,32 @@
 
     const handleNextStep2 = (evt) => {
         evt.preventDefault();
-        if (!checkValidForm()) {
-            evt.stopPropagation();
-        }
+        // if (!checkValidForm()) {
+        //     evt.stopPropagation();
+        // }
+    };
+
+    const handleSubmit = (evt) => {
+        evt.preventDefault();
+        console.log(dropzoneThumbnail);
+        dropzoneThumbnail.processQueue();
+        dropzoneListImg.processQueue();
+        // let descriptionValue = quillDes ? quillDes.root.innerHTML.trim() : '';
+        // let imgVale = projectCateDropzone ? projectCateDropzone.getQueuedFiles() : [];
+
+        // const inputDes = document.createElement('input');
+        // inputDes.type  = 'text';
+        // inputDes.name  = 'meta_desc';
+        // inputDes.value = descriptionValue;
+
+        // const inputImg = document.createElement('input');
+        // inputImg.type  = 'text';
+        // inputImg.name  = 'image';
+        // inputImg.value = imgVale;
+
+        // adminForm.appendChild(inputDes);
+        // adminForm.appendChild(inputImg);
+        // adminForm.submit();
     };
 
     btnDefault && btnDefault.forEach((el) => {
@@ -50,9 +75,17 @@
 
     const quillDes          = elDes && common.initQuill(elDes);
     const metaDes           = elMetaDes && common.initQuill(elMetaDes);
-    const dropzoneListImg   = elImage && common.initDropzone(elImage);
-    const dropzoneThumbnail = elImage && common.initDropzone(thumbnail);
-    btnNextStep2 && btnNextStep2.addEventListener('click', handleNextStep2);
+    const dropzoneListImg   = elImage && common.initDropzone(elImage, {
+        uploadMultiple: true,
+        maxFiles: 2,
+    });
+    const dropzoneThumbnail = elImage && common.initDropzone(thumbnail, {
+        maxFiles: 1,     
+    });
+
+    // console.log("dropzoneThumbnail",dropzoneThumbnail);
     metaKeyword && common.initChoicesTags(metaKeyword);
+    btnNextStep2 && btnNextStep2.addEventListener('click', handleNextStep2);
+    btnSubmit && btnSubmit.addEventListener('click', handleSubmit);
  
 })()
