@@ -39,7 +39,6 @@
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
-        console.log(dropzoneThumbnail);
         dropzoneThumbnail.processQueue();
         dropzoneListImg.processQueue();
         // let descriptionValue = quillDes ? quillDes.root.innerHTML.trim() : '';
