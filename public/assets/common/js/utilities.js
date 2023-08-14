@@ -504,14 +504,13 @@ const common = (function () {
     /**
      * Init Dropzone
      * @param {*} element 
-     * @param {*} maxFilesize 
-     * @param {*} maxFiles 
-     * @param {*} addRemoveLinks 
-     * @param {*} callbackInit 
+     * @param {*} options 
+     * @param {*} btnSubmit 
      * @returns 
      */
-    const initDropzone = (element, options = {}) => {
+    const initDropzone = (element, options = {}, btnSubmit = '#btnSubmit') => {
         Dropzone.autoDiscover = false;
+let nameExists = [];
         let defaultOptions = {
             maxFilesize: 5,
             uploadMultiple: false,
@@ -521,20 +520,19 @@ const common = (function () {
             dictRemoveFile: "Xóa tệp",
             addRemoveLinks: true,
             init: function() {
+                var myDropzone = this;
+                document.querySelector(btnSubmit).addEventListener("click", function(){
+                    myDropzone.processQueue();
+                });
                 this.on("error", (file, errorMessage) => {
                     showMessage(errorMessage, 'danger');
                     this.removeFile(file);
                 });
             },
             accept: function(file, done) {
-                let isDuplicate = this.files.some(function(existingFile) {
-                    return existingFile.name === file.name && existingFile.size === file.size;
-                });
-                console.log("ACcept", this.files, 
-                "===========================", file, isDuplicate);
-                
-                if (isDuplicate) {
-                    showMessage('File đã tồn tại trong danh sách.', 'danger');
+                let fileName = file.name;
+                if (nameExists.includes(fileName)) {
+                    showMessage('Tên file đã tồn tại', 'danger');
                     this.removeFile(file);
                 } else {
                     done();
@@ -542,44 +540,7 @@ const common = (function () {
             }
         };
         let params = {...defaultOptions, ...options};
-        const img = new Dropzone(element, params
-        // {
-        //     maxFilesize: maxFilesize,
-        //     maxFiles: maxFiles,
-        //     acceptedFiles: ".png, .jpg, .jpeg, .gif",
-        //     addRemoveLinks: addRemoveLinks,
-        //     dictDefaultMessage: "Thả tệp vào đây hoặc nhấp để tải lên",
-        //     dictRemoveFile: "Xóa tệp",
-        //     init: function() {
-        //         this.on("success", (file, response) => {
-        //             if (typeof callbackSuccess === 'function') {
-        //                 callbackSuccess(file, response);
-        //             } else {
-        //                 // console.log(file, response);
-        //             }
-        //         });
-        //         this.on("error", (file, errorMessage) => {
-        //             if (typeof callbackError === 'function') {
-        //                 callbackError(file, errorMessage);
-        //             } else {
-        //                 console.log(errorMessage);
-        //             }
-        //         });
-        //     },
-        //     accept: function(file, done) {
-        //         var isDuplicate = this.files.some(function(existingFile) {
-        //             return existingFile.name === file.name && existingFile.size === file.size;
-        //         });
-        //         console.log(file, done, isDuplicate);
-                
-        //         // if (isDuplicate) {
-        //         //     done("File đã tồn tại trong danh sách.");
-        //         // } else {
-        //         //     done();
-        //         // }
-        //     }
-        // }
-        );
+        const img = new Dropzone(element, params);
 
         return img;
     };
