@@ -72,8 +72,8 @@
         });
     });
 
-    const quillDes          = elDes && common.initQuill(elDes);
-    const metaDes           = elMetaDes && common.initQuill(elMetaDes);
+    const quillDes = elDes && common.initQuill(elDes);
+    const metaDes  = elMetaDes && common.initQuill(elMetaDes);
     const dropzoneListImg   = elImage && common.initDropzone(elImage, {
         uploadMultiple: true,
         maxFiles: 2,

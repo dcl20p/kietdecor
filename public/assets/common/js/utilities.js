@@ -510,7 +510,7 @@ const common = (function () {
      */
     const initDropzone = (element, options = {}, btnSubmit = '#btnSubmit') => {
         Dropzone.autoDiscover = false;
-let nameExists = [];
+        let nameExists = [];
         let defaultOptions = {
             maxFilesize: 5,
             uploadMultiple: false,
@@ -528,15 +528,16 @@ let nameExists = [];
                     showMessage(errorMessage, 'danger');
                     this.removeFile(file);
                 });
+                this.on("success", (file, response) => {
+                    console.log(file, e)
+                });
             },
             accept: function(file, done) {
                 let fileName = file.name;
                 if (nameExists.includes(fileName)) {
                     showMessage('Tên file đã tồn tại', 'danger');
                     this.removeFile(file);
-                } else {
-                    done();
-                }
+                } else done();
             }
         };
         let params = {...defaultOptions, ...options};

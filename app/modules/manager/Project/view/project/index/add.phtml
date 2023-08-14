@@ -166,7 +166,9 @@ $this->headScriptAction(null, [], [
                             <div class="row mt-3">
                                 <div class="col-12">
                                     <label class="form-control mb-0"><?= $this->translate('Thumbnail')?></label>
-                                    <div action="<?= $this->zfUrl('file-upload', ['action' => 'upload']);?>" 
+                                    <div action="<?= $this->zfUrl('file-upload', ['action' => 'upload'], ['query' => [
+                                        'path' => FOLDER_IMAGE_PRODUCT
+                                    ]]); ?>" 
                                         class="form-control border dropzone"
                                         id="thumbnail" style="height:200px"></div>
                                 </div>
@@ -174,7 +176,9 @@ $this->headScriptAction(null, [], [
                             <div class="row mt-3">
                                 <div class="col-12">
                                     <label class="form-control mb-0"><?= $this->translate('Danh sách hình ảnh')?></label>
-                                    <div action="<?= $this->zfUrl('file-upload', ['action' => 'upload']); ?>"
+                                    <div action="<?= $this->zfUrl('file-upload', ['action' => 'upload'], ['query' => [
+                                        'path' => FOLDER_IMAGE_PRODUCT
+                                    ]]); ?>"
                                         class="form-control border dropzone"
                                         id="jsonImage" style="height:200px"></div>
                                 </div>

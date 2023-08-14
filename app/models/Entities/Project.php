@@ -11,6 +11,13 @@ use Doctrine\ORM\Mapping\Table;
  */
 class Project extends Generated\Project
 {
+
+    const PROJECT_IMAGE_SIZES = [
+        '1' => '200x400', 
+        '2' => '400x900', 
+        '4' => '1000x300'
+    ];
+
     /**
      * Set image
      * @param array $data
