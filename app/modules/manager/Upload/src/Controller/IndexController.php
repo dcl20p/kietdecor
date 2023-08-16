@@ -24,6 +24,7 @@ class IndexController extends ZfController
         try {
             if ($this->isPostRequest()) {
                 $folderName = $this->getParamsQuery('path', 'project');
+                dd($this->getParamsFiles());
                 if (empty($files = $this->getParamsFiles()['file'] ?? [])) {
                     return new JsonModel([
                         'success' => false,
@@ -60,7 +61,7 @@ class IndexController extends ZfController
             dd($e->getMessage(), $e->getTraceAsString());
             $this->saveErrorLog($e);
         }
-
+dd($result);
         return new JsonModel([
             'success' => true,
             'msg'     => 'Successful.',

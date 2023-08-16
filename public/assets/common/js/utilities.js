@@ -529,7 +529,8 @@ const common = (function () {
                     this.removeFile(file);
                 });
                 this.on("success", (file, response) => {
-                    console.log(file, e)
+                    console.log(element);
+                    // element.dataset.src = response.data.
                 });
             },
             accept: function(file, done) {
@@ -537,7 +538,10 @@ const common = (function () {
                 if (nameExists.includes(fileName)) {
                     showMessage('Tên file đã tồn tại', 'danger');
                     this.removeFile(file);
-                } else done();
+                } else  {
+                    nameExists.push(fileName);
+                    done();
+                }
             }
         };
         let params = {...defaultOptions, ...options};
