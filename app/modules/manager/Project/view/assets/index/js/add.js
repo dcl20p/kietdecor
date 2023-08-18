@@ -76,7 +76,7 @@
     const metaDes  = elMetaDes && common.initQuill(elMetaDes);
     const dropzoneListImg   = elImage && common.initDropzone(elImage, {
         uploadMultiple: true,
-        maxFiles: 2,
+        maxFiles: 50,
     });
     const dropzoneThumbnail = elImage && common.initDropzone(thumbnail, {
         maxFiles: 1,     
