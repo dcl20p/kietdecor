@@ -513,24 +513,19 @@ const common = (function () {
         let nameExists = [];
         let defaultOptions = {
             maxFilesize: 5,
-            uploadMultiple: false,
+            uploadMultiple: true,
             autoProcessQueue: false,
             acceptedFiles: ".png, .jpg, .jpeg, .gif",
-            dictDefaultMessage: "Thả tệp vào đây hoặc nhấp để tải lên",
+            // dictDefaultMessage: "Thả tệp vào đây hoặc nhấp để tải lên",
             dictRemoveFile: "Xóa tệp",
             addRemoveLinks: true,
             init: function() {
-                var myDropzone = this;
-                document.querySelector(btnSubmit).addEventListener("click", function(){
-                    myDropzone.processQueue();
-                });
                 this.on("error", (file, errorMessage) => {
                     showMessage(errorMessage, 'danger');
                     this.removeFile(file);
                 });
-                this.on("success", (file, response) => {
-                    console.log(element);
-                    // element.dataset.src = response.data.
+                this.on("success", (file) => {
+                    this.removeFile(file);
                 });
             },
             accept: function(file, done) {

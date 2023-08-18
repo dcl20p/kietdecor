@@ -30,6 +30,39 @@
         return true;
     };
 
+    const uploadFiles = (objDropzone) => {
+        return new Promise((resolve) => {
+            objDropzone.processQueue();
+            objDropzone.on('complete', function(file) {
+                
+                if (file.status === "success") {
+                    const response = JSON.parse(file.xhr.response); 
+                    resolve(response);
+                } else {
+                    common.showMessage('Tải lên thất bại', 'danger');
+                    objDropzone.removeFile(file);
+                }
+            });
+            objDropzone.on("error", (file, errorMessage) => {
+                common.showMessage(errorMessage, 'danger');
+                objDropzone.removeFile(file);
+            });
+        });
+    };
+
+    const checkValidUploadFile = () => {
+        if (dropzoneListImg.getQueuedFiles().length === 0) {
+            common.showMessage('Chưa chọn danh sách hình ảnh', 'danger');
+            return false;
+        }
+
+        if (dropzoneThumbnail.getQueuedFiles().length === 0) {
+            common.showMessage('Chưa chọn hình thumbnail', 'danger');
+            return false;
+        }
+        return true;
+    }
+
     const handleNextStep2 = (evt) => {
         evt.preventDefault();
         // if (!checkValidForm()) {
@@ -37,26 +70,25 @@
         // }
     };
 
-    const handleSubmit = (evt) => {
+    const submitForm = (imgThumb, imgList) => {
+
+    }
+
+    const handleSubmit = async (evt) => {
         evt.preventDefault();
-        dropzoneThumbnail.processQueue();
-        dropzoneListImg.processQueue();
-        // let descriptionValue = quillDes ? quillDes.root.innerHTML.trim() : '';
-        // let imgVale = projectCateDropzone ? projectCateDropzone.getQueuedFiles() : [];
-
-        // const inputDes = document.createElement('input');
-        // inputDes.type  = 'text';
-        // inputDes.name  = 'meta_desc';
-        // inputDes.value = descriptionValue;
-
-        // const inputImg = document.createElement('input');
-        // inputImg.type  = 'text';
-        // inputImg.name  = 'image';
-        // inputImg.value = imgVale;
-
-        // adminForm.appendChild(inputDes);
-        // adminForm.appendChild(inputImg);
-        // adminForm.submit();
+        if (checkValidUploadFile()) {
+            uploadFiles(dropzoneThumbnail).then(response => {
+                if (response.success) {
+                    let imgThumb = response.data;
+                    uploadFiles(dropzoneListImg).then(response => {
+                        if (response.success) {
+                            let imgList = response.data;
+                            submitForm(imgThumb, imgList);
+                        } else common.showMessage(response.msg, 'danger');
+                    });
+                } else common.showMessage(response.msg, 'danger');
+            });
+        }
     };
 
     btnDefault && btnDefault.forEach((el) => {
@@ -74,17 +106,11 @@
 
     const quillDes = elDes && common.initQuill(elDes);
     const metaDes  = elMetaDes && common.initQuill(elMetaDes);
-    const dropzoneListImg   = elImage && common.initDropzone(elImage, {
-        uploadMultiple: true,
-        maxFiles: 50,
-    });
-    const dropzoneThumbnail = elImage && common.initDropzone(thumbnail, {
-        maxFiles: 1,     
-    });
+    const dropzoneListImg   = elImage && common.initDropzone(elImage, {maxFiles: 50});
+    const dropzoneThumbnail = elImage && common.initDropzone(thumbnail, {maxFiles: 1});
 
     // console.log("dropzoneThumbnail",dropzoneThumbnail);
     metaKeyword && common.initChoicesTags(metaKeyword);
     btnNextStep2 && btnNextStep2.addEventListener('click', handleNextStep2);
     btnSubmit && btnSubmit.addEventListener('click', handleSubmit);
- 
 })()
