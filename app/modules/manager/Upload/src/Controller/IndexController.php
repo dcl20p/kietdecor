@@ -20,11 +20,10 @@ class IndexController extends ZfController
      */
     public function uploadAction(): JsonModel
     {
-        $result = [];
+        $results = [];
         try {
             if ($this->isPostRequest()) {
                 $folderName = $this->getParamsQuery('path', 'project');
-                dd($this->getParamsFiles());
                 if (empty($files = $this->getParamsFiles()['file'] ?? [])) {
                     return new JsonModel([
                         'success' => false,
@@ -33,13 +32,13 @@ class IndexController extends ZfController
                 }
                 foreach ($files as $file) {
                     if (!empty($this->isValidUploadImg($file))) {
-                        $upload = $this->uploadImageDropzone(
+                        $response = $this->uploadImageDropzone(
                             $file, 
                             $folderName, 
                             Project::PROJECT_IMAGE_SIZES
                         );
-                        if ($upload) {
-                            $result[] = $upload['name'];
+                        if ($response) {
+                            $results[] = $response['name'];
                         }
                     }
                 }
@@ -51,21 +50,21 @@ class IndexController extends ZfController
             }
             
         } catch (\Throwable $e) {
-            if (!empty($upload['name'])) {
+            if (!empty($uploads['name'])) {
+                foreach ($results as $upload)
                 $this->revertUploadImageDropzone(
                     $upload['name'], 
                     $folderName, 
                     Project::PROJECT_IMAGE_SIZES
                 );
             }
-            dd($e->getMessage(), $e->getTraceAsString());
             $this->saveErrorLog($e);
         }
-dd($result);
+        
         return new JsonModel([
             'success' => true,
             'msg'     => 'Successful.',
-            'data'    => @json_encode($result ?? [])
+            'data'    => implode(',', $results ?? [])
         ]);
     }
 }
