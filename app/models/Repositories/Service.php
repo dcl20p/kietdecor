@@ -7,6 +7,18 @@ use Models\Repositories\Abstracted\Repository;
 class Service extends Repository
 {
     /**
+     * @param QueryBuilder $qb
+     * @param integer|string $val
+     * @return QueryBuilder
+     */
+    protected function _filter_status(QueryBuilder $qb, int|string $val): QueryBuilder
+    {
+        if (empty($val)) return $qb;
+        return $qb->andWhere('SV.sv_status = :status')
+            ->setParameter('status', $val);
+    }
+
+    /**
      * Get list
      *
      * @param array $opts

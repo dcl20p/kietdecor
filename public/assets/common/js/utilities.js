@@ -479,9 +479,22 @@ const common = (function () {
     const initQuill = (
         element, 
         toolbar = [
-            ['bold', 'italic', 'underline'],
+            ['bold', 'italic', 'underline', 'strike'],       
             ['blockquote', 'code-block'],
-            [{ list: 'ordered' }, { list: 'bullet' }]
+
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+            [{ 'script': 'sub'}, { 'script': 'super' }],     
+            [{ 'indent': '-1'}, { 'indent': '+1' }],         
+            [{ 'direction': 'rtl' }],                        
+          
+            [{ 'size': ['small', false, 'large', 'huge'] }], 
+            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+          
+            [{ 'color': [] }, { 'background': [] }],         
+            [{ 'font': [] }],
+            [{ 'align': [] }],
+          
+            ['clean']                     
         ],
         placeholder = 'Nhập thông tin mô tả...',
         theme = 'snow',
@@ -489,7 +502,7 @@ const common = (function () {
     ) => {
         let params = {...{
             modules: {
-                toolbar: toolbar
+                toolbar: toolbar,
             },
             placeholder: placeholder,
             theme: theme
@@ -500,6 +513,11 @@ const common = (function () {
         return quill;
     };
 
+    const removeItemInArray = (arr, item) => {
+        return arr.filter(function(i) {
+            return i !== item;
+        });
+    };
 
     /**
      * Init Dropzone
@@ -516,7 +534,7 @@ const common = (function () {
             uploadMultiple: true,
             autoProcessQueue: false,
             acceptedFiles: ".png, .jpg, .jpeg, .gif",
-            // dictDefaultMessage: "Thả tệp vào đây hoặc nhấp để tải lên",
+            dictDefaultMessage: "Thả tệp vào đây hoặc nhấp để tải lên",
             dictRemoveFile: "Xóa tệp",
             addRemoveLinks: true,
             init: function() {
@@ -527,6 +545,9 @@ const common = (function () {
                 this.on("success", (file) => {
                     this.removeFile(file);
                 });
+                this.on("removedfile", function(file) {
+                    nameExists = removeItemInArray(nameExists, file.name);
+                });
             },
             accept: function(file, done) {
                 let fileName = file.name;
@@ -534,9 +555,9 @@ const common = (function () {
                     showMessage('Tên file đã tồn tại', 'danger');
                     this.removeFile(file);
                 } else  {
-                    nameExists.push(fileName);
                     done();
                 }
+                nameExists.push(fileName);
             }
         };
         let params = {...defaultOptions, ...options};
@@ -555,6 +576,25 @@ const common = (function () {
         });
     };
 
+    const uploadFiles = (objDropzone) => {
+        return new Promise((resolve) => {
+            objDropzone.processQueue();
+            objDropzone.on('complete', function(file) {
+                
+                if (file.status === "success") {
+                    const response = JSON.parse(file.xhr.response); 
+                    resolve(response);
+                } else {
+                    showMessage('Tải lên thất bại', 'danger');
+                    objDropzone.removeFile(file);
+                }
+            });
+            objDropzone.on("error", (file, errorMessage) => {
+                showMessage(errorMessage, 'danger');
+                objDropzone.removeFile(file);
+            });
+        });
+    };
 
     return {
         showMessage:        showMessage,
@@ -572,5 +612,6 @@ const common = (function () {
         initQuill:          initQuill,
         initDropzone:       initDropzone,
         initChoicesTags:    initChoicesTags,
+        uploadFiles:        uploadFiles,
     };
 })();

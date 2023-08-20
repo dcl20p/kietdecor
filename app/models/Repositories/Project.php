@@ -7,6 +7,30 @@ use Models\Repositories\Abstracted\Repository;
 class Project extends Repository
 {
     /**
+     * @param QueryBuilder $qb
+     * @param integer|string $val
+     * @return QueryBuilder
+     */
+    protected function _filter_status(QueryBuilder $qb, int|string $val): QueryBuilder
+    {
+        if (empty($val)) return $qb;
+        return $qb->andWhere('PR.pr_status = :status')
+            ->setParameter('status', $val);
+    }
+
+    /**
+     * @param QueryBuilder $qb
+     * @param integer|string $val
+     * @return QueryBuilder
+     */
+    protected function _filter_prc_id(QueryBuilder $qb, int|string $val): QueryBuilder
+    {
+        if (empty($val)) return $qb;
+        return $qb->andWhere('PR.pr_prc_id = :prc_id')
+            ->setParameter('prc_id', $val);
+    }
+
+    /**
      * Get list
      *
      * @param array $opts

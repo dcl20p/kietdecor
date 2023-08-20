@@ -85,12 +85,12 @@ $this->headScriptAction(null, [], [
                             <div class="row mt-3">
                                 <div class=" col-12 col-sm-6 mt-3">
                                     <div class="input-group input-group-dynamic">
-                                        <label for="assignee" class="form-label">
+                                        <label for="assigned_to" class="form-label">
                                             <?= $this->translate('Người phụ trách')?>
                                         </label>
                                         <input class="multisteps-form__input form-control" type="text" 
-                                            name="assignee" id="assignee"
-                                            value="<?= $postData['assignee'] ?? ''; ?>"
+                                            name="assigned_to" id="assigned_to"
+                                            value="<?= $postData['assigned_to'] ?? ''; ?>"
                                             maxlength="50"/>
                                     </div>
                                 </div>
@@ -112,15 +112,15 @@ $this->headScriptAction(null, [], [
                                         <?= $this->translate('Loại dự án')?>
                                     </label>
                                     <?php
-                                        $select = new Element\Select('project_cate');
+                                        $select = new Element\Select('prc_id');
                                         $select->setAttributes([
                                             'class' => 'form-control choices',
-                                            'id' => 'project_cate'
+                                            'id' => 'prc_id'
                                         ]);
                                         $select->setValueOptions(array_replace([
                                             '' => $this->translate('Vui lòng chọn')
                                         ], $prCates));
-                                        $select->setValue($postData['project_cate'] ?? '');
+                                        $select->setValue($postData['prc_id'] ?? '');
                                         echo $this->formSelect($select);
                                     ?>
                                 </div>
@@ -129,15 +129,15 @@ $this->headScriptAction(null, [], [
                                         <?= $this->translate('Loại dịch vụ')?>
                                     </label>
                                     <?php
-                                        $select = new Element\Select('service');
+                                        $select = new Element\Select('sv_id');
                                         $select->setAttributes([
                                             'class' => 'form-control choices',
-                                            'id' => 'service'
+                                            'id' => 'sv_id'
                                         ]);
                                         $select->setValueOptions(array_replace([
                                             '' => $this->translate('Vui lòng chọn')
-                                        ], $services));
-                                        $select->setValue($postData['services'] ?? '');
+                                        ], $prServices));
+                                        $select->setValue($postData['sv_id'] ?? '');
                                         echo $this->formSelect($select);
                                     ?>
                                 </div>
@@ -230,7 +230,8 @@ $this->headScriptAction(null, [], [
                                     title="Prev"><?= $this->translate('Quay lại')?></button>
                                 <a class="btn bg-gradient-dark ms-auto mb-0" id="btnSubmit"
                                     href="javascript:void(0);" title="<?= $this->translate('Lưu')?>">
-                                    <?= $this->translate('Lưu')?>
+                                    <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                                    <span class="txt-btn"><?= $this->translate('Lưu') ?></span>
                                 </a>
                             </div>
                         </div>

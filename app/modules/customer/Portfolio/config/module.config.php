@@ -11,19 +11,22 @@ return [
     'router' => [
         'routes' => [
             'portfolio' => [
-                'type'    => RouterLiteral::class,
+                'type'    => RouterSegment::class,
                 'options' => [
-                    'route'    => '/portfolio',
+                    'route'    => '/portfolio[/:id]',
+                    'constraints' => [
+                        'id' => '[0-9]*'
+                    ],
                     'defaults' => [
                         'controller' => Controller\IndexController::class,
                         'action'     => 'index'
                     ],
                 ],
             ],
-            'portfolio-detail' => [
+            'works' => [
                 'type'    => RouterSegment::class,
                 'options' => [
-                    'route' => '/portfolio/:param[-:id][.html]',
+                    'route' => '/works/:param[-:id][.html]',
                     'constraints' => [
                         'param' => '[a-zA-Z0-9_-]+',
                         'id' => '[0-9]+',

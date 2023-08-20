@@ -28,6 +28,10 @@ class ComposerStaticInitffc9f4513ac91121b737e15739654a53
         array (
             'ImageTraits\\' => 12,
         ),
+        'G' => 
+        array (
+            'GeneralTraits\\' => 14,
+        ),
         'A' => 
         array (
             'Application\\' => 12,
@@ -58,6 +62,10 @@ class ComposerStaticInitffc9f4513ac91121b737e15739654a53
         'ImageTraits\\' => 
         array (
             0 => __DIR__ . '/../..' . '/../shareModules/ImageTraits',
+        ),
+        'GeneralTraits\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/../shareModules/GeneralTraits',
         ),
         'Application\\' => 
         array (

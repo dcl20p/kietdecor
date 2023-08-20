@@ -17,6 +17,7 @@ class ViewUtil
         return str_replace([
             'https://manager.','https://www.manager.',
             'https://customer.','https://www.customer.',
+            'https://','https://www.',
         ], 'https://www.media.', $baseLink);
     }
 }

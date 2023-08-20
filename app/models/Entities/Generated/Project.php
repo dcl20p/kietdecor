@@ -47,9 +47,13 @@ abstract class Project extends Status
      */
     protected $pr_prc_code;
     /**
+     * @Column(type="string", length=100, nullable=false)
+     */
+    protected $pr_thumbnail = '';
+    /**
      * @Column(type="string", nullable=false)
      */
-    protected $pr_json_image = '[]';
+    protected $pr_json_image = '';
     /**
      * @Column(type="string", length=255, nullable=false)
      */
@@ -85,7 +89,7 @@ abstract class Project extends Status
     /**
      * @Column(type="string", length=20, nullable=false)
      */
-    protected $pr_state = '[]';
+    protected $pr_state = 'PENDING';
     /**
      * @Column(type="string", length=1024, nullable=false)
      */

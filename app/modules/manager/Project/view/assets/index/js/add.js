@@ -1,53 +1,35 @@
 (function(){
-    var isValidThumbnail = isValidListImage = true;
-
-    const elDes      = document.getElementById('description'),
-        choices      = document.querySelectorAll('.choices'),
-        elMetaDes    = document.getElementById('meta_desc'),
-        metaKeyword  = document.getElementById('meta_keyword'),
-        elImage      = document.getElementById('jsonImage'),
-        thumbnail    = document.getElementById('thumbnail'),
-        name         = document.querySelector('#name'),
-        location     = document.querySelector('#location'),
-        projectCate  = document.querySelector('#project_cate'),
-        service      = document.querySelector('#service'),
-        assignee     = document.querySelector('#assignee'),
-        btnDefault   = document.querySelectorAll('.btnDefault'),
-        btnSubmit    = document.getElementById('btnSubmit'),
-        btnNextStep2 = document.querySelector('#btnNextStep2');    
+    const elDes       = document.getElementById('description'),
+        elChoices     = document.querySelectorAll('.choices'),
+        elMetaDes     = document.getElementById('meta_desc'),
+        elMetaKeyword = document.getElementById('meta_keyword'),
+        elMetaTitle   = document.getElementById('meta_title'),
+        elImage       = document.getElementById('jsonImage'),
+        elThumbnail   = document.getElementById('thumbnail'),
+        elName        = document.querySelector('#name'),
+        elLocation    = document.querySelector('#location'),
+        elProjectCate = document.querySelector('#project_cate'),
+        elService     = document.querySelector('#service'),
+        elAssignee    = document.querySelector('#assignee'),
+        elStatus      = document.getElementById('status'),
+        btnDefault    = document.querySelectorAll('.btnDefault'),
+        btnSubmit     = document.getElementById('btnSubmit'),
+        btnNextStep2  = document.querySelector('#btnNextStep2'),
+        adminForm     = document.getElementById('adminForm'),
+        btnNextStep3  = document.querySelector('#btnNextStep3');    
 
     const checkValidForm = () => {
-        const fieldRequired = [name, projectCate, service];
+        const fieldRequired = [elName, elProjectCate, elService];
         const fieldLength = [
-            [name, 1, 512],
-            [location, 0, 255],
-            [assignee, 0, 50],
+            [elName, 1, 512],
+            [elLocation, 0, 255],
+            [elAssignee, 0, 50],
         ];
         if (!common.checkRequired(fieldRequired)
             || !common.checkLength(fieldLength)
         ) return false;
 
         return true;
-    };
-
-    const uploadFiles = (objDropzone) => {
-        return new Promise((resolve) => {
-            objDropzone.processQueue();
-            objDropzone.on('complete', function(file) {
-                
-                if (file.status === "success") {
-                    const response = JSON.parse(file.xhr.response); 
-                    resolve(response);
-                } else {
-                    common.showMessage('Tải lên thất bại', 'danger');
-                    objDropzone.removeFile(file);
-                }
-            });
-            objDropzone.on("error", (file, errorMessage) => {
-                common.showMessage(errorMessage, 'danger');
-                objDropzone.removeFile(file);
-            });
-        });
     };
 
     const checkValidUploadFile = () => {
@@ -61,34 +43,78 @@
             return false;
         }
         return true;
-    }
+    };
 
     const handleNextStep2 = (evt) => {
         evt.preventDefault();
-        // if (!checkValidForm()) {
-        //     evt.stopPropagation();
-        // }
+        if (!checkValidForm()) {
+            evt.stopPropagation();
+        }
     };
 
-    const submitForm = (imgThumb, imgList) => {
+    const handleNextStep3 = (evt) => {
+        evt.preventDefault();
+        if (!checkValidUploadFile()) {
+            evt.stopPropagation();
+        }
+    };
 
-    }
+    const submitForm = (spinner, imgThumb, imgList) => {
+        let desc = quillDes ? quillDes.root.innerHTML.trim() : '';
+        let metaDesc = metaDes ? metaDes.root.innerHTML.trim() : '';
+
+        const inputDes = document.createElement('input');
+        inputDes.type  = 'text';
+        inputDes.name  = 'description';
+        inputDes.value = desc;
+
+        const inputMetaDes = document.createElement('input');
+        inputMetaDes.type  = 'text';
+        inputMetaDes.name  = 'meta_desc';
+        inputMetaDes.value = metaDesc;
+
+        const inputThumb = document.createElement('input');
+        inputThumb.type  = 'text';
+        inputThumb.name  = 'thumbnail';
+        inputThumb.value = imgThumb;
+
+        const inputListImg = document.createElement('input');
+        inputListImg.type  = 'text';
+        inputListImg.name  = 'json_image';
+        inputListImg.value = imgList;
+
+        adminForm.appendChild(inputDes);
+        adminForm.appendChild(inputMetaDes);
+        adminForm.appendChild(inputThumb);
+        adminForm.appendChild(inputListImg);
+
+        spinner.classList.add('d-none');
+        adminForm.submit();
+    };
 
     const handleSubmit = async (evt) => {
         evt.preventDefault();
-        if (checkValidUploadFile()) {
-            uploadFiles(dropzoneThumbnail).then(response => {
-                if (response.success) {
-                    let imgThumb = response.data;
-                    uploadFiles(dropzoneListImg).then(response => {
-                        if (response.success) {
-                            let imgList = response.data;
-                            submitForm(imgThumb, imgList);
-                        } else common.showMessage(response.msg, 'danger');
-                    });
-                } else common.showMessage(response.msg, 'danger');
-            });
-        }
+        let _self = evt.currentTarget,
+            spinner = _self.querySelector('.spinner-border');
+
+        spinner.classList.remove('d-none');
+        common.uploadFiles(dropzoneThumbnail).then(response => {
+            if (response.success) {
+                let imgThumb = response.data;
+                common.uploadFiles(dropzoneListImg).then(response => {
+                    if (response.success) {
+                        let imgList = response.data;
+                        submitForm(spinner, imgThumb, imgList);
+                    } else {
+                        common.showMessage(response.msg, 'danger');
+                        spinner.classList.add('d-none');
+                    }
+                });
+            } else {
+                common.showMessage(response.msg, 'danger');
+                spinner.classList.add('d-none');
+            }
+        });
     };
 
     btnDefault && btnDefault.forEach((el) => {
@@ -97,20 +123,20 @@
         })
     });
 
-    choices && choices.forEach((el) => {
+    elChoices && elChoices.forEach((el) => {
         new Choices(el, {
             shouldSort: false,
             searchEnabled: true,
         });
     });
 
-    const quillDes = elDes && common.initQuill(elDes);
-    const metaDes  = elMetaDes && common.initQuill(elMetaDes);
+    const quillDes  = elDes && common.initQuill(elDes);
+    const metaDes   = elMetaDes && common.initQuill(elMetaDes);
     const dropzoneListImg   = elImage && common.initDropzone(elImage, {maxFiles: 50});
-    const dropzoneThumbnail = elImage && common.initDropzone(thumbnail, {maxFiles: 1});
-
-    // console.log("dropzoneThumbnail",dropzoneThumbnail);
-    metaKeyword && common.initChoicesTags(metaKeyword);
+    const dropzoneThumbnail = elImage && common.initDropzone(elThumbnail, {maxFiles: 1});
+    
+    elMetaKeyword && common.initChoicesTags(elMetaKeyword);
     btnNextStep2 && btnNextStep2.addEventListener('click', handleNextStep2);
+    btnNextStep3 && btnNextStep3.addEventListener('click', handleNextStep3);
     btnSubmit && btnSubmit.addEventListener('click', handleSubmit);
 })()
