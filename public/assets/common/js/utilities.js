@@ -80,6 +80,16 @@ const common = (function () {
     };
 
     /**
+     * Check valid phone number except for phone codes
+     *
+     * @param {string} alias
+     * @returns {boolean}
+     */
+    const isValidAlias = (alias) => {
+        return new RegExp(/^[\w\-./]+$/).test(alias);
+    };
+
+    /**
      * Check user agent of Apple
      * @returns 
      */
@@ -254,6 +264,25 @@ const common = (function () {
         } else {
             phone.closest('div.input-group').classList.remove('is-invalid');
             phone.closest('div.input-group').classList.add('is-valid', 'is-filled');
+        }
+
+        return true;
+    }
+
+    /**
+     * Check valid alias
+     * @param {*} alias 
+     * @returns 
+     */
+    const checkAlias = (alias, showToast = true) => {
+        if (!isValidAlias(alias.value)) {
+            showToast && showMessage(window.msg.alias_invalid, 'danger');
+            alias.closest('div.input-group').classList.add('is-invalid', 'is-filled');
+            alias.focus();
+            return false;
+        } else {
+            alias.closest('div.input-group').classList.remove('is-invalid');
+            alias.closest('div.input-group').classList.add('is-valid', 'is-filled');
         }
 
         return true;
@@ -596,6 +625,22 @@ const common = (function () {
         });
     };
 
+    const renderAlias = (str) => {
+        str = str.toLowerCase().trim();
+        str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g,"a");
+        str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g,"e");
+        str = str.replace(/ì|í|ị|ỉ|ĩ/g,"i");
+        str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g,"o");
+        str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g,"u");
+        str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g,"y");
+        str = str.replace(/đ/g,"d");
+        str = str.replace(/!|@|\$|%|\^|\*|∣|\+|\=|\<|\>|\?|\/|,|\.|\:|\'| |\"|\&|\#|\[|\]|\(|\)|~/g,"-");
+        str = str.replace(/-+-/g,"-"); //thay thế 2- thành 1-
+        str = str.replace(/^\-+|\-+$/g,""); //cắt bỏ ký tự - ở đầu và cuối chuỗi
+        
+        return str;
+    };
+
     return {
         showMessage:        showMessage,
         isValidEmail:       isValidEmail,
@@ -613,5 +658,7 @@ const common = (function () {
         initDropzone:       initDropzone,
         initChoicesTags:    initChoicesTags,
         uploadFiles:        uploadFiles,
+        renderAlias:        renderAlias,
+        checkAlias:         checkAlias,
     };
 })();

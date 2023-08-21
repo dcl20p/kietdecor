@@ -66,6 +66,7 @@ class ProjectCateController extends ZfController
         $params = array_intersect_key($params, [
             'name'         => '',
             'image'        => '',
+            'alias'        => '',
             'status'       => 'off',
             'is_use'       => 'off',
             'meta_title'   => '',
@@ -73,6 +74,7 @@ class ProjectCateController extends ZfController
         ]);
 
         $params['name']  = trim(mb_substr($params['name'], 0, 100));
+        $params['alias'] = trim(mb_substr($params['alias'], 0, 500));
         $params['image'] = trim(mb_substr($params['image'], 0, 100));
         $params['meta_title'] = trim(mb_substr($params['meta_title'], 0, 1024));
         $params['meta_keyword'] = trim(mb_substr($params['meta_keyword'], 0, 2048));
@@ -216,6 +218,7 @@ class ProjectCateController extends ZfController
                 }
             } else $postData = [
                 'name'         => $entity->prc_name,
+                'alias'        => $entity->prc_alias,
                 'status'       => $entity->prc_status,
                 'is_use'       => $entity->prc_is_use,
                 'meta_title'   => $entity->prc_meta_title,
