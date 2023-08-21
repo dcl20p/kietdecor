@@ -21,9 +21,9 @@
 			"Application\\" : "Application/src",
 			"Project\\" : "Project/src",
 			"Service\\" : "Service/src",
-			"Manager\\" : "Manager/src",
 			"Upload\\" : "Upload/src",
-			"ImageTraits\\" : "../shareModules/ImageTraits"
+			"ImageTraits\\" : "../shareModules/ImageTraits",
+			"GeneralTraits\\" : "../shareModules/GeneralTraits"
 		}
 	}
 }

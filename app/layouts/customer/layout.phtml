@@ -27,6 +27,26 @@ $this->viewHook()->triggerEvt('layoutStruct', [
     'layoutStruct' => &$arrayStructs
 ]);
 
+$metaKeywords = $metaDescription = '';
+foreach ($this->headMeta() as $meta) {
+    if (isset($meta->name)) {
+        if ($meta->name == 'keywords') {
+            $metaKeywords = $meta->content;
+        }
+        if ($meta->name == 'description') {
+            $metaDescription = $meta->content;
+        }
+    }
+}
+if (!empty($metaKeywords))
+    $arrayStructs['headMeta']['keyword'] = $metaKeywords;
+else
+    $this->headMeta()->appendName('keywords', $arrayStructs['headMeta']['keyword']);
+if (!empty($metaDescription))
+    $arrayStructs['headMeta']['description'] = $metaDescription;
+else
+    $this->headMeta()->appendName('description', $arrayStructs['headMeta']['description']);
+
 $headerContent = $this->headerSession()->render();
 $footerContent = $arrayStructs['footer'] ? $this->footerSession() : '';
 echo $this->doctype(Doctype::HTML5);
@@ -41,9 +61,7 @@ echo $this->doctype(Doctype::HTML5);
             ->setHttpEquiv('X-UA-Compatible', 'IE=EDGE')
             ->appendName('copyright', WEB_NAME.', Inc')
             ->appendName('author', WEB_NAME)
-            ->appendName('keywords', $arrayStructs['headMeta']['keyword'])
             ->appendName('news_keywords', $arrayStructs['headMeta']['keyword'])
-            ->appendName('description', $arrayStructs['headMeta']['description'])
 
             // ->appendName('twitter:card', WEB_NAME.', Inc')
             // ->appendName('twitter:site', WEB_NAME.', Inc')

@@ -12,5 +12,6 @@ return array(
     'Models\\' => array($baseDir . '/../../models'),
     'Manager\\' => array($baseDir . '/Manager/src'),
     'ImageTraits\\' => array($baseDir . '/../shareModules/ImageTraits'),
+    'GeneralTraits\\' => array($baseDir . '/../shareModules/GeneralTraits'),
     'Application\\' => array($baseDir . '/Application/src'),
 );
