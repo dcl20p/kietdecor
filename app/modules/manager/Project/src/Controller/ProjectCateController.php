@@ -224,6 +224,7 @@ class ProjectCateController extends ZfController
                 'meta_title'   => $entity->prc_meta_title,
                 'meta_keyword' => $entity->prc_meta_keyword,
                 'meta_desc'    => $entity->prc_meta_desc,
+                'image'        => $entity->prc_image,
             ];
         } catch (\Throwable $e) {
             $this->saveErrorLog($e);

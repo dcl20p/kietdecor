@@ -12,6 +12,9 @@ use Doctrine\ORM\Mapping\Table;
 class ProjectCate extends Generated\ProjectCate
 {
     const FOLDER_TOKEN = 'project_cate';
+    const PROJECT_CATE_IMAGE_SIZES = [
+        '1' => '200x200',
+    ];
 }
 
 ?>

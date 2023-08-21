@@ -552,10 +552,13 @@ const common = (function () {
      * Init Dropzone
      * @param {*} element 
      * @param {*} options 
-     * @param {*} btnSubmit 
+     * @param {*} existingFiles format: [
+          { name: "file1.jpg", size: 12345, url: "/path/to/file1.jpg" },
+          { name: "file2.png", size: 54321, url: "/path/to/file2.png" }
+        ]
      * @returns 
      */
-    const initDropzone = (element, options = {}, btnSubmit = '#btnSubmit') => {
+    const initDropzone = (element, options = {}, existingFiles = []) => {
         Dropzone.autoDiscover = false;
         let nameExists = [];
         let defaultOptions = {
@@ -577,6 +580,17 @@ const common = (function () {
                 this.on("removedfile", function(file) {
                     nameExists = removeItemInArray(nameExists, file.name);
                 });
+
+                if (Array.isArray(existingFiles) && existingFiles.length > 0) {
+                    for (let i = 0; i < existingFiles.length; i++) {
+                        let file = existingFiles[i];
+                        let mockFile = {name: file.name, size: 100000};
+                        if (file.url) {
+                            this.emit("addedfile", mockFile);
+                            this.emit("thumbnail", mockFile, file.url);
+                        }
+                    }
+                }
             },
             accept: function(file, done) {
                 let fileName = file.name;
@@ -595,6 +609,13 @@ const common = (function () {
         return img;
     };
 
+    /**
+     * Init choices tag
+     * @param {*} element 
+     * @param {*} maxItemCount 
+     * @param {*} placeholder 
+     * @returns 
+     */
     const initChoicesTags = (element, maxItemCount = 50, placeholder = 'Nhập tags keyword...') => {
         return new Choices(element, {
             removeItemButton: false,
@@ -605,11 +626,24 @@ const common = (function () {
         });
     };
 
-    const uploadFiles = (objDropzone) => {
+    /**
+     * Upload file using dropzone
+     * @param {*} objDropzone 
+     * @param {*} required 
+     * @returns 
+     */
+    const uploadFiles = (objDropzone, required = true) => {
         return new Promise((resolve) => {
+            if (objDropzone.getQueuedFiles().length === 0) {
+                if (!required) {
+                    resolve({
+                        success: true,
+                        data: ''
+                    });
+                }
+            }
             objDropzone.processQueue();
             objDropzone.on('complete', function(file) {
-                
                 if (file.status === "success") {
                     const response = JSON.parse(file.xhr.response); 
                     resolve(response);

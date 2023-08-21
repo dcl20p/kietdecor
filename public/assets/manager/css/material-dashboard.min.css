@@ -34992,3 +34992,10 @@ div a i.collapse-close, div a i.collapse-open {
 .ql-container p{
    font-size: .875rem !important;
 }
+
+.dz-image img {
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
+   object-position: center;
+}

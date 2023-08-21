@@ -24,6 +24,8 @@ class IndexController extends ZfController
         try {
             if ($this->isPostRequest()) {
                 $folderName = $this->getParamsQuery('path', 'project');
+                $sizes      = $this->getParamsQuery('sizes', Project::PROJECT_IMAGE_SIZES);
+                
                 if (empty($files = $this->getParamsFiles()['file'] ?? [])) {
                     return new JsonModel([
                         'success' => false,
@@ -32,11 +34,7 @@ class IndexController extends ZfController
                 }
                 foreach ($files as $file) {
                     if (!empty($this->isValidUploadImg($file))) {
-                        $response = $this->uploadImageDropzone(
-                            $file, 
-                            $folderName, 
-                            Project::PROJECT_IMAGE_SIZES
-                        );
+                        $response = $this->uploadImageDropzone($file, $folderName, $sizes);
                         if ($response) {
                             $results[] = $response['name'];
                         }
@@ -52,11 +50,7 @@ class IndexController extends ZfController
         } catch (\Throwable $e) {
             if (!empty($uploads['name'])) {
                 foreach ($results as $upload)
-                $this->revertUploadImageDropzone(
-                    $upload['name'], 
-                    $folderName, 
-                    Project::PROJECT_IMAGE_SIZES
-                );
+                $this->revertUploadImageDropzone($upload['name'],  $folderName, $sizes);
             }
             $this->saveErrorLog($e);
         }
