@@ -33,6 +33,7 @@
     defined ('ZF_MSG_EMAIL_INVALID') || define('ZF_MSG_EMAIL_INVALID', 'Email không đúng định dạng');
     defined ('ZF_MSG_NOT_MATCH') || define('ZF_MSG_NOT_MATCH', 'Trường xác nhận không khớp');
     defined ('ZF_MSG_PHONE_INVALID') || define('ZF_MSG_PHONE_INVALID', 'Số điện thoại không đúng');
+    defined ('ZF_MSG_ALIAS_INVALID') || define('ZF_MSG_ALIAS_INVALID', 'Alias không đúng định dạng');
     defined ('ZF_MSG_PASSWORD_INVALID') || define('ZF_MSG_PASSWORD_INVALID', 'Mật khẩu không đúng định dạng');
     defined ('ZF_MSG_REQUIRE_DATA') || define('ZF_MSG_REQUIRE_DATA', 'Vui lòng nhập đầy đủ thông tin');
 

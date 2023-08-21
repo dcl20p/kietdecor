@@ -69,7 +69,20 @@ $this->headScriptAction(null, [], [
                                             maxlength="100"/>
                                     </div>
                                 </div>
-                                <div class="col-12 col-sm-6 ms-sm-auto mt-sm-0 mt-3 d-flex align-items-center">
+                                <div class="col-12 col-sm-6">
+                                    <div class="input-group input-group-dynamic">
+                                        <label for="alias" class="form-label">
+                                            <?= $this->translate('Alias')?>
+                                        </label>
+                                        <input class="multisteps-form__input form-control" type="text" 
+                                            name="alias" id="alias"
+                                            value="<?= $postData['alias'] ?? ''; ?>"
+                                            maxlength="500"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-12 ms-sm-auto mt-sm-0 mt-3 d-flex align-items-center">
                                     <label for="status" class="form-check-label mb-0">
                                         <small>
                                             <?= $this->translate('Trạng thái')?>

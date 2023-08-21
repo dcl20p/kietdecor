@@ -53,7 +53,8 @@ $this->headScriptAction(null, [], [
                                 data-layout="fitrows"><?php 
                                 $i = 0;
                                 foreach ($projects as $project):
-                                    $href = $this->zfUrl('works', ['param' => 'abc', 'id' => 1]);?>
+                                    $id = $project['pr_id'];
+                                    $href = $this->zfUrl('works', ['param' => 'abc', 'id' => $id]);?>
                                     <div class="gdlr-core-item-list class1 gdlr-core-item-pdlr gdlr-core-column-20 
                                         <?= $i == 0 ? 'gdlr-core-column-first' : ''; ?>">
                                         <div class="gdlr-core-portfolio-grid  gdlr-core-left-align gdlr-core-style-with-frame gdlr-core-js"
@@ -86,7 +87,7 @@ $this->headScriptAction(null, [], [
                                             </div>
                                         </div>
                                     </div>
-                                <?php endforeach;?>
+                                <?php $i++; endforeach;?>
                             </div>
                             <div class="gdlr-core-load-more-wrap gdlr-core-js gdlr-core-center-align gdlr-core-item-pdlr"
                                 data-ajax="gdlr_core_portfolio_ajax" data-target="gdlr-core-portfolio-item-holder"

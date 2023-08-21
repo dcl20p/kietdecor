@@ -70,4 +70,8 @@ abstract class ProjectCate extends Status
      * @Column(type="string", length=2048, nullable=false)
      */
     protected $prc_meta_keyword = '';
+    /**
+     * @Column(type="string", length=500, nullable=false)
+     */
+    protected $prc_alias = '';
 }
