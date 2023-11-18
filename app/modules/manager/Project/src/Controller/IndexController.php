@@ -75,7 +75,6 @@ class IndexController extends ZfController
             'thumbnail'    => '',
             'json_image'   => '',
         ]);
-
         $params['name']         = trim(mb_substr($params['name'], 0, 512));
         $params['location']     = trim(mb_substr($params['location'], 0, 512));
         $params['assigned_to']  = trim(mb_substr($params['assigned_to'], 0, 100));
@@ -94,13 +93,16 @@ class IndexController extends ZfController
                 $this->addErrorMessage(
                     $this->mvcTranslate(ZF_MSG_REQUIRE_DATA)
                 );
-                $strImage = $params['json_image'] . 
-                    (!empty($params['thumbnail']) ? ',' . $params['thumbnail'] : '');
-                foreach (explode(',', $strImage) as $fileName) {
+
+                if ($item == 'thumbnail' || $item == 'json_image') {
+                    $folderImage = $item == 'thumbnail' 
+                        ? Project::PROJECT_THUMBNAIL_SIZES 
+                        : Project::PROJECT_LIST_IMAGE_SIZES;
+
                     $this->revertUploadImageDropzone(
-                        $fileName, 
+                        [$params['json_image'], $params['thumbnail']], 
                         FOLDER_IMAGE_PRODUCT, 
-                        Project::PROJECT_IMAGE_SIZES
+                        $folderImage
                     );
                 }
                 return false;
@@ -123,36 +125,18 @@ class IndexController extends ZfController
             $repoCate    = $this->getEntityRepo(ProjectCate::class);
             $repoService = $this->getEntityRepo(Service::class);
 
-            $cates = $repoCate->fetchOpts([
+            $services = $repoService->getDataFromCache([
+                'params' => [
+                    'status' => 1
+                ]
+            ]);
+
+            $cates = $repoCate->getDataFromCache([
                 'params' => [
                     'status'      => 1,
                     'only_parent' => true
-                ],
-                'order'      => ['name' => 'ASC'],
-                'resultMode' => 'QueryBuilder'
-            ])
-                ->select('partial PRC.{prc_id,prc_name,prc_code}')
-                ->indexBy('PRC', 'PRC.prc_id')
-                ->getQuery()->getArrayResult() ?? [];
-
-            $prCates = array_map(function ($item) {
-                return $item['prc_name'];
-            }, $cates);
-
-            $services = $repoService->fetchOpts([
-                'params' => [
-                    'status' => 1
-                ],
-                'order'      => ['title' => 'ASC'],
-                'resultMode' => 'QueryBuilder'
-            ])
-                ->select('partial SV.{sv_id,sv_title,sv_code}')
-                ->indexBy('SV', 'SV.sv_id')
-                ->getQuery()->getArrayResult() ?? [];
-
-            $prServices = array_map(function ($item) {
-                return $item['sv_title'];
-            }, $services);
+                ]
+            ]);
 
             $postData = [];
             if ($this->isPostRequest()) {
@@ -171,13 +155,14 @@ class IndexController extends ZfController
                     }
 
                     $repo->insertData(array_replace($params, [
-                        'pr_code' => $this->getZfHelper()->getRandomCode([
-                                        'id' => time(), 'maxLen' => 19
-                                    ]),
                         'pr_sv_code'    => $services[$dataValid['sv_id']]['sv_code'],
                         'pr_prc_code'   => $cates[$dataValid['prc_id']]['prc_code'],
                         'pr_create_by'  => $this->getAuthen()->adm_id,
                         'pr_create_time'=> time(),
+                        'pr_code'       => $this->getZfHelper()->getRandomCode([
+                                            'id' => time(), 'maxLen' => 19
+                                        ]),
+                        'pr_status'     => 1
                     ]));
                     $this->addSuccessMessage(
                         $this->mvcTranslate(ZF_MSG_ADD_SUCCESS)
@@ -186,6 +171,14 @@ class IndexController extends ZfController
                     return $this->zfRedirect()->toCurrentRoute([], ['useOldQuery' => true]);
                 } else $postData = $this->getParamsPost();
             }
+
+            $prCates = array_map(function ($item) {
+                return $item['prc_name'];
+            }, $cates);
+
+            $prServices = array_map(function ($item) {
+                return $item['sv_title'];
+            }, $services);
 
         } catch (\Throwable $e) {
             $this->saveErrorLog($e);
@@ -202,7 +195,6 @@ class IndexController extends ZfController
             'activeItemId' => 'project'
         ]);
     }
-
     public function deleteAction()
     {
         $this->addSuccessMessage('Xoá thành công');

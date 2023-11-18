@@ -564,6 +564,7 @@ const common = (function () {
         let defaultOptions = {
             maxFilesize: 5,
             uploadMultiple: true,
+            parallelUploads: 30,
             autoProcessQueue: false,
             acceptedFiles: ".png, .jpg, .jpeg, .gif",
             dictDefaultMessage: "Thả tệp vào đây hoặc nhấp để tải lên",

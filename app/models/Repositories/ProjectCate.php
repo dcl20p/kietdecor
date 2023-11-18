@@ -10,6 +10,7 @@ use Zf\Ext\LaminasRedisCache;
 
 class ProjectCate extends Repository
 {
+    const KEY_CACHE_PROJECT_CATE_ALL = 'project_cate';
     /**
      * @param QueryBuilder $qb
      * @param integer $val
@@ -91,6 +92,7 @@ class ProjectCate extends Repository
         $this->getEntityManager()->flush($entity);
 
 	    $this->clearDataFromCache();
+
         return $entity;
     }
 
@@ -103,11 +105,10 @@ class ProjectCate extends Repository
     public function changeStatus(array $opts): void
     {
         $this->getEntityManager()
-            ->getConnection()->executeStatement(
-                'CALL sp_ChangeStatusProjectCate(:id,:status)',
-                $opts
-            );
-            
+        ->getConnection()->executeStatement(
+            'CALL sp_ChangeStatusProjectCate(:id,:status)',
+            $opts
+        );
 	    $this->clearDataFromCache();
     }
 
@@ -128,19 +129,17 @@ class ProjectCate extends Repository
 	    $this->clearDataFromCache();
     }
 
-    const CACHE_KEY = 'project_cate';
-
     /**
      * Get cache core
      *
      * @param string $key
      * @return LaminasRedisCache
      */
-    protected function getCacheCore(string $key = self::CACHE_KEY): LaminasRedisCache
+    protected function getCacheCore(string $key = self::KEY_CACHE_PROJECT_CATE_ALL): LaminasRedisCache
     {
         return CacheCore::_getRedisCaches($key, [
             'lifetime'  => false,
-            'namespace' => self::CACHE_KEY
+            'namespace' => self::KEY_CACHE_PROJECT_CATE_ALL
         ]);
     }
 
@@ -149,10 +148,10 @@ class ProjectCate extends Repository
      * @param string $key
      * @return bool
      */
-    public function clearDataFromCache(string $key = self::CACHE_KEY): bool
+    public function clearDataFromCache(string $key = self::KEY_CACHE_PROJECT_CATE_ALL): bool
     {
-        if (!empty($key))
-            return $this->getCacheCore()->clearByNamespace(self::CACHE_KEY);
+        if (empty($key))
+            return $this->getCacheCore()->clearByNamespace(self::KEY_CACHE_PROJECT_CATE_ALL);
         return $this->getCacheCore()->removeItem($key);
     }
 
@@ -166,11 +165,11 @@ class ProjectCate extends Repository
     public function getDataFromCache(array $opts = [], bool $useCache = true): array
     {
         $cache = $this->getCacheCore();
-        $items = $cache->getItem(self::CACHE_KEY);
+        $items = $cache->getItem(self::KEY_CACHE_PROJECT_CATE_ALL);
 
         if (null === $items || !$useCache) {
             $items = $this->getDataForSelect($opts);
-            $cache->setItem(self::CACHE_KEY, $items);
+            $cache->setItem(self::KEY_CACHE_PROJECT_CATE_ALL, $items);
         }
         unset($cache);
 

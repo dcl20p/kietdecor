@@ -137,6 +137,7 @@ class ProjectCateController extends ZfController
                         'prc_created_by'   => $this->getAuthen()->adm_id,
                         'prc_created_time' => time(),
                         'prc_edit_by'      => $parentId,
+                        'prc_status'       => 1
                     ]);
 
                     if (!empty($parentId)) $params['prc_parent_id'] = $parentId;

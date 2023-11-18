@@ -23,8 +23,8 @@ class IndexController extends ZfController
         $results = [];
         try {
             if ($this->isPostRequest()) {
-                $folderName = $this->getParamsQuery('path', 'project');
-                $sizes      = $this->getParamsQuery('sizes', Project::PROJECT_IMAGE_SIZES);
+                $folderName = $this->getParamsQuery('path', Project::FOLDER_IMAGE);
+                $sizes      = $this->getParamsQuery('sizes', Project::PROJECT_THUMBNAIL_SIZES);
                 
                 if (empty($files = $this->getParamsFiles()['file'] ?? [])) {
                     return new JsonModel([
@@ -32,11 +32,21 @@ class IndexController extends ZfController
                         'msg' => $this->mvcTranslate(ZF_MSG_WENT_WRONG)
                     ]);
                 }
+
                 foreach ($files as $file) {
                     if (!empty($this->isValidUploadImg($file))) {
                         $response = $this->uploadImageDropzone($file, $folderName, $sizes);
-                        if ($response) {
+                        if ($response['success']) {
                             $results[] = $response['name'];
+                        } else {
+                            if (!empty($results)) {
+                                foreach ($results as $upload)
+                                $this->revertUploadImageDropzone($upload['name'],  $folderName, $sizes);
+                            }
+                            return new JsonModel([
+                                'success' => false,
+                                'msg' => $this->mvcTranslate($response['msg'] ?? '')
+                            ]);
                         }
                     }
                 }
@@ -48,7 +58,7 @@ class IndexController extends ZfController
             }
             
         } catch (\Throwable $e) {
-            if (!empty($uploads['name'])) {
+            if (!empty($results)) {
                 foreach ($results as $upload)
                 $this->revertUploadImageDropzone($upload['name'],  $folderName, $sizes);
             }

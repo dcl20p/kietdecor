@@ -1,0 +1,79 @@
+<?php
+$this->headerSession()->setActiveItemId($activeItemId);
+$this->headTitle($metaTitle);
+if (!empty($metaKeywords)) 
+    $this->headMeta()->appendName('keywords', $metaKeywords);
+if (!empty($metaDescription)) 
+    $this->headMeta()->appendName('description', $metaKeywords);
+
+$this->headScriptAction(null, [
+    '__url_load_more__' => $this->zfUrl($routeName, ['action' => 'load-more', 'id' => $prcId])
+], [
+    'action' => 'list',
+    'controller' => 'index',
+    'module' => 'portfolio'
+]);
+?>
+<div class="inteco-page-title-wrap  inteco-style-medium inteco-center-align">
+    <div class="inteco-header-transparent-substitute"></div>
+    <div class="inteco-page-title-overlay"></div>
+    <div class="inteco-page-title-container inteco-container">
+        <div class="inteco-page-title-content inteco-item-pdlr">
+            <h1 class="inteco-page-title"><?= $this->translate('Portfolio')?></h1>
+        </div>
+    </div>
+</div>
+<div class="inteco-page-wrapper" id="inteco-page-wrapper">
+    <div class="gdlr-core-page-builder-body">
+        <div class="gdlr-core-pbf-wrapper ">
+            <div class="gdlr-core-pbf-background-wrap gdlr-core-pbf-background-wrap-project"></div>
+            <div class="gdlr-core-pbf-wrapper-content gdlr-core-js ">
+                <div class="gdlr-core-pbf-wrapper-container clearfix gdlr-core-container">
+                    <div class="gdlr-core-pbf-element">
+                        <div class="gdlr-core-portfolio-item gdlr-core-item-pdb clearfix gdlr-core-portfolio-item-style-grid py-3">
+                            <div class="filter light-filter clearfix gdlr-core-filterer-wrap gdlr-core-js  gdlr-core-item-pdlr gdlr-core-style-text gdlr-core-center-align">
+                                <ul>
+                                    <li>
+                                        <a href="<?= $this->zfUrl('portfolio')?>" title="Portfolio" 
+                                            class="<?= empty($prcId) ? 'active' : ''?>">
+                                            <?= $this->translate('Tất cả')?>
+                                        </a>
+                                    </li>
+                                    <?php foreach ($projectCates as $id => $cates):?>
+                                    <li>
+                                        <a href="<?= $this->zfUrl('portfolio', ['action' => 'list', 'id' => $id])?>" 
+                                            title="<?= $cates['prc_name'] ?? '';?>"
+                                            class="<?= $id == $prcId ? 'active' : '';?>">
+                                            <?= $cates['prc_name'] ?? '';?>
+                                        </a>
+                                    </li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </div>
+                            <?php if (count($projects) > 0):?>
+                            <div class="gdlr-core-portfolio-item-holder gdlr-core-js-2  filter-container clearfix"
+                                data-layout="fitrows" id="wrapper-items">
+                                <?php echo $this->partial('partial/item-portfolio.phtml', [
+                                    'projects' =>  $projects,
+                                    'page'     => $page,
+                                    'limit'    => $limit,
+                                ]);?>
+                            </div>
+                            <?php if(count($projects) == $limit): ?>
+                            <div class="gdlr-core-load-more-wrap gdlr-core-js gdlr-core-center-align gdlr-core-item-pdlr">
+                                <a href="javascript:void(0);" class="gdlr-core-load-more gdlr-core-button-color" id="load_more"
+                                    data-page="<?= ++$page?>" data-limit="<?= $limit?>">
+                                    <?= $this->translate('Xem thêm');?>
+                                </a>
+                            </div>
+                            <?php endif;?>
+                            <?php else: ?>
+                                <div class="text-center"><?= $this->translate('Chưa tìm thấy dữ liệu');?></div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -13,13 +13,14 @@ return [
             'portfolio' => [
                 'type'    => RouterSegment::class,
                 'options' => [
-                    'route'    => '/portfolio[/:id]',
+                    'route'    => '/portfolio[/:action[/:id]]',
                     'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'id' => '[0-9]*'
                     ],
                     'defaults' => [
                         'controller' => Controller\IndexController::class,
-                        'action'     => 'index'
+                        'action'     => 'list'
                     ],
                 ],
             ],
@@ -41,6 +42,7 @@ return [
     ],
     'controllers' => [
         'factories' => [
+            Controller\IndexController::class => Controller\Factory\IndexControllerFactory::class,
         ],
         'invokables' => [
             Controller\IndexController::class
@@ -49,6 +51,7 @@ return [
     'view_manager' => [
         'template_path_stack' => [
             __DIR__ . '/../view',
+            __DIR__ . '/../../../shareModules/PartialView',
         ],
     ],
 ];
