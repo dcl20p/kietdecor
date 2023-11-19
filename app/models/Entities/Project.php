@@ -11,6 +11,8 @@ use Doctrine\ORM\Mapping\Table;
  */
 class Project extends Generated\Project
 {
+    const FOLDER_TOKEN = 'project';
+
     const PROJECT_THUMBNAIL_SIZES = [
         '1' => '305x196', 
         '2' => '324x208', 

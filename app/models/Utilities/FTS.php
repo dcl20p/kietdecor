@@ -28,4 +28,23 @@ class FTS
     {
         return str_replace(self::SPEC_CHAR, self::SPEC_REPL, trim($str));
     }
+
+    /**
+     * Search full text origin
+     *
+     * @param string $str
+     * @return string
+     */
+    public static function searchFullTextOrigin(string $str = ''): string
+    {
+        if (empty($str)) return '';
+
+        $explode = explode(' ', $str);
+        $explode = array_map(function($item) {
+            $item = trim($item);
+            return "+{$item}*";
+        }, $explode);
+
+        return implode(" ", $explode);
+    }
 }

@@ -3,6 +3,7 @@ namespace Models\Repositories;
 use Doctrine\ORM\QueryBuilder;
 use Models\Entities\Project as EntitiesProject;
 use Models\Repositories\Abstracted\Repository;
+use Models\Utilities\FTS;
 use Zf\Ext\CacheCore;
 use Zf\Ext\LaminasRedisCache;
 
@@ -34,6 +35,30 @@ class Project extends Repository
         if (empty($val)) return $qb;
         return $qb->andWhere('PR.pr_prc_id = :prc_id')
             ->setParameter('prc_id', $val);
+    }
+
+    /**
+     * @param QueryBuilder $qb
+     * @param integer|string $val
+     * @return QueryBuilder
+     */
+    protected function _filter_sv_id(QueryBuilder $qb, int|string $val): QueryBuilder
+    {
+        if (empty($val)) return $qb;
+        return $qb->andWhere('PR.pr_sv_id = :sv_id')
+            ->setParameter('sv_id', $val);
+    }
+
+    /**
+     * @param QueryBuilder $qb
+     * @param string $val
+     */
+    protected function _filter_keyword(QueryBuilder $qb, string $val): QueryBuilder
+    {
+        if (empty($val)) return $qb;
+        
+        return $qb->andWhere("MATCH(PR.pr_name) AGAINST (:keyword BOOLEAN) > 0")
+            ->setParameter('keyword', FTS::searchFullTextOrigin($val));
     }
 
     /**
@@ -83,7 +108,7 @@ class Project extends Repository
         $this->getEntityManager()->flush($entity);
 
         $this->clearCacheProject(vsprintf(
-            self::KEY_CACHE_PROJECT_BY_CATE_ID, [$updateData['pr_prc_id']]
+            self::KEY_CACHE_PROJECT_BY_CATE_ID, [$entity->pr_prc_id]
         ));
 
         return $entity;

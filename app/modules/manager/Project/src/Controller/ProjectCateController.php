@@ -172,7 +172,7 @@ class ProjectCateController extends ZfController
 
 
     /**
-     * Edit peroject cate action
+     * Edit project cate action
      *
      * @return ViewModel|Response
      */
@@ -202,7 +202,7 @@ class ProjectCateController extends ZfController
                     }
 
                     $params = array_replace($params, [
-                        'prc_created_time' => time(),
+                        'prc_updated_time' => time(),
                         'prc_edit_by'      => $this->getAuthen()->adm_id,
                     ]);
 
