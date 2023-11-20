@@ -229,7 +229,8 @@ class IndexController extends ZfController
             'prServices'   => $prServices ?? [],
             'routeName'    => $this->getCurrentRouteName(),
             'pageTitle'    => $this->mvcTranslate('Thêm dự án'),
-            'activeItemId' => 'project'
+            'activeItemId' => 'project',
+            'isEdit'       => false
         ]);
     }
 
