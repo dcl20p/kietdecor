@@ -95,11 +95,12 @@ class IndexController extends ZfController
                     }
 
                     $repo->insertData(array_replace($params, [
-                        'sv_code' => $this->getZfHelper()->getRandomCode([
-                                        'id' => time(), 'maxLen' => 19
-                                    ]),
-                        'sv_created_by'    => $this->getAuthen()->adm_id,
+                        'sv_code'           => $this->getZfHelper()->getRandomCode([
+                                                'id' => time(), 'maxLen' => 19
+                                            ]),
+                        'sv_created_by'   => $this->getAuthen()->adm_id,
                         'sv_created_time' => time(),
+                        'sv_status'       => 1 
                     ]));
 
                     $this->addSuccessMessage(

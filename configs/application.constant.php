@@ -43,17 +43,17 @@
     defined ('CUSTOMER_KEY') || define('CUSTOMER_KEY', 'customer');
     
     // System configs
-    defined ('MAIN_DOMAIN') || define('MAIN_DOMAIN', 'first_laminas.local');
-    defined ('MANAGER_DOMAIN') || define('MANAGER_DOMAIN', 'manager.first_laminas.local');
+    defined ('MAIN_DOMAIN') || define('MAIN_DOMAIN', 'kietdecor.local');
+    defined ('MANAGER_DOMAIN') || define('MANAGER_DOMAIN', 'manager.kietdecor.local');
     defined ('FULL_MAIN_DOMAIN') || define('FULL_MAIN_DOMAIN', 'https://www.' . MAIN_DOMAIN);
     defined ('FULL_MAIN_DOMAIN_MANAGER') || define('FULL_MAIN_DOMAIN_MANAGER', 'https://www.' . MANAGER_DOMAIN);
     
     defined ('DISPLAY_APP_VERSION') || define('DISPLAY_APP_VERSION', 'vtest');
     defined ('SESSION_MAX_LIFETIME') || define('SESSION_MAX_LIFETIME', 604800);
     defined ('API_CB_DOMAIN') || define('API_CB_DOMAIN', [
-        'first_laminas.local'    => 'manager.first_laminas.local',
-        'first_laminas.net'      => 'manager.first_laminas.net',
-        'test.first_laminas.net' => 'test.first_laminas.net/manager',
+        'kietdecor.local'    => 'manager.kietdecor.local',
+        'kietdecor.net'      => 'manager.kietdecor.net',
+        'test.kietdecor.net' => 'test.kietdecor.net/manager',
     ]);
     require 'custom/application.constant.php';
 ?>

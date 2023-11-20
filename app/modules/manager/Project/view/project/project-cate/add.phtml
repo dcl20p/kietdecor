@@ -1,4 +1,6 @@
 <?php
+use Models\Entities\ProjectCate;
+use Models\Utilities\ViewUtil;
 
 $this->headTitle($pageTitle);
 
@@ -121,8 +123,14 @@ $this->headScriptAction(null, [], [
                                 </div>
                                 <div class="col-12">
                                     <label class="form-control mb-0"><?= $this->translate('Hình ảnh')?></label>
-                                    <div action="file-upload" class="form-control border dropzone"
+                                    <div action="<?= $this->zfUrl('file-upload', ['action' => 'upload'], ['query' => [
+                                        'path' => FOLDER_IMAGE_PRODUCT_CATE, 'sizes' => ProjectCate::PROJECT_CATE_IMAGE_SIZES
+                                    ]]); ?>" 
+                                        class="form-control border dropzone"
+                                        data-name="<?= $postData['image'] ?? '';?>"
+                                        data-path="<?= ViewUtil::getUrlImageUpload(FOLDER_IMAGE_PRODUCT_CATE);?>"
                                         id="cateImg" style="height:200px"></div>
+                                        
                                 </div>
                             </div>
                             <div class="button-row d-flex mt-4">
@@ -172,7 +180,8 @@ $this->headScriptAction(null, [], [
                                     title="Prev"><?= $this->translate('Quay lại')?></button>
                                 <a class="btn bg-gradient-dark ms-auto mb-0" id="btnSubmit"
                                     href="javascript:void(0);" title="<?= $this->translate('Lưu')?>">
-                                    <?= $this->translate('Lưu')?>
+                                    <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                                    <span class="txt-btn"><?= $this->translate('Lưu') ?></span>
                                 </a>
                             </div>
                         </div>

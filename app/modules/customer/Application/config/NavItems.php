@@ -25,7 +25,7 @@ return [
         'id'    => 'portfolio',
         'label' => 'Portfolio',
         'render'=> 'Subs',
-        'link'  => ['portfolio'],
+        'link'  => ['portfolio', ['action' => 'list']],
         'subs'  => []
     ],
     [

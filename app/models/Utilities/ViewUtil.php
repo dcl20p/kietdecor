@@ -20,4 +20,15 @@ class ViewUtil
             'https://','https://www.',
         ], 'https://www.media.', $baseLink);
     }
+
+     /**
+     * Get upload folder
+     *
+     * @param string $admId
+     * @return string
+     */
+    public static function getUrlImageUpload(string $folderName = ''): string
+    {
+        return '/uploads/' . $folderName;
+    }
 }

@@ -1,5 +1,7 @@
 <?php
 use Laminas\Form\Element;
+use Models\Entities\Project;
+use Models\Utilities\ImageUrl;
 
 $this->headTitle($pageTitle);
 
@@ -19,7 +21,7 @@ $pubRes = $this->zfResource();
 $this->lazyAsset()->addItems([
     'js' => [
         21 => $pubRes->files('plugins/quill.min.js', 'js', false),
-        22 => $pubRes->files('plugins/dropzone.min.js', 'js', false),
+        22 => $pubRes->files('plugins/dropzone.js', 'js', false),
         23 => $pubRes->files('plugins/multistep-form.js', 'js', false),
     ],
 ]);
@@ -39,16 +41,16 @@ $this->headScriptAction(null, [], [
                 </div>
                 <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
                     <div class="multisteps-form__progress">
-                        <a class="multisteps-form__progress-btn btnDefault js-active" href="javascript:void(0);"
+                        <button class="multisteps-form__progress-btn btnDefault js-active" href="javascript:void(0);"
                             title="<?= $this->translate('Thông tin cơ bản')?>">
                             <span>1. <?= $this->translate('Thông tin cơ bản')?></span>
-                        </a>
-                        <a class="multisteps-form__progress-btn btnDefault" href="javascript:void(0);" title="Hình ảnh">
+                        </button>
+                        <button class="multisteps-form__progress-btn btnDefault" href="javascript:void(0);" title="Hình ảnh">
                             2. <?= $this->translate('Hình ảnh')?>
-                        </a>
-                        <a class="multisteps-form__progress-btn btnDefault" href="javascript:void(0);" title="SEO">
+                        </button>
+                        <button class="multisteps-form__progress-btn btnDefault" href="javascript:void(0);" title="SEO">
                             3. <?= $this->translate('SEO')?>
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -119,7 +121,7 @@ $this->headScriptAction(null, [], [
                                         ]);
                                         $select->setValueOptions(array_replace([
                                             '' => $this->translate('Vui lòng chọn')
-                                        ], $prCates));
+                                        ], $prCates ?? []));
                                         $select->setValue($postData['prc_id'] ?? '');
                                         echo $this->formSelect($select);
                                     ?>
@@ -136,7 +138,7 @@ $this->headScriptAction(null, [], [
                                         ]);
                                         $select->setValueOptions(array_replace([
                                             '' => $this->translate('Vui lòng chọn')
-                                        ], $prServices));
+                                        ], $prServices ?? []));
                                         $select->setValue($postData['sv_id'] ?? '');
                                         echo $this->formSelect($select);
                                     ?>
@@ -145,8 +147,8 @@ $this->headScriptAction(null, [], [
                             <div class="row mb-3">
                                 <div class="col-12">
                                     <label class="mt-4"><?= $this->translate('Mô tả')?></label>
-                                    <div id="description" style="height:300px">
-                                        <?= $postData['description'] ?? ''?>
+                                    <div id="description" style="height:200px">
+                                        <?= strip_tags(htmlspecialchars_decode($postData['description'] ?? ''));?>
                                     </div>
                                 </div>
                             </div>
@@ -167,17 +169,33 @@ $this->headScriptAction(null, [], [
                                 <div class="col-12">
                                     <label class="form-control mb-0"><?= $this->translate('Thumbnail')?></label>
                                     <div action="<?= $this->zfUrl('file-upload', ['action' => 'upload'], ['query' => [
-                                        'path' => FOLDER_IMAGE_PRODUCT
-                                    ]]); ?>" 
+                                            'path' => FOLDER_IMAGE_PRODUCT
+                                        ]]); ?>" 
                                         class="form-control border dropzone"
-                                        id="thumbnail" style="height:200px"></div>
+                                        id="thumbnail" style="height:200px">
+                                        <div class="dz-preview dz-image-preview dz-success dz-complete">
+                                            <div class="dz-image">
+                                                <img data-dz-thumbnail="" alt="6_dichvu.png" 
+                                                    src="<?=ImageUrl::generateSrcImage(
+                                                        $postData['thumbnail'],
+                                                        Project::FOLDER_IMAGE
+                                                    )?>">
+                                            </div>
+                                            <div class="dz-details">
+                                                <div class="dz-size"><span data-dz-size=""><strong>63.3</strong> KB</span></div>
+                                                <div class="dz-filename"><span data-dz-name="">6_dichvu.png</span></div>
+                                            </div>
+                                            <a class="dz-remove" href="javascript:undefined;" data-dz-remove="">Xóa tệp</a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row mt-3">
                                 <div class="col-12">
                                     <label class="form-control mb-0"><?= $this->translate('Danh sách hình ảnh')?></label>
                                     <div action="<?= $this->zfUrl('file-upload', ['action' => 'upload'], ['query' => [
-                                        'path' => FOLDER_IMAGE_PRODUCT
+                                        'path' => FOLDER_IMAGE_PRODUCT,
+                                        'sizes' => Project::PROJECT_LIST_IMAGE_SIZES,
                                     ]]); ?>"
                                         class="form-control border dropzone"
                                         id="jsonImage" style="height:200px"></div>
@@ -220,8 +238,8 @@ $this->headScriptAction(null, [], [
                             <div class="row mb-3">
                                 <div class="col-12">
                                     <label class="mt-4"><?= $this->translate('Mô tả')?></label>
-                                    <div id="meta_desc" style="height:300px">
-                                        <?= $postData['meta_desc'] ?? ''?>
+                                    <div id="meta_desc" style="height:200px">
+                                        <?= strip_tags(htmlspecialchars_decode($postData['meta_desc'] ?? ''))?>
                                     </div>
                                 </div>
                             </div>

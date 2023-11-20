@@ -137,6 +137,7 @@ class ProjectCateController extends ZfController
                         'prc_created_by'   => $this->getAuthen()->adm_id,
                         'prc_created_time' => time(),
                         'prc_edit_by'      => $parentId,
+                        'prc_status'       => 1
                     ]);
 
                     if (!empty($parentId)) $params['prc_parent_id'] = $parentId;
@@ -171,7 +172,7 @@ class ProjectCateController extends ZfController
 
 
     /**
-     * Edit peroject cate action
+     * Edit project cate action
      *
      * @return ViewModel|Response
      */
@@ -201,7 +202,7 @@ class ProjectCateController extends ZfController
                     }
 
                     $params = array_replace($params, [
-                        'prc_created_time' => time(),
+                        'prc_updated_time' => time(),
                         'prc_edit_by'      => $this->getAuthen()->adm_id,
                     ]);
 
@@ -224,6 +225,7 @@ class ProjectCateController extends ZfController
                 'meta_title'   => $entity->prc_meta_title,
                 'meta_keyword' => $entity->prc_meta_keyword,
                 'meta_desc'    => $entity->prc_meta_desc,
+                'image'        => $entity->prc_image,
             ];
         } catch (\Throwable $e) {
             $this->saveErrorLog($e);

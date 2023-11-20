@@ -123,6 +123,8 @@ echo $this->doctype(Doctype::HTML5);
                 ($jsNo+=10) => $pubRes->files( 'goodlayers-core/include/js/page-builder.js', 'js', false),
                 ($jsNo+=10) => $pubRes->files( 'jquery/ui/effect.min.js', 'js', false),
                 ($jsNo+=10) => $pubRes->files( 'plugins.js', 'js', false),
+                ($jsNo+=10) => '/assets/common/js/lazyload.js',
+                ($jsNo+=10) => '/assets/customer/js/common/utilities.js',
             ], $cstAsset['js'])
         ];
         ksort($assetsItems['css']);
