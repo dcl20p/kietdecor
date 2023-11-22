@@ -19,14 +19,42 @@ $this->pageBreadcrumbs()->setItems([
 
 $pubRes = $this->zfResource();
 $this->lazyAsset()->addItems([
+    'css' => [
+        51 => $pubRes->files('dropzone.min.css', 'css', false),
+    ],
     'js' => [
         21 => $pubRes->files('plugins/quill.min.js', 'js', false),
         22 => $pubRes->files('plugins/dropzone.js', 'js', false),
         23 => $pubRes->files('plugins/multistep-form.js', 'js', false),
     ],
 ]);
+$thumbnails = []; $listThumbnails = [];
+if (!empty($isEdit)) {
+    $thumbnails = [[
+        'name' => $postData['thumbnail'],
+        'url'  => ImageUrl::generateUrlImage(
+            $postData['thumbnail'],
+            Project::FOLDER_IMAGE, true
+        )
+    ]];
+    if (!empty($postData['json_image'])) {
+        foreach (explode(',', $postData['json_image']) as $fileName) {
+            $listThumbnails[] = [
+                'name' => $fileName,
+                'url'  => ImageUrl::generateUrlImage(
+                    $fileName,
+                    Project::FOLDER_IMAGE, true
+                )
+            ];
+        }
+    }
+}
 
-$this->headScriptAction(null, [], [
+$this->headScriptAction(null, [
+    '__thumbnails__'     => @json_encode($thumbnails),
+    '__listThumbnails__' => @json_encode($listThumbnails),
+    '__isEdit__'         => $isEdit
+], [
     'action' => 'add',
     'controller' => 'index',
     'module' => 'project'
@@ -172,11 +200,12 @@ $this->headScriptAction(null, [], [
                                             'path' => FOLDER_IMAGE_PRODUCT
                                         ]]); ?>" 
                                         class="form-control border dropzone"
-                                        id="thumbnail" style="height:200px">
-                                        <div class="dz-preview dz-image-preview dz-success dz-complete">
+                                        id="thumbnail">
+                                        <?php if (!empty($isEdit)):?>
+                                        <!-- <div class="dz-preview dz-image-preview">
                                             <div class="dz-image">
                                                 <img data-dz-thumbnail="" alt="6_dichvu.png" 
-                                                    src="<?=ImageUrl::generateSrcImage(
+                                                    src="<?=ImageUrl::generateUrlImage(
                                                         $postData['thumbnail'],
                                                         Project::FOLDER_IMAGE
                                                     )?>">
@@ -185,8 +214,9 @@ $this->headScriptAction(null, [], [
                                                 <div class="dz-size"><span data-dz-size=""><strong>63.3</strong> KB</span></div>
                                                 <div class="dz-filename"><span data-dz-name="">6_dichvu.png</span></div>
                                             </div>
-                                            <a class="dz-remove" href="javascript:undefined;" data-dz-remove="">Xóa tệp</a>
-                                        </div>
+                                            <a class="dz-remove" href="javascript:void(0);" data-dz-remove="true">Xóa tệp</a>
+                                        </div> -->
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </div>
@@ -198,7 +228,7 @@ $this->headScriptAction(null, [], [
                                         'sizes' => Project::PROJECT_LIST_IMAGE_SIZES,
                                     ]]); ?>"
                                         class="form-control border dropzone"
-                                        id="jsonImage" style="height:200px"></div>
+                                        id="jsonImage"></div>
                                 </div>
                             </div>
                             <div class="button-row d-flex mt-4">

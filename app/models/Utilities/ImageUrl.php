@@ -48,7 +48,7 @@ class ImageUrl
      * @param string $folderName
      * @return string
      */
-    public static function generateSrcImage(string $fileName, string $folderName = ''): string
+    public static function generateUrlImage(string $fileName, string $folderName = '', bool $isFullUrl = false): string
     {
         $pathFile = implode(DIRECTORY_SEPARATOR, [
             '/uploads', $folderName, $fileName
@@ -60,7 +60,7 @@ class ImageUrl
             ]);
         }
 
-        return $pathFile;
+        return $isFullUrl ? FULL_MAIN_DOMAIN . $pathFile : $pathFile;
     }
 
     /**

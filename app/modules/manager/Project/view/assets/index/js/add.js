@@ -1,4 +1,7 @@
 (function(){
+    var thumbnails    = __thumbnails__,
+        listThumbnails= __listThumbnails__,
+        isEdit        = __isEdit__;
     const elDes       = document.getElementById('description'),
         elChoices     = document.querySelectorAll('.choices'),
         elMetaDes     = document.getElementById('meta_desc'),
@@ -132,8 +135,8 @@
 
     const quillDes  = elDes && common.initQuill(elDes);
     const metaDes   = elMetaDes && common.initQuill(elMetaDes);
-    const dropzoneListImg   = elImage && common.initDropzone(elImage, {maxFiles: 50});
-    const dropzoneThumbnail = elImage && common.initDropzone(elThumbnail, {maxFiles: 1});
+    const dropzoneListImg   = elImage && common.initDropzone(elImage, {maxFiles: 50}, listThumbnails);
+    const dropzoneThumbnail = elImage && common.initDropzone(elThumbnail, {maxFiles: 1}, thumbnails);
     
     elMetaKeyword && common.initChoicesTags(elMetaKeyword);
     btnNextStep2 && btnNextStep2.addEventListener('click', handleNextStep2);
