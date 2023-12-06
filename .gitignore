@@ -11,7 +11,7 @@ logs/
 data/reflec_cache/
 data/zf_acl/
 data/system/
-public/uploads/
+# public/uploads/
 data/log_login/
 data/cache/
 .gitignore
