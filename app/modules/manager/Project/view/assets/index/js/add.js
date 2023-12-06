@@ -137,6 +137,8 @@
     const metaDes   = elMetaDes && common.initQuill(elMetaDes);
     const dropzoneListImg   = elImage && common.initDropzone(elImage, {maxFiles: 50}, listThumbnails);
     const dropzoneThumbnail = elImage && common.initDropzone(elThumbnail, {maxFiles: 1}, thumbnails);
+
+    console.log(dropzoneThumbnail);
     
     elMetaKeyword && common.initChoicesTags(elMetaKeyword);
     btnNextStep2 && btnNextStep2.addEventListener('click', handleNextStep2);

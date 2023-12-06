@@ -581,7 +581,6 @@ const common = (function () {
                 this.on("removedfile", function(file) {
                     nameExists = removeItemInArray(nameExists, file.name);
                 });
-
                 if (Array.isArray(existingFiles) && existingFiles.length > 0) {
                     for (let i = 0; i < existingFiles.length; i++) {
                         let file = existingFiles[i];
@@ -589,6 +588,7 @@ const common = (function () {
                         if (file.url) {
                             this.emit("addedfile", mockFile);
                             this.emit("thumbnail", mockFile, file.url);
+                            this.emit("complete", mockFile);
                         }
                     }
                 }
@@ -602,6 +602,7 @@ const common = (function () {
                     done();
                 }
                 nameExists.push(fileName);
+                this.emit("complete", file);
             }
         };
         let params = {...defaultOptions, ...options};
