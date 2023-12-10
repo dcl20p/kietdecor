@@ -561,7 +561,7 @@ const common = (function () {
     const initDropzone = (element, options = {}, existingFiles = []) => {
         Dropzone.autoDiscover = false;
         let nameExists = [];
-        let defaultOptions = {
+        const defaultOptions = {
             maxFilesize: 5,
             uploadMultiple: true,
             parallelUploads: 30,
@@ -605,11 +605,27 @@ const common = (function () {
                 this.emit("complete", file);
             }
         };
-        let params = {...defaultOptions, ...options};
+        const params = {...defaultOptions, ...options};
         const img = new Dropzone(element, params);
 
         return img;
     };
+
+    const removeExistImage = (file, url, path, callBack = null) => {
+        axios({
+            url: url,
+            method: 'POST',
+            data: {
+                file:file.name || '',
+                path:path,
+            }
+        })
+        .then(response => {
+           callBack(response);
+        })
+        .catch(error => {
+        });
+    }
 
     /**
      * Init choices tag
@@ -634,7 +650,7 @@ const common = (function () {
      * @param {*} required 
      * @returns 
      */
-    const uploadFiles = (objDropzone, required = true) => {
+    const uploadFiles = (objDropzone, required = true, existingFiles = [], urlDelete = '', path = 'project') => {
         return new Promise((resolve) => {
             if (objDropzone.getQueuedFiles().length === 0) {
                 if (!required) {
@@ -658,6 +674,13 @@ const common = (function () {
                 showMessage(errorMessage, 'danger');
                 objDropzone.removeFile(file);
             });
+            objDropzone.on("removedfile", (file) => {
+                if (Array.isArray(existingFiles) && existingFiles.length > 0 && urlDelete !== '') {
+                    removeExistImage(file, urlDelete, path, (rs) => {
+                        resolve(rs.data);
+                    });
+                }
+            })
         });
     };
 

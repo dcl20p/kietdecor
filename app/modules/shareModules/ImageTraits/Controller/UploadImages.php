@@ -175,26 +175,37 @@ trait UploadImages
     /**
      * Revert upload image when uploaded error
      *
-     * @param array $fileNames
+     * @param array|string $fileNames
      * @param string $folderName
      * @param array $sizes
      * @return void
      */
-    protected function revertUploadImageDropzone(array $fileNames, string $folderName, array $sizes): void
+    protected function revertUploadImageDropzone(array|string $fileNames, string $folderName, array $sizes = []): void
     {
         if (!empty($fileNames)) {
             if (!is_array($fileNames)) $fileNames = [$fileNames];
-            foreach ($fileNames as $fileName) {
-                $imgDir = implode('/', [
-                    ROOT_UPLOAD_PATH, $folderName
-                ]);
+            $imgDir = implode('/', [
+                ROOT_UPLOAD_PATH, $folderName
+            ]);
 
-                foreach ($sizes as $size) {
-                    $imgDirByDevice = $imgDir . "/{$size}";
-                    @unlink($imgDirByDevice . "/{$fileName}");
+            foreach ($fileNames as $fileName) {
+                if (empty($size)) {
+                    foreach (glob($imgDir . '/*', GLOB_ONLYDIR) as $imgDirByDevice) {
+                        if (file_exists($pathFile = $imgDirByDevice . "/{$fileName}")) {
+                            @unlink($pathFile);
+                        }
+                    }
+                } else {
+                    foreach ($sizes as $size) {
+                        $imgDirByDevice = $imgDir . "/{$size}";
+                        if (file_exists($pathFile = $imgDirByDevice . "/{$fileName}")) {
+                            @unlink($pathFile);
+                        }
+                    }
                 }
 
-                @unlink($imgDir . "/{$fileName}");
+                if (file_exists($pathRoot = $imgDir . "/{$fileName}"))
+                    @unlink($pathRoot);
             }
         }
     }

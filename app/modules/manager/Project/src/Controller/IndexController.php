@@ -7,7 +7,7 @@ namespace Project\Controller;
 use ArrayObject;
 use Laminas\Http\PhpEnvironment\Response;
 use Models\Entities\Project;
-use Models\Entities\ProjectCate;
+use Models\Entities\ProjectCate; 
 use Models\Entities\Service;
 use Zf\Ext\Controller\ZfController;
 use Laminas\View\Model\ViewModel;
@@ -267,7 +267,7 @@ class IndexController extends ZfController
             ]);
             $postData = [];
             if ($this->isPostRequest()) {
-                if ($postData = $this->validDataProjectCate($this->getParamsPost())) {
+                if ($postData = $this->validData($this->getParamsPost())) {
                     $params = [];
                     foreach ($postData as $key => $item) {
                         $params["pr_{$key}"] = $item;
