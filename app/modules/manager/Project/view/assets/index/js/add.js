@@ -136,7 +136,7 @@
     const quillDes  = elDes && common.initQuill(elDes);
     const metaDes   = elMetaDes && common.initQuill(elMetaDes);
     const dropzoneListImg   = elImage && common.initDropzone(elImage, {maxFiles: 50}, listThumbnails);
-    const dropzoneThumbnail = elImage && common.initDropzone(elThumbnail, {maxFiles: 1}, thumbnails);
+    const dropzoneThumbnail = elImage && common.initDropzone(elThumbnail, {maxFiles: 1}, thumbnails); 
 
     console.log(dropzoneThumbnail);
     
