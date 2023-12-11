@@ -230,7 +230,7 @@ class IndexController extends ZfController
             'routeName'    => $this->getCurrentRouteName(),
             'pageTitle'    => $this->mvcTranslate('Thêm dự án'),
             'activeItemId' => 'project',
-            'isEdit'       => false
+            'isEdit'       => 0
         ]);
     }
 
@@ -322,7 +322,7 @@ class IndexController extends ZfController
             'pageTitle'     => $this->mvcTranslate('Sửa dự án'),
             'routeName'     => $this->getCurrentRouteName(),
             'activeItemId'  => 'project',
-            'isEdit'        => true,
+            'isEdit'        => 1,
             'prCates'       => $prCates ?? [],
             'prServices'    => $prServices ?? [],
         ]))->setTemplate('project/index/add.phtml');
