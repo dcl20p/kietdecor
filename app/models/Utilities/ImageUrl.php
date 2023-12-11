@@ -42,19 +42,23 @@ class ImageUrl
     }
 
     /**
-     * get src image
+     * Get src image
      *
      * @param string $fileName
      * @param string $folderName
+     * @param boolean $isFullUrl
+     * @param boolean $isDefault
      * @return string
      */
-    public static function generateUrlImage(string $fileName, string $folderName = '', bool $isFullUrl = false): string
+    public static function generateUrlImage(string $fileName, string $folderName = '', bool $isFullUrl = false, bool $isDefault = true): string
     {
         $pathFile = implode(DIRECTORY_SEPARATOR, [
             '/uploads', $folderName, $fileName
         ]);
 
         if (!file_exists(ROOT_PUBLIC_PATH .$pathFile)) {
+            if (!$isDefault) return '';
+            
             $pathFile = implode(DIRECTORY_SEPARATOR, [
                 '/uploads', 'default', "notfound_500x300.jpg"
             ]);

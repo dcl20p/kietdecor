@@ -25,7 +25,7 @@ class IndexController extends ZfController
             if ($this->isPostRequest()) {
                 $folderName = $this->getParamsQuery('path', Project::FOLDER_IMAGE);
                 $sizes      = $this->getParamsQuery('sizes', Project::PROJECT_THUMBNAIL_SIZES);
-                
+
                 if (empty($files = $this->getParamsFiles()['file'] ?? [])) {
                     return new JsonModel([
                         'success' => false,
@@ -56,7 +56,6 @@ class IndexController extends ZfController
                     'msg' => $this->mvcTranslate(ZF_MSG_NOT_ALLOW)
                 ]);
             }
-            
         } catch (\Throwable $e) {
             if (!empty($results)) {
                 foreach ($results as $upload)
@@ -64,11 +63,52 @@ class IndexController extends ZfController
             }
             $this->saveErrorLog($e);
         }
-        
+
         return new JsonModel([
             'success' => true,
             'msg'     => 'Successful.',
             'data'    => implode(',', $results ?? [])
+        ]);
+    }
+
+    /**
+     * Remove file upload
+     *
+     * @return JsonModel
+     */
+    public function removeImageAction(): JsonModel
+    {
+        $isError = false;
+        try {
+            if ($this->isPostRequest()) {
+                $fileName = $this->getParamsPayload('file', '');
+                $path     = $this->getParamsPayload('path', Project::FOLDER_IMAGE);
+                
+                if (empty($fileName)) {
+                    return new JsonModel([
+                        'success' => false,
+                        'msg' => $this->mvcTranslate('Xoá thất bại')
+                    ]);
+                }
+    
+                $this->revertUploadImageDropzone($fileName,  $path);
+            } else {
+                return new JsonModel([
+                    'success' => false,
+                    'msg' => $this->mvcTranslate(ZF_MSG_NOT_ALLOW)
+                ]);
+            }
+        } catch (\Throwable $e) {
+            $isError = true;
+            dd($e->getMessage(), $e->getTraceAsString());
+            $this->saveErrorLog($e);
+        }
+
+        return new JsonModel([
+            'success' => $isError,
+            'msg'     => $isError 
+                ? $this->mvcTranslate(ZF_MSG_WENT_WRONG)
+                : $this->mvcTranslate('Xoá thành công.')
         ]);
     }
 }

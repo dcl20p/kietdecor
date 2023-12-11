@@ -19,7 +19,9 @@
         btnSubmit     = document.getElementById('btnSubmit'),
         btnNextStep2  = document.querySelector('#btnNextStep2'),
         adminForm     = document.getElementById('adminForm'),
-        btnNextStep3  = document.querySelector('#btnNextStep3');    
+        btnNextStep3  = document.querySelector('#btnNextStep3'),
+        maxFileThumb  = elThumbnail.getAttribute('data-count'),
+        maxFileImage  = elImage.getAttribute('data-count')
 
     const checkValidForm = () => {
         const fieldRequired = [elName, elProjectCate, elService];
@@ -36,12 +38,12 @@
     };
 
     const checkValidUploadFile = () => {
-        if (dropzoneListImg.getQueuedFiles().length === 0) {
+        if (dropzoneListImg.getQueuedFiles().length === 0 && listThumbnails.length === 0) {
             common.showMessage('Chưa chọn danh sách hình ảnh', 'danger');
             return false;
         }
 
-        if (dropzoneThumbnail.getQueuedFiles().length === 0) {
+        if (dropzoneThumbnail.getQueuedFiles().length === 0 && thumbnails.length === 0) {
             common.showMessage('Chưa chọn hình thumbnail', 'danger');
             return false;
         }
@@ -101,10 +103,11 @@
             spinner = _self.querySelector('.spinner-border');
 
         spinner.classList.remove('d-none');
-        common.uploadFiles(dropzoneThumbnail).then(response => {
+        common.uploadFiles(dropzoneThumbnail, true, thumbnails, '__url_remove_image__', '__path__').then(response => {
             if (response.success) {
                 let imgThumb = response.data;
-                common.uploadFiles(dropzoneListImg).then(response => {
+                common.uploadFiles(dropzoneListImg, true, listThumbnails, '__url_remove_image__', '__path__').then(response => {
+                    console.log('sss', response);
                     if (response.success) {
                         let imgList = response.data;
                         submitForm(spinner, imgThumb, imgList);
@@ -135,10 +138,12 @@
 
     const quillDes  = elDes && common.initQuill(elDes);
     const metaDes   = elMetaDes && common.initQuill(elMetaDes);
-    const dropzoneListImg   = elImage && common.initDropzone(elImage, {maxFiles: 50}, listThumbnails);
-    const dropzoneThumbnail = elImage && common.initDropzone(elThumbnail, {maxFiles: 1}, thumbnails); 
-
-    console.log(dropzoneThumbnail);
+    const dropzoneListImg   = elImage && common.initDropzone(
+        elImage, {maxFiles: 50}, listThumbnails
+    );
+    const dropzoneThumbnail = elImage && common.initDropzone(
+        elThumbnail, {maxFiles: 1}, thumbnails
+    );
     
     elMetaKeyword && common.initChoicesTags(elMetaKeyword);
     btnNextStep2 && btnNextStep2.addEventListener('click', handleNextStep2);
