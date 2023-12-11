@@ -33,7 +33,9 @@
     defined ('ZF_MSG_EMAIL_INVALID') || define('ZF_MSG_EMAIL_INVALID', 'Email không đúng định dạng');
     defined ('ZF_MSG_NOT_MATCH') || define('ZF_MSG_NOT_MATCH', 'Trường xác nhận không khớp');
     defined ('ZF_MSG_PHONE_INVALID') || define('ZF_MSG_PHONE_INVALID', 'Số điện thoại không đúng');
+    defined ('ZF_MSG_ALIAS_INVALID') || define('ZF_MSG_ALIAS_INVALID', 'Alias không đúng định dạng');
     defined ('ZF_MSG_PASSWORD_INVALID') || define('ZF_MSG_PASSWORD_INVALID', 'Mật khẩu không đúng định dạng');
+    defined ('ZF_MSG_REQUIRE_DATA') || define('ZF_MSG_REQUIRE_DATA', 'Vui lòng nhập đầy đủ thông tin');
 
     defined ('NO_REPLY_EMAIL') || define('NO_REPLY_EMAIL', 'tungts11.fpt@gmail.com');
     defined ('SIGN_UP_EMAIL') || define('SIGN_UP_EMAIL', 'tungts10.fpt@gmail.com');
@@ -41,17 +43,17 @@
     defined ('CUSTOMER_KEY') || define('CUSTOMER_KEY', 'customer');
     
     // System configs
-    defined ('MAIN_DOMAIN') || define('MAIN_DOMAIN', 'first_laminas.local');
-    defined ('MANAGER_DOMAIN') || define('MANAGER_DOMAIN', 'manager.first_laminas.local');
+    defined ('MAIN_DOMAIN') || define('MAIN_DOMAIN', 'kietdecor.local');
+    defined ('MANAGER_DOMAIN') || define('MANAGER_DOMAIN', 'manager.kietdecor.local');
     defined ('FULL_MAIN_DOMAIN') || define('FULL_MAIN_DOMAIN', 'https://www.' . MAIN_DOMAIN);
     defined ('FULL_MAIN_DOMAIN_MANAGER') || define('FULL_MAIN_DOMAIN_MANAGER', 'https://www.' . MANAGER_DOMAIN);
     
     defined ('DISPLAY_APP_VERSION') || define('DISPLAY_APP_VERSION', 'vtest');
     defined ('SESSION_MAX_LIFETIME') || define('SESSION_MAX_LIFETIME', 604800);
     defined ('API_CB_DOMAIN') || define('API_CB_DOMAIN', [
-        'first_laminas.local'    => 'manager.first_laminas.local',
-        'first_laminas.net'      => 'manager.first_laminas.net',
-        'test.first_laminas.net' => 'test.first_laminas.net/manager',
+        'kietdecor.local'    => 'manager.kietdecor.local',
+        'kietdecor.net'      => 'manager.kietdecor.net',
+        'test.kietdecor.net' => 'test.kietdecor.net/manager',
     ]);
     require 'custom/application.constant.php';
 ?>

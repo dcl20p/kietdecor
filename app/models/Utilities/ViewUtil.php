@@ -17,6 +17,18 @@ class ViewUtil
         return str_replace([
             'https://manager.','https://www.manager.',
             'https://customer.','https://www.customer.',
+            'https://','https://www.',
         ], 'https://www.media.', $baseLink);
+    }
+
+     /**
+     * Get upload folder
+     *
+     * @param string $admId
+     * @return string
+     */
+    public static function getUrlImageUpload(string $folderName = ''): string
+    {
+        return '/uploads/' . $folderName;
     }
 }

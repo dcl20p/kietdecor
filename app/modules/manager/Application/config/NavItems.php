@@ -21,24 +21,41 @@ return [
         'render' => 'Title'
     ],
     [
-        'id'    => 'products',
-        'label' => 'Sản phẩm',
+        'id'    => 'projects',
+        'label' => 'Dự án',
         'render'=> 'Subs',
         'icon'  => 'inventory_2',
         'subs'  => [
             [
-                'id'    => 'product_list',
-                'label' => 'Tất cả sản phẩm',
-                'link'  => ['product'],
-                'routeName' => 'product',
+                'id'    => 'project',
+                'label' => 'Danh sách dự án',
+                'link'  => ['project'],
+                'routeName' => 'project',
                 'render'=> 'Link',
                 'icon' => 'adjust',
             ],
             [
-                'id'    => 'product_list_cate',
-                'label' => 'Danh mục sản phẩm',
-                'link'  => ['product'],
-                'routeName' => 'product',
+                'id'    => 'project_cate',
+                'label' => 'Loại dự án',
+                'link'  => ['project-cate'],
+                'routeName' => 'project-cate',
+                'render'=> 'Link',
+                'icon' => 'adjust',
+            ],
+            
+        ]
+    ],
+    [
+        'id'    => 'services',
+        'label' => 'Dịch vụ',
+        'render'=> 'Subs',
+        'icon'  => 'settings_applications',
+        'subs'  => [
+            [
+                'id'    => 'service',
+                'label' => 'Danh sách dịch vụ',
+                'link'  => ['service'],
+                'routeName' => 'service',
                 'render'=> 'Link',
                 'icon' => 'adjust',
             ],

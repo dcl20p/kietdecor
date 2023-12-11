@@ -7,9 +7,17 @@ namespace Composer\Autoload;
 class ComposerStaticInitffc9f4513ac91121b737e15739654a53
 {
     public static $prefixLengthsPsr4 = array (
+        'U' => 
+        array (
+            'Upload\\' => 7,
+        ),
+        'S' => 
+        array (
+            'Service\\' => 8,
+        ),
         'P' => 
         array (
-            'Product\\' => 8,
+            'Project\\' => 8,
         ),
         'M' => 
         array (
@@ -20,6 +28,10 @@ class ComposerStaticInitffc9f4513ac91121b737e15739654a53
         array (
             'ImageTraits\\' => 12,
         ),
+        'G' => 
+        array (
+            'GeneralTraits\\' => 14,
+        ),
         'A' => 
         array (
             'Application\\' => 12,
@@ -27,9 +39,17 @@ class ComposerStaticInitffc9f4513ac91121b737e15739654a53
     );
 
     public static $prefixDirsPsr4 = array (
-        'Product\\' => 
+        'Upload\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/Product/src',
+            0 => __DIR__ . '/../..' . '/Upload/src',
+        ),
+        'Service\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/Service/src',
+        ),
+        'Project\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/Project/src',
         ),
         'Models\\' => 
         array (
@@ -42,6 +62,10 @@ class ComposerStaticInitffc9f4513ac91121b737e15739654a53
         'ImageTraits\\' => 
         array (
             0 => __DIR__ . '/../..' . '/../shareModules/ImageTraits',
+        ),
+        'GeneralTraits\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/../shareModules/GeneralTraits',
         ),
         'Application\\' => 
         array (

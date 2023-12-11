@@ -304,6 +304,7 @@
 		// Change status
 		const eventChangeStatus = async (evt) => {
 			evt.preventDefault();
+			const errMsg = window.msg.went_wrong;
 			let _self = evt.currentTarget,
 			 	url = _self.getAttribute('data-href'),
 			 	status = _self.getAttribute('data-btn-status'),
@@ -317,7 +318,7 @@
 					window.location.href = window.location.href;
 					return;
 				} else {
-					Swal.fire("Oops", value.msg ?? '__error_info__', "error");
+					Swal.fire("Oops", value.msg ?? errMsg, "error");
 				}
 			}, async () => {
 				try {
@@ -329,11 +330,11 @@
 						}
 					);
 					if (!response.data) {
-						Swal.fire("Oops", "__error_info__", "error");
+						Swal.fire("Oops", errMsg, "error");
 					}
 					return response.data;
 				} catch (error) {
-					Swal.fire("Oops", "__error_info__", "error");
+					Swal.fire("Oops", errMsg, "error");
 				}
 			});
 		};

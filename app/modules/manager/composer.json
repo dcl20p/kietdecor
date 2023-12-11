@@ -19,9 +19,11 @@
 			"Models\\" : "../../models/",
 			"Manager\\" : "Manager/src",
 			"Application\\" : "Application/src",
-			"Product\\" : "Product/src",
-			"Manager\\" : "Manager/src",
-			"ImageTraits\\" : "../shareModules/ImageTraits"
+			"Project\\" : "Project/src",
+			"Service\\" : "Service/src",
+			"Upload\\" : "Upload/src",
+			"ImageTraits\\" : "../shareModules/ImageTraits",
+			"GeneralTraits\\" : "../shareModules/GeneralTraits"
 		}
 	}
 }

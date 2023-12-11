@@ -80,6 +80,16 @@ const common = (function () {
     };
 
     /**
+     * Check valid phone number except for phone codes
+     *
+     * @param {string} alias
+     * @returns {boolean}
+     */
+    const isValidAlias = (alias) => {
+        return new RegExp(/^[\w\-./]+$/).test(alias);
+    };
+
+    /**
      * Check user agent of Apple
      * @returns 
      */
@@ -137,12 +147,18 @@ const common = (function () {
             if (stopLoop) return false;
             if ("" === evt.value.trim()) {
                 showToast && showMessage(window.msg.not_empty, 'danger');
-                evt.closest('div.input-group').classList.add('is-invalid', 'is-filled');
-                evt.focus();
+                if (evt.tagName == 'INPUT') {
+                    evt.closest('div.input-group').classList.add('is-invalid', 'is-filled');
+                    evt.focus();
+                } else if (evt.tagName == 'SELECT') {
+                    evt.click();
+                }
                 stopLoop = true;
             } else {
-                evt.closest('div.input-group').classList.remove('is-invalid');
-                evt.closest('div.input-group').classList.add('is-valid', 'is-filled');
+                if (evt.tagName == 'INPUT') {
+                    evt.closest('div.input-group').classList.remove('is-invalid');
+                    evt.closest('div.input-group').classList.add('is-valid', 'is-filled');
+                }
             }
         });
 
@@ -254,6 +270,25 @@ const common = (function () {
     }
 
     /**
+     * Check valid alias
+     * @param {*} alias 
+     * @returns 
+     */
+    const checkAlias = (alias, showToast = true) => {
+        if (!isValidAlias(alias.value)) {
+            showToast && showMessage(window.msg.alias_invalid, 'danger');
+            alias.closest('div.input-group').classList.add('is-invalid', 'is-filled');
+            alias.focus();
+            return false;
+        } else {
+            alias.closest('div.input-group').classList.remove('is-invalid');
+            alias.closest('div.input-group').classList.add('is-valid', 'is-filled');
+        }
+
+        return true;
+    }
+
+    /**
      * Check validate password 
      * @param {array} fields 
      * @param {boolean} showToast 
@@ -312,10 +347,10 @@ const common = (function () {
                         } else {
                             let altFlag = country.flags.alt,
                                 flag = flagToPNG(country.flags.png),
-                                img = document.createElement('img');
+                                img  = document.createElement('img');
 
-                            img.src = flag;
-                            img.alt = altFlag;
+                            img.src   = flag;
+                            img.alt   = altFlag;
                             img.style = "width:16px; height:12px";
                             option.appendChild(img);
                             
@@ -461,18 +496,228 @@ const common = (function () {
         }
     };
 
+    /**
+     * Init quill plugin
+     * @param {*} element 
+     * @param {*} toolbar 
+     * @param {*} placeholder 
+     * @param {*} theme 
+     * @param {*} options: options of plugin
+     * @returns 
+     */
+    const initQuill = (
+        element, 
+        toolbar = [
+            ['bold', 'italic', 'underline', 'strike'],       
+            ['blockquote', 'code-block'],
+
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+            [{ 'script': 'sub'}, { 'script': 'super' }],     
+            [{ 'indent': '-1'}, { 'indent': '+1' }],         
+            [{ 'direction': 'rtl' }],                        
+          
+            [{ 'size': ['small', false, 'large', 'huge'] }], 
+            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+          
+            [{ 'color': [] }, { 'background': [] }],         
+            [{ 'font': [] }],
+            [{ 'align': [] }],
+          
+            ['clean']                     
+        ],
+        placeholder = 'Nhập thông tin mô tả...',
+        theme = 'snow',
+        options = {}
+    ) => {
+        let params = {...{
+            modules: {
+                toolbar: toolbar,
+            },
+            placeholder: placeholder,
+            theme: theme
+        }, ...options};
+
+        const quill = new Quill(element, params);
+
+        return quill;
+    };
+
+    const removeItemInArray = (arr, item) => {
+        return arr.filter(function(i) {
+            return i !== item;
+        });
+    };
+
+    /**
+     * Init Dropzone
+     * @param {*} element 
+     * @param {*} options 
+     * @param {*} existingFiles format: [
+          { name: "file1.jpg", size: 12345, url: "/path/to/file1.jpg" },
+          { name: "file2.png", size: 54321, url: "/path/to/file2.png" }
+        ]
+     * @returns 
+     */
+    const initDropzone = (element, options = {}, existingFiles = []) => {
+        Dropzone.autoDiscover = false;
+        let nameExists = [];
+        const defaultOptions = {
+            maxFilesize: 5,
+            uploadMultiple: true,
+            parallelUploads: 30,
+            autoProcessQueue: false,
+            acceptedFiles: ".png, .jpg, .jpeg, .gif",
+            dictDefaultMessage: "Thả tệp vào đây hoặc nhấp để tải lên",
+            dictRemoveFile: "Xóa tệp",
+            addRemoveLinks: true,
+            init: function() {
+                this.on("error", (file, errorMessage) => {
+                    showMessage(errorMessage, 'danger');
+                    this.removeFile(file);
+                });
+                this.on("success", (file) => {
+                    this.removeFile(file);
+                });
+                this.on("removedfile", function(file) {
+                    nameExists = removeItemInArray(nameExists, file.name);
+                });
+                if (Array.isArray(existingFiles) && existingFiles.length > 0) {
+                    for (let i = 0; i < existingFiles.length; i++) {
+                        let file = existingFiles[i];
+                        let mockFile = {name: file.name, size: 100000};
+                        if (file.url) {
+                            this.emit("addedfile", mockFile);
+                            this.emit("thumbnail", mockFile, file.url);
+                            this.emit("complete", mockFile);
+                        }
+                    }
+                }
+            },
+            accept: function(file, done) {
+                let fileName = file.name;
+                if (nameExists.includes(fileName)) {
+                    showMessage('Tên file đã tồn tại', 'danger');
+                    this.removeFile(file);
+                } else  {
+                    done();
+                }
+                nameExists.push(fileName);
+                this.emit("complete", file);
+            }
+        };
+        const params = {...defaultOptions, ...options};
+        const img = new Dropzone(element, params);
+
+        return img;
+    };
+
+    const removeExistImage = (file, url, path, callBack = null) => {
+        axios({
+            url: url,
+            method: 'POST',
+            data: {
+                file:file.name || '',
+                path:path,
+            }
+        })
+        .then(response => {
+           callBack(response);
+        })
+        .catch(error => {
+        });
+    }
+
+    /**
+     * Init choices tag
+     * @param {*} element 
+     * @param {*} maxItemCount 
+     * @param {*} placeholder 
+     * @returns 
+     */
+    const initChoicesTags = (element, maxItemCount = 50, placeholder = 'Nhập tags keyword...') => {
+        return new Choices(element, {
+            removeItemButton: false,
+            delimiter: ',',
+            maxItemCount: maxItemCount,  
+            placeholder: placeholder,
+            duplicateItemsAllowed: false
+        });
+    };
+
+    /**
+     * Upload file using dropzone
+     * @param {*} objDropzone 
+     * @param {*} required 
+     * @returns 
+     */
+    const uploadFiles = (objDropzone, required = true, existingFiles = [], urlDelete = '', path = 'project') => {
+        return new Promise((resolve) => {
+            if (objDropzone.getQueuedFiles().length === 0) {
+                if (!required) {
+                    resolve({
+                        success: true,
+                        data: ''
+                    });
+                }
+            }
+            objDropzone.processQueue();
+            objDropzone.on('complete', function(file) {
+                if (file.status === "success") {
+                    const response = JSON.parse(file.xhr.response); 
+                    resolve(response);
+                } else {
+                    showMessage('Tải lên thất bại', 'danger');
+                    objDropzone.removeFile(file);
+                }
+            });
+            objDropzone.on("error", (file, errorMessage) => {
+                showMessage(errorMessage, 'danger');
+                objDropzone.removeFile(file);
+            });
+            objDropzone.on("removedfile", (file) => {
+                if (Array.isArray(existingFiles) && existingFiles.length > 0 && urlDelete !== '') {
+                    removeExistImage(file, urlDelete, path, (rs) => {
+                        resolve(rs.data);
+                    });
+                }
+            })
+        });
+    };
+
+    const renderAlias = (str) => {
+        str = str.toLowerCase().trim();
+        str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g,"a");
+        str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g,"e");
+        str = str.replace(/ì|í|ị|ỉ|ĩ/g,"i");
+        str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g,"o");
+        str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g,"u");
+        str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g,"y");
+        str = str.replace(/đ/g,"d");
+        str = str.replace(/!|@|\$|%|\^|\*|∣|\+|\=|\<|\>|\?|\/|,|\.|\:|\'| |\"|\&|\#|\[|\]|\(|\)|~/g,"-");
+        str = str.replace(/-+-/g,"-"); //thay thế 2- thành 1-
+        str = str.replace(/^\-+|\-+$/g,""); //cắt bỏ ký tự - ở đầu và cuối chuỗi
+        
+        return str;
+    };
+
     return {
-        showMessage: showMessage,
-        isValidEmail: isValidEmail,
-        isValidPassword: isValidPassword,
-        alertConfirm: alertConfirm,
-        checkRequired: checkRequired,
-        checkLength: checkLength,
-        getListPhoneCode: getListPhoneCode,
-        checkEmailValid: checkEmailValid,
-        checkMatch: checkMatch,
+        showMessage:        showMessage,
+        isValidEmail:       isValidEmail,
+        isValidPassword:    isValidPassword,
+        alertConfirm:       alertConfirm,
+        checkRequired:      checkRequired,
+        checkLength:        checkLength,
+        getListPhoneCode:   getListPhoneCode,
+        checkEmailValid:    checkEmailValid,
+        checkMatch:         checkMatch,
         isValidPhoneNumber: isValidPhoneNumber,
-        checkPhoneNumber: checkPhoneNumber,
-        checkPassWord: checkPassWord,
+        checkPhoneNumber:   checkPhoneNumber,
+        checkPassWord:      checkPassWord,
+        initQuill:          initQuill,
+        initDropzone:       initDropzone,
+        initChoicesTags:    initChoicesTags,
+        uploadFiles:        uploadFiles,
+        renderAlias:        renderAlias,
+        checkAlias:         checkAlias,
     };
 })();

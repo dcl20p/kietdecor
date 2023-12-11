@@ -5,8 +5,8 @@ $cstAsset = $this->lazyAsset()->getItems();
 $urlDefault = $this->serverurl();
 $arrayStructs = [
     'headMeta'=> [
-        'description' => $this->translate('Sỹ Tùng đẹp trai vãi nồi'),
-        'keyword'     => 'Techknock, AI matching',
+        'description' => $this->translate(WEB_NAME.' - Thiết kế & thi công nội thất. Các thiết kế của chúng tôi bao gồm tu sửa nhà bếp và phòng tắm cũng như toàn bộ công trình tùy chỉnh. Mỗi thiết kế là duy nhất và được thiết kế riêng theo sở thích, nhu cầu và phong cách sống của khách hàng.'),
+        'keyword'     => WEB_NAME.', thiết kế nội thất, kiến trúc nội thất, sửa chữa nhà, trang trí nội thất, phong cách thiết kế nội thất, xây dựng nhà, bố trí nội thất, thi công nội thất, thiết kế phòng ngủ, cải tạo nhà, đồ nội thất, thiết kế phòng khách, nội thất căn hộ, sửa chữa phòng bếp, thiết kế nhà phố, trang trí phòng tắm, thiết kế biệt thự, tư vấn nội thất, sửa chữa sàn nhà, thiết kế nội thất văn phòng',
         'url'         => $urlDefault,
         'img'         => [
             'url'   => $urlDefault. $pubRes->files('favicon.png?v=1', 'images', false),
@@ -27,6 +27,26 @@ $this->viewHook()->triggerEvt('layoutStruct', [
     'layoutStruct' => &$arrayStructs
 ]);
 
+$metaKeywords = $metaDescription = '';
+foreach ($this->headMeta() as $meta) {
+    if (isset($meta->name)) {
+        if ($meta->name == 'keywords') {
+            $metaKeywords = $meta->content;
+        }
+        if ($meta->name == 'description') {
+            $metaDescription = $meta->content;
+        }
+    }
+}
+if (!empty($metaKeywords))
+    $arrayStructs['headMeta']['keyword'] = $metaKeywords;
+else
+    $this->headMeta()->appendName('keywords', $arrayStructs['headMeta']['keyword']);
+if (!empty($metaDescription))
+    $arrayStructs['headMeta']['description'] = $metaDescription;
+else
+    $this->headMeta()->appendName('description', $arrayStructs['headMeta']['description']);
+
 $headerContent = $this->headerSession()->render();
 $footerContent = $arrayStructs['footer'] ? $this->footerSession() : '';
 echo $this->doctype(Doctype::HTML5);
@@ -40,28 +60,38 @@ echo $this->doctype(Doctype::HTML5);
             ->appendName('viewport', 'height=device-height,width=device-width,initial-scale=1.0,maximum-scale=1.0, user-scalable=no, shrink-to-fit=no')
             ->setHttpEquiv('X-UA-Compatible', 'IE=EDGE')
             ->appendName('copyright', WEB_NAME.', Inc')
-            ->appendName('author', WEB_NAME.', Inc')
-            ->appendName('keywords', $arrayStructs['headMeta']['keyword'])
-            ->appendName('description', $arrayStructs['headMeta']['description'])
+            ->appendName('author', WEB_NAME)
+            ->appendName('news_keywords', $arrayStructs['headMeta']['keyword'])
 
-            ->appendName('twitter:card', WEB_NAME.', Inc')
-            ->appendName('twitter:site', WEB_NAME.', Inc')
-            ->appendName('twitter:title', WEB_NAME.', Inc')
-            ->appendName('twitter:description', $arrayStructs['headMeta']['description'])
-            ->appendName('twitter:creator', WEB_NAME.', Inc')
-            ->appendName('twitter:image', WEB_NAME.', Inc')
+            // ->appendName('twitter:card', WEB_NAME.', Inc')
+            // ->appendName('twitter:site', WEB_NAME.', Inc')
+            // ->appendName('twitter:title', WEB_NAME.', Inc')
+            // ->appendName('twitter:description', $arrayStructs['headMeta']['description'])
+            // ->appendName('twitter:creator', WEB_NAME.', Inc')
+            // ->appendName('twitter:image', WEB_NAME.', Inc')
 
-            ->appendProperty('fb:app_id', '655968634437471')
-            ->appendProperty('og:title', WEB_NAME.', Inc')
-            ->appendProperty('og:type', WEB_NAME.', Inc')
-            ->appendProperty('og:url', WEB_NAME.', Inc')
-            ->appendProperty('og:image', WEB_NAME.', Inc')
-            ->appendProperty('og:description', $arrayStructs['headMeta']['description'])
-            ->appendProperty('og:site_name', WEB_NAME.', Inc')
+            // ->appendProperty('fb:app_id', '655968634437471')
+            // ->appendProperty('og:title', WEB_NAME.', Inc')
+            // ->appendProperty('og:type', WEB_NAME.', Inc')
+            // ->appendProperty('og:url', WEB_NAME.', Inc')
+            // ->appendProperty('og:image', WEB_NAME.', Inc')
+            // ->appendProperty('og:description', $arrayStructs['headMeta']['description'])
+            // ->appendProperty('og:site_name', WEB_NAME.', Inc')
             ->setAutoEscape(false)
         ?>
-        <link rel="shortcut icon" type="image/png" href="<?=
-            $pubRes->files('favicon.png', 'images', false)?>"/>
+        <link rel="shortcut icon" type="image/png" href="<?= $urlDefault?>/logo/favicon-32x32.png?v=1" sizes="32x32">
+        <link rel="shortcut icon" type="image/png" href="<?= $urlDefault?>/logo/favicon-16x16.png?v=1" sizes="16x16">
+        <!-- iPad icons -->
+        <link rel="apple-touch-icon-precomposed" href="<?= $urlDefault?>/logo/apple-icon-72x72.png?v=1" sizes="72x72">
+        <link rel="apple-touch-icon-precomposed" href="<?= $urlDefault?>/logo/apple-icon-144x144.png?v=1" sizes="144x144">
+        <!-- iPhone and iPod touch icons -->
+        <link rel="apple-touch-icon-precomposed" href="<?= $urlDefault?>/logo/apple-icon-57x57.png?v=1" sizes="57x57">
+        <link rel="apple-touch-icon-precomposed" href="<?= $urlDefault?>/logo/apple-icon-114x114.png?v=1" sizes="114x114">
+        <!-- Nokia Symbian -->
+        <link rel="nokia-touch-icon" href="<?= $urlDefault?>/logo/apple-icon-57x57.png?v=1">
+        <!-- Android icon precomposed so it takes precedence -->
+        <link rel="apple-touch-icon-precomposed" href="<?= $urlDefault?>/logo/apple-icon-precomposed.png?v=1" sizes="1x1">
+
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Noto+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
@@ -93,6 +123,8 @@ echo $this->doctype(Doctype::HTML5);
                 ($jsNo+=10) => $pubRes->files( 'goodlayers-core/include/js/page-builder.js', 'js', false),
                 ($jsNo+=10) => $pubRes->files( 'jquery/ui/effect.min.js', 'js', false),
                 ($jsNo+=10) => $pubRes->files( 'plugins.js', 'js', false),
+                ($jsNo+=10) => '/assets/common/js/lazyload.js',
+                ($jsNo+=10) => '/assets/customer/js/common/utilities.js',
             ], $cstAsset['js'])
         ];
         ksort($assetsItems['css']);

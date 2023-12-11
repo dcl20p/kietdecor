@@ -1,0 +1,131 @@
+<?php
+
+$this->headTitle($pageTitle);
+
+$this->menuLeft()->setActiveItemId($activeItemId);
+$this->bootstrapToolbar([
+    $this->toolbarClose($this->zfUrl('home'))
+]);
+
+$this->pageBreadcrumbs()->setItems([
+    $this->translate('Trang chủ') => $this->zfUrl('home'),
+    $pageTitle => $this->zfUrl($routeName),
+]);
+
+$pubRes = $this->zfResource();
+$this->lazyAsset()->addItems([
+    'js' => [
+        21 => $pubRes->files('plugins/quill.min.js', 'js', false),
+        22 => $pubRes->files('plugins/dropzone.min.js', 'js', false),
+        23 => $pubRes->files('plugins/multistep-form.js', 'js', false),
+    ],
+]);
+
+$this->headScriptAction(null, [], [
+    'action' => 'add',
+    'controller' => 'index',
+    'module' => 'service'
+]);
+?>
+<div class="row">
+    <div class="col-12 m-auto">
+        <div class="card">
+            <div class="card-header pb-0 position-relative z-index-2">
+                <div class="mb-3">
+                    <h5 class="mb-0"><?= $this->translate($pageTitle)?></h5>
+                </div>
+                <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                    <div class="multisteps-form__progress">
+                        <button class="multisteps-form__progress-btn js-active" type="button"
+                            title="<?= $this->translate('Thông tin cơ bản')?>">
+                            <span>1. <?= $this->translate('Thông tin cơ bản')?></span>
+                        </button>
+                        <button class="multisteps-form__progress-btn" type="button" title="Hình ảnh">
+                            2. <?= $this->translate('Hình ảnh')?>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <form class="multisteps-form__form" method="POST" id="adminForm">
+                    <div class="multisteps-form__panel pt-3 border-radius-xl bg-white js-active"
+                        data-animation="FadeIn">
+                        <h5 class="font-weight-bolder"><?= $this->translate('Thông tin cơ bản')?></h5>
+                        <div class="multisteps-form__content">
+                            <div class="row mt-3">
+                                <div class="col-12 col-sm-6">
+                                    <div class="input-group input-group-dynamic">
+                                        <label for="title" class="form-label">
+                                            <?= $this->translate('Tiêu đề')?>
+                                        </label>
+                                        <input class="multisteps-form__input form-control" type="text" 
+                                            name="title" id="title"
+                                            value="<?= $postData['title'] ?? ''; ?>"/>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6 ms-sm-auto mt-sm-0 mt-3 d-flex align-items-center">
+                                    <label for="status" class="form-check-label mb-0">
+                                        <small>
+                                            <?= $this->translate('Trạng thái')?>
+                                        </small>
+                                    </label>
+                                    <div class="form-check form-switch ms-2 my-auto">
+                                        <input class="form-check-input" type="checkbox" id="status" name="status"
+                                            <?= !empty($postData['status']) ? 'checked' : ''; ?>>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-12">
+                                    <label class="mt-4"><?= $this->translate('Mô tả')?></label>
+                                    <div id="description" style="height:300px">
+                                        <?= $postData['description'] ?? ''?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="button-row d-flex mt-4">
+                                <a class="btn bg-gradient-dark ms-auto mb-0 js-btn-next" id="btnNextStep2"
+                                    title="<?= $this->translate('Tiếp theo')?>">
+                                    <?= $this->translate('Tiếp theo')?>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="multisteps-form__panel pt-3 border-radius-xl bg-white"
+                        data-animation="FadeIn">
+                        <h5 class="font-weight-bolder"><?= $this->translate('Hình ảnh')?></h5>
+                        <div class="multisteps-form__content">
+                            <div class="row mt-3">
+                                <div class="col-12 ms-sm-auto mt-sm-0 mt-3 d-flex align-items-center">
+                                    <label for="is_use" class="form-check-label mb-0">
+                                        <small>
+                                            <?= $this->translate('Sử dụng icon')?>
+                                        </small>
+                                    </label>
+                                    <div class="form-check form-switch ms-2 my-auto">
+                                        <input class="form-check-input" type="checkbox" id="is_use" name="is_use"
+                                            <?= !empty($postData['is_use']) ? 'checked' : ''; ?>>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-control mb-0"><?= $this->translate('Icon dự án')?></label>
+                                    <div action="file-upload" class="form-control border dropzone"
+                                        id="serviceImg" style="height:200px"></div>
+                                </div>
+                            </div>
+                            <div class="button-row d-flex mt-4">
+                                <button class="btn bg-gradient-light mb-0 js-btn-prev" type="button"
+                                    title="Prev"><?= $this->translate('Quay lại')?></button>
+                                <a class="btn bg-gradient-dark ms-auto mb-0" id="btnSaveService"
+                                    href="javascript:void(0);" title="<?= $this->translate('Lưu')?>">
+                                    <?= $this->translate('Lưu')?>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

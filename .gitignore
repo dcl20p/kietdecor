@@ -1,6 +1,8 @@
 .vagrant/
 configs/development.config.php
 configs/development.config.php.dist
+configs/db.config.php
+configs/redis.configs.php
 data/cache/*
 !data/cache/.gitkeep
 phpunit.xml
@@ -9,7 +11,7 @@ logs/
 data/reflec_cache/
 data/zf_acl/
 data/system/
-public/uploads/
+# public/uploads/
 data/log_login/
 data/cache/
 .gitignore

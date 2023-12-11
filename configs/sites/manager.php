@@ -3,7 +3,9 @@
 return [
     'modules' => [
         'Application',
-        'Product',
+        'Project',
+        'Service',
         'Manager',
+        'Upload'
     ]
 ];

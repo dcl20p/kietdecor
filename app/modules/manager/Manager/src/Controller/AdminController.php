@@ -990,17 +990,17 @@ class AdminController extends ZfController
     protected function validDataPostAddUser(array $params): array
     {
         $params = array_intersect_key($params, [
-            "first_name" => "",
-            "last_name" => "",
-            "gender" => "",
-            "birthday" => [],
-            "email" => "",
-            "confirm_email" => "",
-            "address" => "",
-            "phone_code" => "",
-            "phone" => "",
-            "group_code" => "",
-            "new_password" => "",
+            "first_name"           => "",
+            "last_name"            => "",
+            "gender"               => "",
+            "birthday"             => [],
+            "email"                => "",
+            "confirm_email"        => "",
+            "address"              => "",
+            "phone_code"           => "",
+            "phone"                => "",
+            "group_code"           => "",
+            "new_password"         => "",
             "confirm_new_password" => ""
         ]);
 
@@ -1025,7 +1025,8 @@ class AdminController extends ZfController
      *
      * @return ViewModel
      */
-    public function addAction()
+    
+     public function addAction()
     {
         $needRollback = true;
         try {
@@ -1068,10 +1069,11 @@ class AdminController extends ZfController
         }
 
         return new ViewModel([
-            'pageTitle' => $this->mvcTranslate('Thêm người dùng'),
-            'routeName' => $this->getCurrentRouteName(),
+            'user'         => null,
+            'pageTitle'    => $this->mvcTranslate('Thêm người dùng'),
+            'routeName'    => $this->getCurrentRouteName(),
             'activeItemId' => 'user_add',
-            'isEdit' => false
+            'isEdit'       => false
         ]);
     }
 
@@ -1180,11 +1182,11 @@ class AdminController extends ZfController
         }
 
         return (new ViewModel([
-            'user' => $user ?? null,
-            'pageTitle' => $this->mvcTranslate('Thêm người dùng'),
-            'routeName' => $this->getCurrentRouteName(),
-            'activeItemId' => 'user_add',
-            'isEdit' => true
+            'user'          => $user ?? null,
+            'pageTitle'     => $this->mvcTranslate('Thêm người dùng'),
+            'routeName'     => $this->getCurrentRouteName(),
+            'activeItemId'  => 'user_add',
+            'isEdit'        => true
         ]))->setTemplate('/manager/admin/add.phtml');
     }
 }

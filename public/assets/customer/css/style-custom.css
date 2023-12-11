@@ -138,7 +138,6 @@
     font-weight: bold;
     text-transform: none;
     letter-spacing: 1px;
-    letter-spacing: 1px;
 }
 
 .gdlr-core-filterer-wrap.gdlr-core-style-text .gdlr-core-filterer {
@@ -2937,9 +2936,8 @@ del span.woocommerce-Price-amount.amount {
 
 /*--custom, do not reomve--*/
 .gdlr-core-filterer-wrap.gdlr-core-style-text {
-    font-family: "'Noto Serif', serif"
-        font-weight: 600;
-    ;
+    font-family: 'Noto Serif', serif;
+    font-weight: 600;
 }
 
 .inteco-comments-area .comment-reply-title small {
@@ -4365,6 +4363,14 @@ del span.woocommerce-Price-amount.amount {
     font-size: 20px ;color: #232323 !important;
 }
 
+.gdlr-core-skin-title {
+    font-size: 22px !important;
+}
+
+.inteco-body {
+    font-size: 16px !important;
+}
+
 @media only screen and (max-width: 767px) {
     .title-slide {
         font-size: 38px !important;
@@ -4395,4 +4401,5 @@ del span.woocommerce-Price-amount.amount {
     .gdlr-core-pbf-column-content-slogan-right-2 {
         padding: 0 !important;
     }
+    
 }

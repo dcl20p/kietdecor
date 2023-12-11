@@ -1,0 +1,172 @@
+<?php
+use Models\Entities\ProjectCate;
+$this->headTitle($pageTitle);
+$this->menuLeft()->setActiveItemId($activeItemId);
+$toolbars = [
+    $this->toolbarInsert(
+        $this->zfUrl('project-cate', [
+            'action'=>'add',
+            'pid' => $parentEntity->prc_id ?? null
+        ])
+    ),
+    $this->toolbarDelete(
+        $this->zfUrl('project-cate', [
+            'action'=>'delete',
+            'pid' => $parentEntity->prc_id ?? null
+        ])
+    ),
+];
+if (!empty($parentEntity)) {
+    $toolbars[] = $this->toolbarClose();
+}
+$this->bootstrapToolbar($toolbars);
+
+$this->pageBreadcrumbs()->setItems([
+    $this->translate('Trang chủ') => $this->zfUrl('home'),
+    $pageTitle => $this->zfUrl($routeName),
+]);
+
+$this->headScriptAction(null, [], [
+    'action' => 'index',
+    'controller' => 'project-cate',
+    'module' => 'project'
+]);
+$this->headStyleAction(null, [
+    '__token__' => $token = $this->zfCsrfToken()->generateCsrfToken(
+        [ProjectCate::FOLDER_TOKEN, microtime(true), rand(100, 999999)],
+        ProjectCate::FOLDER_TOKEN
+    ),
+    '__error_info__' => $this->translate(ZF_MSG_WENT_WRONG),
+], [
+    'action' => 'index', 'controller' => 'project-cate', 'module' => 'project'
+]);
+?>
+<div class="row">
+    <div class="col-12">
+        <form id="adminForm" method="POST" enctype="application/x-www-form-urlencoded">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <div class="d-lg-flex">
+                        <div>
+                            <h5 class="mb-0"><?= empty($parentEntity) 
+                                ? $pageTitle
+                                : $this->translate('Danh sách danh mục con của "') . $parentEntity->prc_name . '"';?></h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body px-0 pb-0">
+                    <div class="d-lg-flex ps-4">
+                        <p class="text-sm mb-0">
+                        <?= str_replace(
+                            ['{current}', '{total}'],
+                            [
+                                !empty($paginator) ? $paginator?->getCurrentItemCount() : 0, 
+                                $totalItem = !empty($paginator) ? $paginator?->getTotalItemCount() : 0
+                            ],
+                            $this->translate('Hiển thị {current} trên {total} entries')
+                        );?>
+                        </p>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="w-2 text-center fs-6">
+                                        <?= $this->manageCheckboxAll();?>
+                                    </th>
+                                    <th class="text-dark text-xs text-secondary text-uppercase opacity-7">
+                                        <?= $this->translate('Hình ảnh')?>
+                                    </th>
+                                    <th class="text-dark text-xs text-center text-secondary text-uppercase opacity-7">
+                                        <?= $this->translate('Tên')?>
+                                    </th>
+                                    <th class="text-dark text-xs text-center text-secondary text-uppercase opacity-7">
+                                        <?= $this->translate('Trạng thái')?>
+                                    </th>
+                                    <th class="text-dark text-xs text-center text-secondary text-uppercase opacity-7">
+                                        <?= $this->translate('Tác vụ')?>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php 
+                                if ($totalItem > 0):
+                                    foreach ($paginator as $item): 
+                                    $id = $item->prc_id ?? 0;
+                                    ?><tr>
+                                        <td class="text-center fs-6">
+                                            <?= $this->manageCheckbox($id ?? 0)?>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex px-2 py-1">
+                                                <div>
+                                                    <?php $defaultImg = '/assets/customer/images/source/icon-time-1.png';?>
+                                                    <img src="<?= !empty($item->prc_image) ? $item->prc_image : $defaultImg;?>"
+                                                        class=" avatar-sm me-3">
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td><?= $item->prc_name ?? '';?></td>
+                                        <td class="font-weight-normal">
+                                            <div class="d-flex align-items-center justify-content-center"><?php
+                                                echo $this->manageChangeStatus($this->zfUrl($routeName, [
+                                                    'action'=>'change-status', 
+                                                    'pid' => $item->prc_parent_id ?? '',
+                                                    'id'=> $id
+                                                ]),
+                                                    $item->prc_status ?? 0, ['data-token' => $token]
+                                                );
+                                                ?>
+                                                <span><?= $item->prc_status 
+                                                    ? $this->translate('Kích hoạt')
+                                                    : $this->translate('Chưa kích hoạt')
+                                                ?></span>
+                                            </div>
+                                        </td>
+                                        <td class="text-sm text-center"><?php
+                                           /*  if (empty($parentEntity)) 
+                                                echo $this->manageIcon(
+                                                    'list_alt',
+                                                    [
+                                                        'href'   => $this->zfUrl($routeName, ['action' => 'small', 'pid' => $id]),
+                                                        'iclass' => 'text-info',
+                                                        'title'  => 'Danh mục con'
+                                                    ]
+                                                ); */
+                                            echo  $this->manageUpdate(
+                                                $this->zfUrl($routeName, [
+                                                    'action'=>'edit', 
+                                                    'id'=> $id,
+                                                    'pid' => $item->prc_parent_id ?? '',
+                                                ])
+                                            );
+                                            echo  $this->manageDelete($this->zfUrl($routeName, 
+                                                ['action'=>'delete', 'id'=> $id])
+                                            );
+                                        ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; 
+                                else: ?>
+                                    <td class="text-center fs-7 text-danger" colspan="100">
+                                        <?= $this->translate(ZF_MSG_DATA_NOT_EXISTS); ?>
+                                    </td>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            
+                <?php if ($totalItem > 0) : ?>
+                    <div class="card-footer">
+                        <?= $this->paginationControl(
+                            $paginator, 'Sliding',
+                            'application/partial/paginator', 
+                            ['route' => $routeName]
+                        );?>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </form>
+    </div>
+</div>

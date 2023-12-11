@@ -71,10 +71,10 @@ return [
                 ],
             ],
             
-            'logs'       => [
+            /* 'logs'       => [
                 'path'          => DATA_PATH .' /../logs/queries',
                 'rotate_pattern'=> 'Y-m-d-H'
-            ],
+            ], */
         ],
         'cache' => [
             'redis' => [

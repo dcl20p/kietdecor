@@ -2,10 +2,10 @@
     return [
         'en' => 'en',
         'Đăng Nhập ID' => 'Login ID',
-        'Sản phẩm' => 'Product',
-        'Thêm sản phẩm' => 'Add product',
-        'Tất cả sản phẩm' => 'All product',
-        'Danh mục sản phẩm' => 'Product portfolio',
+        'Dự án' => 'Product',
+        'Thêm dự án' => 'Add project',
+        'Tất cả dự án' => 'All project',
+        'Danh mục dự án' => 'Product portfolio',
         'Trang chủ' => 'Home',
         'Tổng quan' => 'Dashboards',
         'Thêm' => 'Add',
@@ -203,5 +203,6 @@
         'Thông tin hoạt động' => 'Operation information',
         'Kích hoạt' => 'Active',
         'Chưa kích hoạt' => 'Deactive',
+        'Vui lòng nhập đầy đủ thông tin' => 'Please enter full information',
     ];
 ?>

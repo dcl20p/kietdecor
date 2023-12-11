@@ -170,8 +170,5 @@ return array_merge([
     'Sales' => '売上高',
 
     ]
-    // , include implode(DIRECTORY_SEPARATOR, [
-    //     $dir, 'ja_JP_Anh.php'
-    // ])
 
 );

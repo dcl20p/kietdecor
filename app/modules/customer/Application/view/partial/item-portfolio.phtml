@@ -1,0 +1,44 @@
+<?php
+use Models\Entities\Project;
+use Models\Utilities\ImageUrl;
+$i = 0;
+foreach ($projects as $project):
+    $id = $project['pr_id'];
+    $href = $this->zfUrl('works', ['param' => 'abc', 'id' => $id]);?>
+    <div class="gdlr-core-item-list class1 gdlr-core-item-pdlr gdlr-core-column-<?= DEVICE_ENV == 4 ? '20' : '30'?>">
+        <div class="gdlr-core-portfolio-grid  gdlr-core-left-align gdlr-core-style-with-frame gdlr-core-js"
+            data-sync-height="portfolio-item-1">
+            <div class="gdlr-core-portfolio-grid-frame gdlr-core-skin-e-background opacity-100"></div>
+            <div class="gdlr-core-portfolio-thumbnail gdlr-core-media-image gdlr-core-style-title-icon">
+                <div class="gdlr-core-portfolio-thumbnail-image-wrap gdlr-core-zoom-on-hover">
+                    <?= ImageUrl::generateImage(
+                        $project['pr_thumbnail'], 
+                        Project::PROJECT_THUMBNAIL_SIZES,
+                        $project['pr_name'],
+                        Project::FOLDER_IMAGE
+                    );?>
+                    <a href="<?= $href?>"
+                        data-lightbox-group="gdlr-core-img-group-1">
+                        <span class="gdlr-core-image-overlay gdlr-core-portfolio-overlay gdlr-core-image-overlay-center-icon gdlr-core-js">
+                            <span class="gdlr-core-image-overlay-content">
+                                <span class="gdlr-core-portfolio-icon-wrap">
+                                    <i class="gdlr-core-portfolio-icon fa fa-eye"></i>
+                                </span>
+                            </span>
+                        </span>
+                    </a>
+                </div>
+            </div>
+            <div class="gdlr-core-portfolio-content-wrap gdlr-core-skin-divider">
+                <h3 class="gdlr-core-portfolio-title gdlr-core-skin-title gdlr-core-skin-title-project">
+                    <a href="<?= $href?>"><?= $this->translate($project['pr_name'])?></a>
+                </h3>
+                <span class="gdlr-core-portfolio-info gdlr-core-portfolio-info-tag gdlr-core-info-font gdlr-core-skin-caption">
+                    <a href="<?= $this->zfUrl('portfolio', ['id' => 1])?>" rel="tag">interior</a> 
+                    <span class="gdlr-core-sep">/</span>
+                    <a href="<?= $this->zfUrl('portfolio', ['id' => 1])?>" rel="tag">minimal</a>
+                </span>
+            </div>
+        </div>
+    </div>
+<?php $i++; endforeach;?>
