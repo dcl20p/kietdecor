@@ -561,6 +561,7 @@ const common = (function () {
     const initDropzone = (element, options = {}, existingFiles = []) => {
         Dropzone.autoDiscover = false;
         let nameExists = [];
+        var isRemovingFile = false;
         const defaultOptions = {
             maxFilesize: 5,
             uploadMultiple: true,
@@ -580,15 +581,25 @@ const common = (function () {
                 });
                 this.on("removedfile", function(file) {
                     nameExists = removeItemInArray(nameExists, file.name);
+                    if (!isRemovingFile) {
+                        isRemovingFile = true;
+                        this.removeFile(file);
+                        isRemovingFile = false;
+                    }
                 });
                 if (Array.isArray(existingFiles) && existingFiles.length > 0) {
                     for (let i = 0; i < existingFiles.length; i++) {
                         let file = existingFiles[i];
-                        let mockFile = {name: file.name, size: 100000};
+                        let mockFile = {
+                            name: file.name,
+                            size: file.size,
+                            type: file.type
+                        };
                         if (file.url) {
                             this.emit("addedfile", mockFile);
                             this.emit("thumbnail", mockFile, file.url);
                             this.emit("complete", mockFile);
+                            // this.enqueueFile(mockFile);
                         }
                     }
                 }
@@ -611,22 +622,6 @@ const common = (function () {
         return img;
     };
 
-    const removeExistImage = (file, url, path, callBack = null) => {
-        axios({
-            url: url,
-            method: 'POST',
-            data: {
-                file:file.name || '',
-                path:path,
-            }
-        })
-        .then(response => {
-           callBack(response);
-        })
-        .catch(error => {
-        });
-    }
-
     /**
      * Init choices tag
      * @param {*} element 
@@ -645,6 +640,48 @@ const common = (function () {
     };
 
     /**
+     * Fetch and add file to queue
+     * @param {*} fileInfo 
+     * @param {*} objDropzone 
+     */
+    const fetchAndAddFiles = (fileInfo, objDropzone) => {
+        // fetch(fileInfo.url, {
+        //     mode: 'no-cors',
+        //     method: 'GET',
+        // })
+        // .then(response => response.blob())
+        // .then(blob => {
+        //     // const url = URL.createObjectURL(blob);
+        //     // console.log(url)
+        //     var file = new File([blob], fileInfo.name);
+        //     objDropzone.addFile(file);
+
+        //     return objDropzone;
+        // })
+        // .catch(error => {
+        //     console.error('Error fetching data:', error);
+        // });
+
+        // axios({
+        //     url: fileInfo.url,
+        //     method: 'GET'
+        // })
+        // .then(response => response.blob())
+        // .then(blob => {
+        //     var file = new File([blob], fileInfo.name);
+        //     objDropzone.addFile(file);
+
+        //     // objDropzone.emit('thumbnail', file, fileInfo.url);
+
+        //     // objDropzone.emit('addedfile', file);
+        //     // objDropzone.emit('complete', file);
+        // })
+        // .catch(error => {
+        //     console.error('Error fetching data:', error);
+        // });
+    };
+
+    /**
      * Upload file using dropzone
      * @param {*} objDropzone 
      * @param {*} required 
@@ -660,8 +697,51 @@ const common = (function () {
                     });
                 }
             }
-            objDropzone.processQueue();
+            objDropzone.on("removedfile", (file) => {
+                if (Array.isArray(existingFiles) && existingFiles.length > 0 && urlDelete !== '') {
+                    // removeExistImage(file, urlDelete, path, (rs) => {
+                    //     resolve(rs.data);
+                    // });
+                }
+            });
+            if (Array.isArray(existingFiles) && existingFiles.length > 0) {
+                let filesToProcess = existingFiles.length; // Số lượng tệp tin cần xử lý
+
+                for (let i = 0; i < existingFiles.length; i++) {
+                    let file = existingFiles[i];
+                    if (file.url) {
+                        fetch(file.url, {
+                            mode: 'no-cors',
+                            method: 'GET',
+                        })
+                        .then((response) => response.blob())
+                        .then((blob) => {
+                            var newFile = new File([blob], file.name, { type: file.type });
+                            console.log(newFile)
+                            objDropzone.addFile(newFile);
+
+                            // Kiểm tra nếu đã xử lý hết tất cả các tệp tin
+                            filesToProcess--;
+                            if (filesToProcess === 0) {
+                                // Bắt đầu quá trình tải lên khi tất cả các tệp tin đã được thêm vào Dropzone
+                                objDropzone.processQueue();
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error fetching data:', error);
+                            // Giảm số lượng tệp tin cần xử lý khi có lỗi
+                            filesToProcess--;
+                        });
+                    }
+                }
+            } else {
+                objDropzone.processQueue();
+            }
+            objDropzone.on('sending', function(file, xhr, formData) {
+                console.log('File is being sent to the server:', file);
+            });
             objDropzone.on('complete', function(file) {
+                console.log(file);
                 if (file.status === "success") {
                     const response = JSON.parse(file.xhr.response); 
                     resolve(response);
@@ -674,15 +754,25 @@ const common = (function () {
                 showMessage(errorMessage, 'danger');
                 objDropzone.removeFile(file);
             });
-            objDropzone.on("removedfile", (file) => {
-                if (Array.isArray(existingFiles) && existingFiles.length > 0 && urlDelete !== '') {
-                    removeExistImage(file, urlDelete, path, (rs) => {
-                        resolve(rs.data);
-                    });
-                }
-            })
+            
         });
     };
+
+    const removeExistImage = (file, url, path, callBack = null) => {
+        axios({
+            url: url,
+            method: 'POST',
+            data: {
+                file:file.name || '',
+                path:path,
+            }
+        })
+        .then(response => {
+           callBack(response);
+        })
+        .catch(error => {
+        });
+    }
 
     const renderAlias = (str) => {
         str = str.toLowerCase().trim();
