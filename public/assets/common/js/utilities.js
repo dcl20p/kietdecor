@@ -572,18 +572,19 @@ const common = (function () {
             dictRemoveFile: "Xóa tệp",
             addRemoveLinks: true,
             init: function() {
-                this.on("error", (file, errorMessage) => {
+                var self = this;
+                self.on("error", (file, errorMessage) => {
                     showMessage(errorMessage, 'danger');
-                    this.removeFile(file);
+                    self.removeFile(file);
                 });
-                this.on("success", (file) => {
-                    this.removeFile(file);
+                self.on("success", (file) => {
+                    self.removeFile(file);
                 });
-                this.on("removedfile", function(file) {
+                self.on("removedfile", function(file) {
                     nameExists = removeItemInArray(nameExists, file.name);
                     if (!isRemovingFile) {
                         isRemovingFile = true;
-                        this.removeFile(file);
+                        self.removeFile(file);
                         isRemovingFile = false;
                     }
                 });
@@ -593,13 +594,24 @@ const common = (function () {
                         let mockFile = {
                             name: file.name,
                             size: file.size,
-                            type: file.type
+                            type: file.type,
+                            status: Dropzone.ADDED,
+                            accepted: true
                         };
                         if (file.url) {
-                            this.emit("addedfile", mockFile);
-                            this.emit("thumbnail", mockFile, file.url);
-                            this.emit("complete", mockFile);
-                            // this.enqueueFile(mockFile);
+                            fetch(file.url, {
+                                // mode: 'no-cors',
+                                method: 'GET',
+                            })
+                            .then((response) => response.blob())
+                            .then((blob) => {
+                                console.log(file.type, blob)
+                                var newFile = new File([blob], file.name,  { type: file.type });
+                                self.addFile(newFile);
+                            })
+                            .catch(error => {
+                                console.log('Error fetching data:', error);
+                            });
                         }
                     }
                 }
@@ -617,7 +629,17 @@ const common = (function () {
             }
         };
         const params = {...defaultOptions, ...options};
+        
         const img = new Dropzone(element, params);
+        // setTimeout(() => {
+        //     if (Array.isArray(existingFiles) && existingFiles.length > 0) {
+        //         for (let i = 0; i < existingFiles.length; i++) {
+        //             let file = existingFiles[i];
+        //             const elImg = document.querySelector('img[alt="'+file.name+'"]');
+        //             elImg.src = file.url;
+        //         }
+        //     }
+        // }, 300);
 
         return img;
     };
@@ -640,45 +662,45 @@ const common = (function () {
     };
 
     /**
-     * Fetch and add file to queue
-     * @param {*} fileInfo 
+     * Handle process queue dropzone
+     * @param {*} resolve 
      * @param {*} objDropzone 
+     * @param {*} required 
+     * @param {*} existingFiles 
+     * @param {*} urlDelete 
+     * @param {*} path 
      */
-    const fetchAndAddFiles = (fileInfo, objDropzone) => {
-        // fetch(fileInfo.url, {
-        //     mode: 'no-cors',
-        //     method: 'GET',
-        // })
-        // .then(response => response.blob())
-        // .then(blob => {
-        //     // const url = URL.createObjectURL(blob);
-        //     // console.log(url)
-        //     var file = new File([blob], fileInfo.name);
-        //     objDropzone.addFile(file);
-
-        //     return objDropzone;
-        // })
-        // .catch(error => {
-        //     console.error('Error fetching data:', error);
-        // });
-
-        // axios({
-        //     url: fileInfo.url,
-        //     method: 'GET'
-        // })
-        // .then(response => response.blob())
-        // .then(blob => {
-        //     var file = new File([blob], fileInfo.name);
-        //     objDropzone.addFile(file);
-
-        //     // objDropzone.emit('thumbnail', file, fileInfo.url);
-
-        //     // objDropzone.emit('addedfile', file);
-        //     // objDropzone.emit('complete', file);
-        // })
-        // .catch(error => {
-        //     console.error('Error fetching data:', error);
-        // });
+    const handleProcessQueue = (resolve, objDropzone, required, existingFiles, urlDelete, path) => {
+        if (objDropzone.getQueuedFiles().length === 0) {
+            if (!required) {
+                resolve({
+                    success: true,
+                    data: ''
+                });
+            }
+        }
+        objDropzone.on("removedfile", (file) => {
+            // Only delete images that already exist
+            if (Array.isArray(existingFiles) && existingFiles.length > 0 && urlDelete !== '') {
+                // removeExistImage(file, urlDelete, path, (rs) => {
+                //     resolve(rs.data);
+                // });
+            }
+        });
+        objDropzone.processQueue();
+        objDropzone.on('complete', function(file) {
+            if (file.status === "success") {
+                const response = JSON.parse(file.xhr.response); 
+                resolve(response);
+            } else {
+                showMessage('Tải lên thất bại', 'danger');
+                objDropzone.removeFile(file);
+            }
+        });
+        objDropzone.on("error", (file, errorMessage) => {
+            showMessage(errorMessage, 'danger');
+            objDropzone.removeFile(file);
+        });
     };
 
     /**
@@ -689,72 +711,30 @@ const common = (function () {
      */
     const uploadFiles = (objDropzone, required = true, existingFiles = [], urlDelete = '', path = 'project') => {
         return new Promise((resolve) => {
-            if (objDropzone.getQueuedFiles().length === 0) {
-                if (!required) {
-                    resolve({
-                        success: true,
-                        data: ''
-                    });
-                }
-            }
-            objDropzone.on("removedfile", (file) => {
-                if (Array.isArray(existingFiles) && existingFiles.length > 0 && urlDelete !== '') {
-                    // removeExistImage(file, urlDelete, path, (rs) => {
-                    //     resolve(rs.data);
-                    // });
-                }
-            });
-            if (Array.isArray(existingFiles) && existingFiles.length > 0) {
-                let filesToProcess = existingFiles.length; // Số lượng tệp tin cần xử lý
-
-                for (let i = 0; i < existingFiles.length; i++) {
-                    let file = existingFiles[i];
-                    if (file.url) {
-                        fetch(file.url, {
-                            mode: 'no-cors',
-                            method: 'GET',
-                        })
-                        .then((response) => response.blob())
-                        .then((blob) => {
-                            var newFile = new File([blob], file.name, { type: file.type });
-                            console.log(newFile)
-                            objDropzone.addFile(newFile);
-
-                            // Kiểm tra nếu đã xử lý hết tất cả các tệp tin
-                            filesToProcess--;
-                            if (filesToProcess === 0) {
-                                // Bắt đầu quá trình tải lên khi tất cả các tệp tin đã được thêm vào Dropzone
-                                objDropzone.processQueue();
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error fetching data:', error);
-                            // Giảm số lượng tệp tin cần xử lý khi có lỗi
-                            filesToProcess--;
-                        });
-                    }
-                }
-            } else {
-                objDropzone.processQueue();
-            }
-            objDropzone.on('sending', function(file, xhr, formData) {
-                console.log('File is being sent to the server:', file);
-            });
-            objDropzone.on('complete', function(file) {
-                console.log(file);
-                if (file.status === "success") {
-                    const response = JSON.parse(file.xhr.response); 
-                    resolve(response);
-                } else {
-                    showMessage('Tải lên thất bại', 'danger');
-                    objDropzone.removeFile(file);
-                }
-            });
-            objDropzone.on("error", (file, errorMessage) => {
-                showMessage(errorMessage, 'danger');
-                objDropzone.removeFile(file);
-            });
-            
+            // if (Array.isArray(existingFiles) && existingFiles.length > 0) {
+            //     for (let i = 0; i < existingFiles.length; i++) {
+            //         let file = existingFiles[i];
+            //         if (file.url) {
+            //             fetch(file.url, {
+            //                 mode: 'no-cors',
+            //                 method: 'GET',
+            //             })
+            //             .then((response) => response.blob())
+            //             .then((blob) => {
+            //                 var newFile = new File([blob], file.name, { type: file.type });
+            //                 objDropzone.addFile(newFile);
+            //             })
+            //             .catch(error => {
+            //                 console.log('Error fetching data:', error);
+            //             });
+            //         }
+            //     }
+            // } 
+            console.log(objDropzone.getQueuedFiles())
+            setTimeout(() => {
+                console.log(objDropzone.getQueuedFiles())
+                handleProcessQueue(resolve, objDropzone, required, existingFiles, urlDelete, path);
+            }, 300);
         });
     };
 
@@ -771,6 +751,7 @@ const common = (function () {
            callBack(response);
         })
         .catch(error => {
+            console.log('Remove image error:', error);
         });
     }
 

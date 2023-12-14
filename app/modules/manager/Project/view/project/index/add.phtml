@@ -33,26 +33,26 @@ $rootPath = ImageUrl::getPathImageUpload(Project::FOLDER_IMAGE);
 if (!empty($isEdit)) {
     if (!empty($genThumb = ImageUrl::generateUrlImage(
         $postData['thumbnail'],
-        Project::FOLDER_IMAGE, true, false
+        Project::FOLDER_IMAGE, false, false
     ))) {
         $thumbnails = [[
             'name' => $postData['thumbnail'],
             'url'  => $genThumb,
             'size' => filesize($rootPath . '/' . $postData['thumbnail']),
-            'type' => 'image/' . pathinfo($rootPath . '/' . $postData['thumbnail'])['extension']
+            'type' => mime_content_type($rootPath . '/' . $postData['thumbnail'])
         ]];
     }
     if (!empty($postData['json_image'])) {
         foreach (explode(',', $postData['json_image']) as $fileName) {
             if (!empty($genListImg = ImageUrl::generateUrlImage(
                 $fileName,
-                Project::FOLDER_IMAGE, true, false
+                Project::FOLDER_IMAGE, false, false
             )))
             $listThumbnails[] = [
                 'name' => $fileName,
                 'url'  => $genListImg,
                 'size' => filesize($rootPath . '/' . $fileName),
-                'type' => 'image/' . pathinfo($rootPath . '/' . $fileName)['extension']
+                'type' => mime_content_type($rootPath . '/' . $fileName)
             ];
         }
     }
