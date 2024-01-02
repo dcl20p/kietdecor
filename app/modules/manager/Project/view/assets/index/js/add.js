@@ -107,7 +107,6 @@
             if (response.success) {
                 let imgThumb = response.data;
                 common.uploadFiles(dropzoneListImg, true, listThumbnails, '__url_remove_image__', '__path__').then(response => {
-                    console.log('sss', response);
                     if (response.success) {
                         let imgList = response.data;
                         submitForm(spinner, imgThumb, imgList);

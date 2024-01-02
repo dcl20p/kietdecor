@@ -561,6 +561,7 @@ const common = (function () {
     const initDropzone = (element, options = {}, existingFiles = []) => {
         Dropzone.autoDiscover = false;
         let nameExists = [];
+        var isRemovingFile = false;
         const defaultOptions = {
             maxFilesize: 5,
             uploadMultiple: true,
@@ -571,24 +572,46 @@ const common = (function () {
             dictRemoveFile: "Xóa tệp",
             addRemoveLinks: true,
             init: function() {
-                this.on("error", (file, errorMessage) => {
+                var self = this;
+                self.on("error", (file, errorMessage) => {
                     showMessage(errorMessage, 'danger');
-                    this.removeFile(file);
+                    self.removeFile(file);
                 });
-                this.on("success", (file) => {
-                    this.removeFile(file);
+                self.on("success", (file) => {
+                    self.removeFile(file);
                 });
-                this.on("removedfile", function(file) {
+                self.on("removedfile", function(file) {
                     nameExists = removeItemInArray(nameExists, file.name);
+                    if (!isRemovingFile) {
+                        isRemovingFile = true;
+                        self.removeFile(file);
+                        isRemovingFile = false;
+                    }
                 });
                 if (Array.isArray(existingFiles) && existingFiles.length > 0) {
                     for (let i = 0; i < existingFiles.length; i++) {
                         let file = existingFiles[i];
-                        let mockFile = {name: file.name, size: 100000};
+                        let mockFile = {
+                            name: file.name,
+                            size: file.size,
+                            type: file.type,
+                            status: Dropzone.ADDED,
+                            accepted: true
+                        };
                         if (file.url) {
-                            this.emit("addedfile", mockFile);
-                            this.emit("thumbnail", mockFile, file.url);
-                            this.emit("complete", mockFile);
+                            fetch(file.url, {
+                                // mode: 'no-cors',
+                                method: 'GET',
+                            })
+                            .then((response) => response.blob())
+                            .then((blob) => {
+                                console.log(file.type, blob)
+                                var newFile = new File([blob], file.name,  { type: file.type });
+                                self.addFile(newFile);
+                            })
+                            .catch(error => {
+                                console.log('Error fetching data:', error);
+                            });
                         }
                     }
                 }
@@ -606,26 +629,20 @@ const common = (function () {
             }
         };
         const params = {...defaultOptions, ...options};
+        
         const img = new Dropzone(element, params);
+        // setTimeout(() => {
+        //     if (Array.isArray(existingFiles) && existingFiles.length > 0) {
+        //         for (let i = 0; i < existingFiles.length; i++) {
+        //             let file = existingFiles[i];
+        //             const elImg = document.querySelector('img[alt="'+file.name+'"]');
+        //             elImg.src = file.url;
+        //         }
+        //     }
+        // }, 300);
 
         return img;
     };
-
-    const removeExistImage = (file, url, path, callBack = null) => {
-        axios({
-            url: url,
-            method: 'POST',
-            data: {
-                file:file.name || '',
-                path:path,
-            }
-        })
-        .then(response => {
-           callBack(response);
-        })
-        .catch(error => {
-        });
-    }
 
     /**
      * Init choices tag
@@ -645,6 +662,48 @@ const common = (function () {
     };
 
     /**
+     * Handle process queue dropzone
+     * @param {*} resolve 
+     * @param {*} objDropzone 
+     * @param {*} required 
+     * @param {*} existingFiles 
+     * @param {*} urlDelete 
+     * @param {*} path 
+     */
+    const handleProcessQueue = (resolve, objDropzone, required, existingFiles, urlDelete, path) => {
+        if (objDropzone.getQueuedFiles().length === 0) {
+            if (!required) {
+                resolve({
+                    success: true,
+                    data: ''
+                });
+            }
+        }
+        objDropzone.on("removedfile", (file) => {
+            // Only delete images that already exist
+            if (Array.isArray(existingFiles) && existingFiles.length > 0 && urlDelete !== '') {
+                // removeExistImage(file, urlDelete, path, (rs) => {
+                //     resolve(rs.data);
+                // });
+            }
+        });
+        objDropzone.processQueue();
+        objDropzone.on('complete', function(file) {
+            if (file.status === "success") {
+                const response = JSON.parse(file.xhr.response); 
+                resolve(response);
+            } else {
+                showMessage('Tải lên thất bại', 'danger');
+                objDropzone.removeFile(file);
+            }
+        });
+        objDropzone.on("error", (file, errorMessage) => {
+            showMessage(errorMessage, 'danger');
+            objDropzone.removeFile(file);
+        });
+    };
+
+    /**
      * Upload file using dropzone
      * @param {*} objDropzone 
      * @param {*} required 
@@ -652,37 +711,49 @@ const common = (function () {
      */
     const uploadFiles = (objDropzone, required = true, existingFiles = [], urlDelete = '', path = 'project') => {
         return new Promise((resolve) => {
-            if (objDropzone.getQueuedFiles().length === 0) {
-                if (!required) {
-                    resolve({
-                        success: true,
-                        data: ''
-                    });
-                }
-            }
-            objDropzone.processQueue();
-            objDropzone.on('complete', function(file) {
-                if (file.status === "success") {
-                    const response = JSON.parse(file.xhr.response); 
-                    resolve(response);
-                } else {
-                    showMessage('Tải lên thất bại', 'danger');
-                    objDropzone.removeFile(file);
-                }
-            });
-            objDropzone.on("error", (file, errorMessage) => {
-                showMessage(errorMessage, 'danger');
-                objDropzone.removeFile(file);
-            });
-            objDropzone.on("removedfile", (file) => {
-                if (Array.isArray(existingFiles) && existingFiles.length > 0 && urlDelete !== '') {
-                    removeExistImage(file, urlDelete, path, (rs) => {
-                        resolve(rs.data);
-                    });
-                }
-            })
+            // if (Array.isArray(existingFiles) && existingFiles.length > 0) {
+            //     for (let i = 0; i < existingFiles.length; i++) {
+            //         let file = existingFiles[i];
+            //         if (file.url) {
+            //             fetch(file.url, {
+            //                 mode: 'no-cors',
+            //                 method: 'GET',
+            //             })
+            //             .then((response) => response.blob())
+            //             .then((blob) => {
+            //                 var newFile = new File([blob], file.name, { type: file.type });
+            //                 objDropzone.addFile(newFile);
+            //             })
+            //             .catch(error => {
+            //                 console.log('Error fetching data:', error);
+            //             });
+            //         }
+            //     }
+            // } 
+            console.log(objDropzone.getQueuedFiles())
+            setTimeout(() => {
+                console.log(objDropzone.getQueuedFiles())
+                handleProcessQueue(resolve, objDropzone, required, existingFiles, urlDelete, path);
+            }, 300);
         });
     };
+
+    const removeExistImage = (file, url, path, callBack = null) => {
+        axios({
+            url: url,
+            method: 'POST',
+            data: {
+                file:file.name || '',
+                path:path,
+            }
+        })
+        .then(response => {
+           callBack(response);
+        })
+        .catch(error => {
+            console.log('Remove image error:', error);
+        });
+    }
 
     const renderAlias = (str) => {
         str = str.toLowerCase().trim();

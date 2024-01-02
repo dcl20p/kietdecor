@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace ImageTraits\Controller;
 use Models\Entities\Admin;
+use Models\Utilities\ImageUrl;
 use Gumlet\ImageResize;
 
 use Zf\Ext\Utilities\Image\{Image,FastImage};
@@ -103,9 +104,7 @@ trait UploadImages
         }
 
         // Get folder to save image
-        $imgDir = implode('/', [
-            ROOT_UPLOAD_PATH, $folderName
-        ]);
+        $imgDir = ImageUrl::getPathImageUpload($folderName);
 
         // Create dir of image if not exist
         if (!is_dir($imgDir)) {
@@ -184,9 +183,7 @@ trait UploadImages
     {
         if (!empty($fileNames)) {
             if (!is_array($fileNames)) $fileNames = [$fileNames];
-            $imgDir = implode('/', [
-                ROOT_UPLOAD_PATH, $folderName
-            ]);
+            $imgDir = ImageUrl::getPathImageUpload($folderName);
 
             foreach ($fileNames as $fileName) {
                 if (empty($size)) {

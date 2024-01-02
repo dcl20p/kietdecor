@@ -29,25 +29,30 @@ $this->lazyAsset()->addItems([
     ],
 ]);
 $thumbnails = []; $listThumbnails = [];
+$rootPath = ImageUrl::getPathImageUpload(Project::FOLDER_IMAGE);
 if (!empty($isEdit)) {
     if (!empty($genThumb = ImageUrl::generateUrlImage(
         $postData['thumbnail'],
-        Project::FOLDER_IMAGE, true, false
+        Project::FOLDER_IMAGE, false, false
     ))) {
         $thumbnails = [[
             'name' => $postData['thumbnail'],
-            'url'  => $genThumb
+            'url'  => $genThumb,
+            'size' => filesize($rootPath . '/' . $postData['thumbnail']),
+            'type' => mime_content_type($rootPath . '/' . $postData['thumbnail'])
         ]];
     }
     if (!empty($postData['json_image'])) {
         foreach (explode(',', $postData['json_image']) as $fileName) {
             if (!empty($genListImg = ImageUrl::generateUrlImage(
                 $fileName,
-                Project::FOLDER_IMAGE, true, false
+                Project::FOLDER_IMAGE, false, false
             )))
             $listThumbnails[] = [
                 'name' => $fileName,
-                'url'  => $genListImg
+                'url'  => $genListImg,
+                'size' => filesize($rootPath . '/' . $fileName),
+                'type' => mime_content_type($rootPath . '/' . $fileName)
             ];
         }
     }
@@ -72,7 +77,7 @@ $this->headScriptAction(null, [
                 <div class="mb-3">
                     <h5 class="mb-0"><?= $this->translate($pageTitle)?></h5>
                 </div>
-                <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3" style="display:none">
                     <div class="multisteps-form__progress">
                         <button class="multisteps-form__progress-btn btnDefault js-active" href="javascript:void(0);"
                             title="<?= $this->translate('Thông tin cơ bản')?>">

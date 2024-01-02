@@ -4,6 +4,19 @@ namespace Models\Utilities;
 class ImageUrl
 {
     /**
+     * Get folder to save image
+     *
+     * @param string $folderName
+     * @return string
+     */
+    public static function getPathImageUpload(string $folderName): string
+    {
+        return implode(DIRECTORY_SEPARATOR, [
+            ROOT_UPLOAD_PATH, $folderName
+        ]);
+    }
+
+    /**
      * Generate image
      *
      * @param string $fileName
