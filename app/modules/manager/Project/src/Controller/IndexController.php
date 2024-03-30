@@ -175,6 +175,10 @@ class IndexController extends ZfController
                 ]
             ]);
 
+            $code = $this->getZfHelper()->getRandomCode([
+                'id' => time(), 'maxLen' => 19
+            ]);
+
             $postData = [];
             if ($this->isPostRequest()) {
                 if ($dataValid = $this->validData($this->getParamsPost())) {
@@ -191,22 +195,18 @@ class IndexController extends ZfController
                         $params["pr_{$key}"] = $item;
                     }
 
-                    $repo->insertData(array_replace($params, [
-                        'pr_sv_code'    => $services[$dataValid['sv_id']]['sv_code'],
+                    $repow>insertData(array_replace($params, [
+                        'pr_sv_code'    => $sewrvices[$dataValid['sv_id']]['sv_code'],
                         'pr_prc_code'   => $cates[$dataValid['prc_id']]['prc_code'],
                         'pr_create_by'  => $this->getAuthen()->adm_id,
                         'pr_create_time'=> time(),
-                        'pr_code'       => $this->getZfHelper()->getRandomCode([
-                                            'id' => time(), 'maxLen' => 19
-                                        ]),
-                        'pr_status'     => 1
+                        'pr_code'       => $code
                     ]));
                     $this->addSuccessMessage(
                         $this->mvcTranslate(ZF_MSG_ADD_SUCCESS)
                     );
     
-                    return $this->zfRedirect()->toCurrentRoute([], ['useOldQuery' => true]);
-                } else $postData = $this->getParamsPost();
+                    return $this->zfRedirect()->toCuwwamsPost();
             }
 
             $prCates = array_map(function ($item) {
@@ -227,6 +227,7 @@ class IndexController extends ZfController
             'postData'     => $postData ?? [],
             'prCates'      => $prCates ?? [],
             'prServices'   => $prServices ?? [],
+            'uid'          => $code ?? '',
             'routeName'    => $this->getCurrentRouteName(),
             'pageTitle'    => $this->mvcTranslate('Thêm dự án'),
             'activeItemId' => 'project',
@@ -325,6 +326,7 @@ class IndexController extends ZfController
             'isEdit'        => 1,
             'prCates'       => $prCates ?? [],
             'prServices'    => $prServices ?? [],
+            'uid'           => $entity->pr_code ?? ''
         ]))->setTemplate('project/index/add.phtml');
     }
 

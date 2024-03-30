@@ -77,7 +77,7 @@ $this->headScriptAction(null, [
                 <div class="mb-3">
                     <h5 class="mb-0"><?= $this->translate($pageTitle)?></h5>
                 </div>
-                <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3" style="display:none">
+                <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
                     <div class="multisteps-form__progress">
                         <button class="multisteps-form__progress-btn btnDefault js-active" href="javascript:void(0);"
                             title="<?= $this->translate('Thông tin cơ bản')?>">
@@ -199,7 +199,7 @@ $this->headScriptAction(null, [
                         </div>
                     </div>
 
-                    <div class="multisteps-form__panel pt-3 border-radius-xl bg-white"
+                    <div class="multisteps-form__panel pt-3 border-radius-xl bg-white form-active"
                         data-animation="FadeIn">
                         <h5 class="font-weight-bolder"><?= $this->translate('Hình ảnh')?></h5>
                         <div class="multisteps-form__content">
@@ -207,25 +207,12 @@ $this->headScriptAction(null, [
                                 <div class="col-12">
                                     <label class="form-control mb-0"><?= $this->translate('Thumbnail')?></label>
                                     <div action="<?= $this->zfUrl('file-upload', ['action' => 'upload'], ['query' => [
-                                            'path' => FOLDER_IMAGE_PRODUCT
+                                            'path' => FOLDER_IMAGE_PRODUCT,
+                                            'uid'  => $uid
                                         ]]); ?>" 
                                         class="form-control border dropzone"
                                         id="thumbnail" data-count="<?= count($thumbnails) ?? 0?>">
                                         <?php if (!empty($isEdit)):?>
-                                        <!-- <div class="dz-preview dz-image-preview">
-                                            <div class="dz-image">
-                                                <img data-dz-thumbnail="" alt="6_dichvu.png" 
-                                                    src="<?=ImageUrl::generateUrlImage(
-                                                        $postData['thumbnail'],
-                                                        Project::FOLDER_IMAGE
-                                                    )?>">
-                                            </div>
-                                            <div class="dz-details">
-                                                <div class="dz-size"><span data-dz-size=""><strong>63.3</strong> KB</span></div>
-                                                <div class="dz-filename"><span data-dz-name="">6_dichvu.png</span></div>
-                                            </div>
-                                            <a class="dz-remove" href="javascript:void(0);" data-dz-remove="true">Xóa tệp</a>
-                                        </div> -->
                                         <?php endif; ?>
                                     </div>
                                 </div>
@@ -236,15 +223,16 @@ $this->headScriptAction(null, [
                                     <div action="<?= $this->zfUrl('file-upload', ['action' => 'upload'], ['query' => [
                                         'path' => FOLDER_IMAGE_PRODUCT,
                                         'sizes' => Project::PROJECT_LIST_IMAGE_SIZES,
+                                        'uid'  => $uid
                                     ]]); ?>"
                                         class="form-control border dropzone"
                                         id="jsonImage" data-count="<?= count($listThumbnails)?>"></div>
                                 </div>
                             </div>
                             <div class="button-row d-flex mt-4">
-                                <button class="btn bg-gradient-light mb-0 js-btn-prev" type="button"
-                                    title="Prev"><?= $this->translate('Quay lại')?></button>
-                                <a class="btn bg-gradient-dark ms-auto mb-0 js-btn-next" id="btnNextStep3"
+                                <a class="btn bg-gradient-light mb-0 js-btn-prev" id="btnBackStep1"
+                                    title="<?= $this->translate('Quay lại')?>"><?= $this->translate('Quay lại')?></a>
+                                <a class="btn bg-gradient-dark ms-auto mb-0 js-btn-next"  id="btnNextStep3"
                                     title="<?= $this->translate('Tiếp theo')?>">
                                     <?= $this->translate('Tiếp theo')?>
                                 </a>

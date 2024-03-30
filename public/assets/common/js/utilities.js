@@ -558,7 +558,7 @@ const common = (function () {
         ]
      * @returns 
      */
-    const initDropzone = (element, options = {}, existingFiles = []) => {
+    const initDropzone = (element, options = {}, existingFiles = [], callBack = () => {}) => {
         Dropzone.autoDiscover = false;
         let nameExists = [];
         var isRemovingFile = false;
@@ -587,25 +587,20 @@ const common = (function () {
                         self.removeFile(file);
                         isRemovingFile = false;
                     }
+                    callBack();
+                });
+                self.on("addedfile", function(file) {
+                    callBack();
                 });
                 if (Array.isArray(existingFiles) && existingFiles.length > 0) {
                     for (let i = 0; i < existingFiles.length; i++) {
                         let file = existingFiles[i];
-                        let mockFile = {
-                            name: file.name,
-                            size: file.size,
-                            type: file.type,
-                            status: Dropzone.ADDED,
-                            accepted: true
-                        };
                         if (file.url) {
                             fetch(file.url, {
-                                // mode: 'no-cors',
                                 method: 'GET',
                             })
                             .then((response) => response.blob())
                             .then((blob) => {
-                                console.log(file.type, blob)
                                 var newFile = new File([blob], file.name,  { type: file.type });
                                 self.addFile(newFile);
                             })
@@ -629,17 +624,7 @@ const common = (function () {
             }
         };
         const params = {...defaultOptions, ...options};
-        
         const img = new Dropzone(element, params);
-        // setTimeout(() => {
-        //     if (Array.isArray(existingFiles) && existingFiles.length > 0) {
-        //         for (let i = 0; i < existingFiles.length; i++) {
-        //             let file = existingFiles[i];
-        //             const elImg = document.querySelector('img[alt="'+file.name+'"]');
-        //             elImg.src = file.url;
-        //         }
-        //     }
-        // }, 300);
 
         return img;
     };
@@ -682,9 +667,9 @@ const common = (function () {
         objDropzone.on("removedfile", (file) => {
             // Only delete images that already exist
             if (Array.isArray(existingFiles) && existingFiles.length > 0 && urlDelete !== '') {
-                // removeExistImage(file, urlDelete, path, (rs) => {
-                //     resolve(rs.data);
-                // });
+                removeExistImage(file, urlDelete, path, (rs) => {
+                    resolve(rs.data);
+                });
             }
         });
         objDropzone.processQueue();
@@ -711,28 +696,7 @@ const common = (function () {
      */
     const uploadFiles = (objDropzone, required = true, existingFiles = [], urlDelete = '', path = 'project') => {
         return new Promise((resolve) => {
-            // if (Array.isArray(existingFiles) && existingFiles.length > 0) {
-            //     for (let i = 0; i < existingFiles.length; i++) {
-            //         let file = existingFiles[i];
-            //         if (file.url) {
-            //             fetch(file.url, {
-            //                 mode: 'no-cors',
-            //                 method: 'GET',
-            //             })
-            //             .then((response) => response.blob())
-            //             .then((blob) => {
-            //                 var newFile = new File([blob], file.name, { type: file.type });
-            //                 objDropzone.addFile(newFile);
-            //             })
-            //             .catch(error => {
-            //                 console.log('Error fetching data:', error);
-            //             });
-            //         }
-            //     }
-            // } 
-            console.log(objDropzone.getQueuedFiles())
             setTimeout(() => {
-                console.log(objDropzone.getQueuedFiles())
                 handleProcessQueue(resolve, objDropzone, required, existingFiles, urlDelete, path);
             }, 300);
         });

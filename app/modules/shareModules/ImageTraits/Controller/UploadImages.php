@@ -79,9 +79,10 @@ trait UploadImages
      * @param array $file
      * @param string $folderName
      * @param array $sizes format: ['device' => 'width x height'], ex: ['1' => '200x400']
+     * @param string $uid
      * @return array|boolean
      */
-    protected function uploadImageDropzone(array $file, string $folderName = 'other', array $sizes = []): array|bool
+    protected function uploadImageDropzone(array $file, string $folderName = 'other', array $sizes = [], $uid = ''): array|bool
     {
         $imgInfo = new FastImage($file['tmp_name']);
         $imgSize = $imgInfo->getSize();
@@ -118,6 +119,7 @@ trait UploadImages
         $fileName = crc32(implode([
                 $imgName, 
                 $imgSize[0], $imgSize[1],
+                $uid
             ])
         ). '.' .$ext;
 
