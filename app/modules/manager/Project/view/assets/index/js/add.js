@@ -20,8 +20,11 @@
         btnNextStep2  = document.querySelector('#btnNextStep2'),
         adminForm     = document.getElementById('adminForm'),
         btnNextStep3  = document.querySelector('#btnNextStep3'),
+        btnBackStep1  = document.querySelector('#btnBackStep1'),
         maxFileThumb  = elThumbnail.getAttribute('data-count'),
-        maxFileImage  = elImage.getAttribute('data-count')
+        maxFileImage  = elImage.getAttribute('data-count'),
+        formActive    = document.querySelector('.form-active'),
+        cardBody      = document.querySelector('.card-body');
 
     const checkValidForm = () => {
         const fieldRequired = [elName, elProjectCate, elService];
@@ -54,6 +57,7 @@
         evt.preventDefault();
         if (!checkValidForm()) {
             evt.stopPropagation();
+            resizeHeightCardBody();
         }
     };
 
@@ -62,6 +66,14 @@
         if (!checkValidUploadFile()) {
             evt.stopPropagation();
         }
+        cardBody.style.height = "";
+        window.scroll(0, 0);
+    };
+
+    const handleBackStep1 = (evt) => {
+        evt.preventDefault();
+        cardBody.style.height = "";
+        window.scroll(0, 0);
     };
 
     const submitForm = (spinner, imgThumb, imgList) => {
@@ -93,8 +105,8 @@
         adminForm.appendChild(inputThumb);
         adminForm.appendChild(inputListImg);
 
-        spinner.classList.add('d-none');
         adminForm.submit();
+        // spinner.classList.add('d-none');
     };
 
     const handleSubmit = async (evt) => {
@@ -122,6 +134,13 @@
         });
     };
 
+    const resizeHeightCardBody = () => {
+        let heightForm = formActive.offsetTop + formActive.offsetHeight;
+        if (formActive.className.includes('js-active')) {
+            cardBody.style.height = (heightForm + 50) + 'px';
+        }
+    };
+
     btnDefault && btnDefault.forEach((el) => {
         el.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -138,7 +157,7 @@
     const quillDes  = elDes && common.initQuill(elDes);
     const metaDes   = elMetaDes && common.initQuill(elMetaDes);
     const dropzoneListImg   = elImage && common.initDropzone(
-        elImage, {maxFiles: 50}, listThumbnails
+        elImage, {maxFiles: 50}, listThumbnails, resizeHeightCardBody
     );
     const dropzoneThumbnail = elImage && common.initDropzone(
         elThumbnail, {maxFiles: 1}, thumbnails
@@ -147,5 +166,6 @@
     elMetaKeyword && common.initChoicesTags(elMetaKeyword);
     btnNextStep2 && btnNextStep2.addEventListener('click', handleNextStep2);
     btnNextStep3 && btnNextStep3.addEventListener('click', handleNextStep3);
+    btnBackStep1 && btnBackStep1.addEventListener('click', handleBackStep1);
     btnSubmit && btnSubmit.addEventListener('click', handleSubmit);
 })()

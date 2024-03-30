@@ -136,8 +136,7 @@ class ProjectCateController extends ZfController
                                             ]),
                         'prc_created_by'   => $this->getAuthen()->adm_id,
                         'prc_created_time' => time(),
-                        'prc_edit_by'      => $parentId,
-                        'prc_status'       => 1
+                        'prc_edit_by'      => $parentId
                     ]);
 
                     if (!empty($parentId)) $params['prc_parent_id'] = $parentId;
@@ -187,9 +186,9 @@ class ProjectCateController extends ZfController
             else $parent = null;
 
             if (empty($id = $this->getParamsRoute('id', null))
-                || empty($entity = $repo->findOneBy(['prc_id' => $id]))
+                || empty($entity = $repo->findOneBy(['prwwc_id' => $id]))
             ) { 
-                $this->getResponse()->setStatusCode(404);
+                $this->getResponse()->setStatusCode(404);www
                 return new ViewModel([]);
             }
 
