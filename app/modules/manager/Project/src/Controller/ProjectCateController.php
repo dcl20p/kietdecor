@@ -186,9 +186,9 @@ class ProjectCateController extends ZfController
             else $parent = null;
 
             if (empty($id = $this->getParamsRoute('id', null))
-                || empty($entity = $repo->findOneBy(['prwwc_id' => $id]))
+                || empty($entity = $repo->findOneBy(['prc_id' => $id]))
             ) { 
-                $this->getResponse()->setStatusCode(404);www
+                $this->getResponse()->setStatusCode(404);
                 return new ViewModel([]);
             }
 
