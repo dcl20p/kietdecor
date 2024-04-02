@@ -195,8 +195,8 @@ class IndexController extends ZfController
                         $params["pr_{$key}"] = $item;
                     }
 
-                    $repow>insertData(array_replace($params, [
-                        'pr_sv_code'    => $sewrvices[$dataValid['sv_id']]['sv_code'],
+                    $repo->insertData(array_replace($params, [
+                        'pr_sv_code'    => $services[$dataValid['sv_id']]['sv_code'],
                         'pr_prc_code'   => $cates[$dataValid['prc_id']]['prc_code'],
                         'pr_create_by'  => $this->getAuthen()->adm_id,
                         'pr_create_time'=> time(),
@@ -206,7 +206,9 @@ class IndexController extends ZfController
                         $this->mvcTranslate(ZF_MSG_ADD_SUCCESS)
                     );
     
-                    return $this->zfRedirect()->toCuwwamsPost();
+                    return $this->zfRedirect()->toCurrentRoute([], ['useOldQuery' => true]);
+                } else $postData = $this->getParamsPost();
+
             }
 
             $prCates = array_map(function ($item) {
